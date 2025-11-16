@@ -7,3 +7,9 @@
   NODE_VERSION = "18"
   VITE_API_URL = "https://geoffrey-munene-v1-production.up.railway.app/api"
 
+# SPA redirect - all routes should serve index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
