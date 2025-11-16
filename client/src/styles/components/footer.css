@@ -1,0 +1,100 @@
+.footer {
+  @apply bg-white border-t border-gray-200 mt-auto;
+}
+
+.dark .footer {
+  @apply bg-gray-900 border-gray-700;
+}
+
+.footer-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12;
+}
+
+.footer-content {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-8 mb-8;
+}
+
+.footer-brand {
+  @apply col-span-1;
+}
+
+.footer-brand-name {
+  @apply text-xl font-bold mb-3 flex items-center;
+}
+
+.logo-first {
+  @apply text-blue-600;
+}
+
+.logo-second {
+  @apply text-teal-500;
+}
+
+.footer-brand-description {
+  @apply text-gray-600 mb-4 text-sm leading-relaxed;
+}
+
+.dark .footer-brand-description {
+  @apply text-gray-400;
+}
+
+.footer-social {
+  @apply flex gap-4;
+}
+
+.social-icon {
+  @apply w-10 h-10 rounded-full bg-gray-100 text-blue-600 flex items-center justify-center transition-all duration-200 hover:bg-blue-600 hover:text-white;
+}
+
+.social-icon svg {
+  @apply w-5 h-5;
+}
+
+.footer-links {
+  @apply col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8;
+}
+
+.footer-links-column {
+  @apply flex flex-col;
+}
+
+.footer-links-title {
+  @apply text-sm font-bold text-gray-900 mb-4 uppercase tracking-wide;
+}
+
+.dark .footer-links-title {
+  @apply text-gray-100;
+}
+
+.footer-links-list {
+  @apply list-none p-0 m-0 space-y-3;
+}
+
+.footer-links-list li {
+  @apply m-0;
+}
+
+.footer-link {
+  @apply text-gray-600 text-sm no-underline hover:text-blue-600 transition-colors;
+}
+
+.dark .footer-link {
+  @apply text-gray-400 hover:text-blue-400;
+}
+
+.footer-bottom {
+  @apply border-t border-gray-200 pt-8;
+}
+
+.dark .footer-bottom {
+  @apply border-gray-700;
+}
+
+.footer-copyright {
+  @apply text-center text-sm text-gray-600;
+}
+
+.dark .footer-copyright {
+  @apply text-gray-400;
+}
+

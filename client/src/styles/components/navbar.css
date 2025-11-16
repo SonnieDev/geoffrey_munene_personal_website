@@ -1,0 +1,199 @@
+.navbar {
+  @apply bg-white shadow-md sticky top-0 z-50;
+}
+
+.dark .navbar {
+  @apply bg-gray-900;
+}
+
+.navbar-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-4;
+}
+
+.navbar-logo {
+  @apply text-xl font-bold no-underline flex items-center;
+}
+
+.logo-first {
+  @apply text-blue-600;
+}
+
+.logo-second {
+  @apply text-teal-500;
+}
+
+/* Desktop Menu */
+.navbar-right {
+  @apply hidden lg:flex items-center gap-4;
+}
+
+.navbar-menu {
+  @apply flex items-center space-x-4;
+}
+
+.navbar-item {
+  @apply list-none;
+}
+
+.navbar-link {
+  @apply text-gray-700 px-3 py-2 rounded-md text-sm font-medium no-underline transition-colors duration-200;
+}
+
+.dark .navbar-link {
+  @apply text-gray-300;
+}
+
+.navbar-link:hover {
+  @apply text-blue-600 bg-gray-100;
+}
+
+.dark .navbar-link:hover {
+  @apply text-blue-400 bg-gray-800;
+}
+
+.navbar-link.active {
+  @apply text-blue-600 bg-blue-50;
+}
+
+.dark .navbar-link.active {
+  @apply text-blue-400;
+  background-color: rgba(30, 58, 138, 0.3);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  @apply p-2 text-gray-700 hover:text-blue-600 transition-colors rounded-md hover:bg-gray-100;
+}
+
+.dark .theme-toggle {
+  @apply text-gray-300 hover:text-blue-400 hover:bg-gray-800;
+}
+
+.theme-toggle svg {
+  @apply w-5 h-5;
+}
+
+/* Mobile Hamburger Button */
+.navbar-toggle {
+  @apply lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors;
+}
+
+.dark .navbar-toggle {
+  @apply text-gray-300 hover:text-blue-400;
+}
+
+.navbar-toggle svg {
+  @apply w-6 h-6;
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden;
+}
+
+/* Mobile Sidebar */
+.sidebar {
+  @apply fixed top-0 left-0 h-full w-80 bg-white shadow-xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out lg:hidden flex flex-col;
+}
+
+.dark .sidebar {
+  @apply bg-gray-900;
+}
+
+.sidebar.sidebar-open {
+  @apply translate-x-0;
+}
+
+.sidebar-header {
+  @apply flex items-center justify-between p-6 border-b border-gray-200;
+}
+
+.dark .sidebar-header {
+  @apply border-gray-700;
+}
+
+.sidebar-logo {
+  @apply text-xl font-bold no-underline flex items-center;
+}
+
+.sidebar-utils {
+  @apply flex items-center gap-3;
+}
+
+.sidebar-util-btn {
+  @apply p-2 text-gray-700 hover:text-blue-600 transition-colors;
+}
+
+.dark .sidebar-util-btn {
+  @apply text-gray-300 hover:text-blue-400;
+}
+
+.sidebar-util-btn svg {
+  @apply w-5 h-5;
+}
+
+.sidebar-nav {
+  @apply flex-1 overflow-y-auto py-4;
+}
+
+.sidebar-menu {
+  @apply list-none p-0 m-0;
+}
+
+.sidebar-item {
+  @apply m-0;
+}
+
+.sidebar-link {
+  @apply flex items-center gap-3 px-6 py-3 text-gray-700 no-underline transition-colors duration-200;
+}
+
+.dark .sidebar-link {
+  @apply text-gray-300;
+}
+
+.sidebar-link:hover {
+  @apply bg-gray-100 text-blue-600;
+}
+
+.dark .sidebar-link:hover {
+  @apply bg-gray-800 text-blue-400;
+}
+
+.sidebar-link.active {
+  @apply bg-blue-50 text-blue-600;
+}
+
+.dark .sidebar-link.active {
+  @apply text-blue-400;
+  background-color: rgba(30, 58, 138, 0.3);
+}
+
+.sidebar-icon {
+  @apply w-5 h-5;
+}
+
+.sidebar-footer {
+  @apply p-6 border-t border-gray-200 space-y-3;
+}
+
+.dark .sidebar-footer {
+  @apply border-gray-700;
+}
+
+.sidebar-cta-primary {
+  @apply w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 inline-flex items-center justify-center shadow-md hover:shadow-lg hover:bg-blue-700;
+}
+
+.sidebar-cta-primary svg {
+  @apply transition-transform duration-200;
+}
+
+.sidebar-cta-primary:hover svg {
+  @apply transform translate-x-1;
+}
+
+.sidebar-cta-secondary {
+  @apply w-full bg-white border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-all duration-200 inline-flex items-center justify-center shadow-sm hover:shadow-md hover:border-gray-400 hover:bg-gray-50 no-underline;
+}
+

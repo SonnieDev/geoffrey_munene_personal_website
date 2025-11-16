@@ -1,0 +1,309 @@
+.learn-page {
+  @apply w-full;
+}
+
+.learn-hero {
+  @apply bg-blue-600 text-white py-16;
+}
+
+.learn-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center;
+}
+
+.learn-content {
+  @apply py-16 bg-white;
+}
+
+.dark .learn-content {
+  @apply bg-gray-900;
+}
+
+.learn-wrapper {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.tutorials-section {
+  @apply mb-16;
+}
+
+.tutorials-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+}
+
+.tutorial-card {
+  @apply bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow duration-200;
+}
+
+.dark .tutorial-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.tutorial-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.tutorial-level {
+  @apply bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.tutorial-duration {
+  @apply text-gray-500 text-sm;
+}
+
+.tutorial-title {
+  @apply text-xl font-bold mb-3 text-gray-900;
+}
+
+.dark .tutorial-title {
+  @apply text-gray-100;
+}
+
+.tutorial-description {
+  @apply text-gray-600 mb-4;
+}
+
+.dark .tutorial-description {
+  @apply text-gray-300;
+}
+
+.tutorial-video {
+  @apply rounded-lg overflow-hidden mb-4;
+}
+
+.tutorial-video iframe {
+  @apply w-full aspect-video;
+}
+
+.videos-section {
+  @apply mb-16;
+}
+
+.videos-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.video-card {
+  @apply bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-200;
+}
+
+.dark .video-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.video-thumbnail {
+  @apply relative w-full aspect-video overflow-hidden bg-gray-200;
+}
+
+.video-thumbnail img {
+  @apply w-full h-full object-cover;
+}
+
+.video-thumbnail a {
+  @apply block relative;
+}
+
+.play-overlay {
+  @apply absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 hover:opacity-100 transition-opacity duration-200;
+}
+
+.play-icon {
+  @apply text-white text-5xl;
+}
+
+.video-info {
+  @apply p-4;
+}
+
+.video-title {
+  @apply text-lg font-bold mb-2 text-gray-900 line-clamp-2;
+}
+
+.dark .video-title {
+  @apply text-gray-100;
+}
+
+.video-date {
+  @apply text-sm text-gray-500;
+}
+
+.channel-embed {
+  @apply bg-white border border-gray-200 rounded-lg p-8 text-center;
+}
+
+.dark .channel-embed {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.channel-description {
+  @apply text-gray-700 mb-6 text-lg;
+}
+
+.dark .channel-description {
+  @apply text-gray-300;
+}
+
+.channel-link-container {
+  @apply mb-6;
+}
+
+.channel-link-button {
+  @apply bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors inline-block no-underline;
+}
+
+.channel-embed-container {
+  @apply mt-6;
+}
+
+.channel-iframe {
+  @apply w-full aspect-video rounded-lg;
+}
+
+.playlists-section {
+  @apply mb-16;
+}
+
+.playlists-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.playlist-card {
+  @apply bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-200;
+}
+
+.dark .playlist-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.playlist-thumbnail {
+  @apply w-full aspect-video overflow-hidden bg-gray-200;
+}
+
+.playlist-thumbnail img {
+  @apply w-full h-full object-cover;
+}
+
+.playlist-title {
+  @apply text-lg font-bold mb-2 p-4 text-gray-900;
+}
+
+.dark .playlist-title {
+  @apply text-gray-100;
+}
+
+.playlist-description {
+  @apply text-gray-600 mb-2 px-4 line-clamp-2;
+}
+
+.dark .playlist-description {
+  @apply text-gray-300;
+}
+
+.playlist-count {
+  @apply text-sm text-gray-500 px-4 mb-4;
+}
+
+.playlist-link {
+  @apply text-blue-600 font-medium hover:text-blue-700 transition-colors px-4 pb-4 inline-block;
+}
+
+.tutorial-link {
+  @apply text-blue-600 font-medium hover:text-blue-700 transition-colors mt-4 inline-block;
+}
+
+.featured-videos-section {
+  @apply mb-16;
+}
+
+.featured-videos-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+}
+
+.featured-video-card {
+  @apply bg-white border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow duration-200;
+}
+
+.dark .featured-video-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.featured-video-title {
+  @apply text-xl font-bold mb-3 text-gray-900;
+}
+
+.dark .featured-video-title {
+  @apply text-gray-100;
+}
+
+.featured-video-description {
+  @apply text-gray-600 mb-4;
+}
+
+.dark .featured-video-description {
+  @apply text-gray-300;
+}
+
+.featured-video-embed {
+  @apply rounded-lg overflow-hidden mb-4;
+}
+
+.featured-video-embed iframe {
+  @apply w-full aspect-video;
+}
+
+.watch-on-youtube {
+  @apply text-red-600 font-medium hover:text-red-700 transition-colors inline-flex items-center;
+}
+
+.playlist-video {
+  @apply rounded-lg overflow-hidden mb-4;
+}
+
+.playlist-video iframe {
+  @apply w-full aspect-video;
+}
+
+.loading-state,
+.error-state {
+  @apply text-center py-12 text-gray-600;
+}
+
+.dark .loading-state {
+  @apply text-gray-400;
+}
+
+.error-state {
+  @apply text-red-600;
+}
+
+.quick-tips-section {
+  @apply mt-12;
+}
+
+.tips-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.tip-card {
+  @apply bg-blue-50 border border-blue-100 rounded-lg p-6;
+}
+
+.dark .tip-card {
+  @apply bg-blue-900/30 border-blue-800;
+}
+
+.tip-title {
+  @apply text-lg font-bold mb-2 text-gray-900;
+}
+
+.dark .tip-title {
+  @apply text-gray-100;
+}
+
+.tip-description {
+  @apply text-gray-600;
+}
+
+.dark .tip-description {
+  @apply text-gray-300;
+}
+

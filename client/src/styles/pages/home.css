@@ -1,0 +1,361 @@
+.home-page {
+  @apply w-full;
+}
+
+/* Hero Section */
+.hero-section {
+  @apply bg-white py-12 md:py-20;
+}
+
+.dark .hero-section {
+  @apply bg-gray-800;
+}
+
+.hero-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.hero-content {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center;
+}
+
+.hero-text {
+  @apply text-left;
+}
+
+.hero-title {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 leading-tight;
+}
+
+.dark .hero-title {
+  @apply text-gray-100;
+}
+
+.hero-description {
+  @apply text-lg md:text-xl mb-8 text-gray-600 leading-relaxed;
+}
+
+.dark .hero-description {
+  @apply text-gray-300;
+}
+
+.hero-buttons {
+  @apply flex flex-col sm:flex-row gap-4;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold no-underline transition-all duration-200 inline-flex items-center justify-center shadow-md hover:shadow-lg;
+}
+
+.btn-primary:hover {
+  @apply bg-blue-700 transform translate-y-[-2px];
+}
+
+.btn-primary svg {
+  @apply transition-transform duration-200;
+}
+
+.btn-primary:hover svg {
+  @apply transform translate-x-1;
+}
+
+.btn-secondary {
+  @apply bg-white border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold no-underline transition-all duration-200 inline-flex items-center justify-center shadow-sm hover:shadow-md;
+}
+
+.dark .btn-secondary {
+  @apply bg-gray-700 border-gray-600 text-gray-200;
+}
+
+.btn-secondary:hover {
+  @apply border-gray-400 bg-gray-50 transform translate-y-[-2px];
+}
+
+.dark .btn-secondary:hover {
+  @apply border-gray-500 bg-gray-600;
+}
+
+.hero-image {
+  @apply relative;
+}
+
+.hero-image-wrapper {
+  @apply relative rounded-lg overflow-hidden shadow-xl;
+}
+
+.hero-img {
+  @apply w-full h-auto object-cover;
+}
+
+.hero-badge {
+  @apply absolute bottom-4 left-4 bg-gray-900 bg-opacity-90 text-white px-4 py-2 rounded-lg;
+}
+
+.badge-text {
+  @apply text-sm font-semibold;
+}
+
+/* Services Section */
+.services-section {
+  @apply py-16 md:py-20 bg-gray-100;
+}
+
+.dark .services-section {
+  @apply bg-gray-800;
+}
+
+.services-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.section-header {
+  @apply text-center mb-12;
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl font-bold mb-4 text-gray-900;
+}
+
+.dark .section-title {
+  @apply text-gray-100;
+}
+
+.section-subtitle {
+  @apply text-lg text-gray-600 max-w-2xl mx-auto;
+}
+
+.dark .section-subtitle {
+  @apply text-gray-300;
+}
+
+.services-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8;
+}
+
+.service-card {
+  @apply bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 text-center;
+}
+
+.dark .service-card {
+  @apply bg-gray-700;
+}
+
+.service-card:hover {
+  @apply transform -translate-y-1;
+}
+
+.service-title {
+  @apply text-xl font-semibold mb-3 text-gray-900;
+}
+
+.dark .service-title {
+  @apply text-gray-100;
+}
+
+.service-description {
+  @apply text-gray-600;
+}
+
+.dark .service-description {
+  @apply text-gray-300;
+}
+
+.service-icon {
+  @apply mb-4 flex justify-center;
+}
+
+.service-icon svg {
+  @apply w-16 h-16 text-blue-600;
+}
+
+/* Blog Section */
+.blog-section {
+  @apply py-16 md:py-20 bg-white;
+}
+
+.dark .blog-section {
+  @apply bg-gray-900;
+}
+
+.blog-section-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.blog-section-header {
+  @apply flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4;
+}
+
+.view-all-link {
+  @apply text-blue-600 font-semibold no-underline hover:text-blue-700 transition-colors inline-flex items-center;
+}
+
+.blog-posts-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-8;
+}
+
+.blog-post-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-200 border border-gray-100;
+}
+
+.dark .blog-post-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.post-thumbnail {
+  @apply w-full h-48 overflow-hidden;
+}
+
+.post-thumbnail img {
+  @apply w-full h-full object-cover;
+}
+
+.post-content {
+  @apply p-6;
+}
+
+.post-header {
+  @apply flex justify-between items-center mb-3 text-sm;
+}
+
+.post-category {
+  @apply bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-semibold text-xs;
+}
+
+.post-date {
+  @apply text-gray-500;
+}
+
+.post-title {
+  @apply text-xl font-bold mb-3 text-gray-900 line-clamp-2;
+}
+
+.dark .post-title {
+  @apply text-gray-100;
+}
+
+.post-excerpt {
+  @apply text-gray-600 mb-4 line-clamp-3;
+}
+
+.dark .post-excerpt {
+  @apply text-gray-300;
+}
+
+.post-read-more {
+  @apply text-blue-600 font-semibold no-underline hover:text-blue-800 transition-colors;
+}
+
+.blog-loading,
+.no-posts {
+  @apply text-center text-gray-600 py-12;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  @apply py-16 md:py-20 bg-gray-100;
+}
+
+.dark .testimonials-section {
+  @apply bg-gray-800;
+}
+
+.testimonials-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.testimonials-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-8;
+}
+
+.testimonial-card {
+  @apply bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200;
+}
+
+.dark .testimonial-card {
+  @apply bg-gray-700;
+}
+
+.testimonial-stars {
+  @apply flex gap-1 mb-4;
+}
+
+.star-icon {
+  @apply w-5 h-5 text-yellow-400 fill-current;
+}
+
+.testimonial-content {
+  @apply mb-6;
+}
+
+.testimonial-text {
+  @apply text-gray-700 leading-relaxed;
+}
+
+.dark .testimonial-text {
+  @apply text-gray-300;
+}
+
+.testimonial-author {
+  @apply flex items-center gap-4;
+}
+
+.author-avatar {
+  @apply w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0;
+}
+
+.author-info {
+  @apply flex flex-col;
+}
+
+.author-name {
+  @apply font-semibold text-gray-900;
+}
+
+.dark .author-name {
+  @apply text-gray-100;
+}
+
+.author-role {
+  @apply text-sm text-gray-600;
+}
+
+.dark .author-role {
+  @apply text-gray-400;
+}
+
+/* Call To Action Section */
+.cta-section {
+  @apply bg-blue-600 text-white py-16 md:py-20;
+}
+
+.cta-container {
+  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center;
+}
+
+.cta-title {
+  @apply text-3xl md:text-4xl font-bold mb-4;
+}
+
+.cta-text {
+  @apply text-xl mb-8 text-blue-50;
+}
+
+.cta-buttons {
+  @apply flex flex-col sm:flex-row gap-4 justify-center;
+}
+
+.btn-secondary-white {
+  @apply bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold no-underline transition-all duration-200 inline-flex items-center justify-center shadow-md hover:shadow-lg border-2 border-white;
+}
+
+.btn-secondary-white:hover {
+  @apply bg-gray-50 transform translate-y-[-2px];
+}
+
+.btn-secondary-white svg {
+  @apply transition-transform duration-200;
+}
+
+.btn-secondary-white:hover svg {
+  @apply transform translate-x-1;
+}

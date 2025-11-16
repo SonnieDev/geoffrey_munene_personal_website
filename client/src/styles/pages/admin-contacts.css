@@ -1,0 +1,133 @@
+.admin-contacts {
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900 p-6;
+}
+
+.admin-contacts-layout {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+}
+
+.admin-contacts-list {
+  @apply space-y-4;
+}
+
+.admin-contact-item {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 cursor-pointer transition-all hover:shadow-lg border-2 border-transparent;
+}
+
+.admin-contact-item.active {
+  @apply border-blue-500;
+}
+
+.admin-contact-item.unread {
+  @apply border-l-4 border-l-blue-500;
+}
+
+.contact-item-header {
+  @apply flex justify-between items-start mb-2;
+}
+
+.contact-item-header h3 {
+  @apply text-lg font-semibold text-gray-900 dark:text-gray-100;
+}
+
+.contact-item-email {
+  @apply text-sm text-blue-600 dark:text-blue-400 mb-1;
+}
+
+.contact-item-subject {
+  @apply text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+}
+
+.contact-item-date {
+  @apply text-xs text-gray-500 dark:text-gray-400;
+}
+
+.admin-contact-detail {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+}
+
+.contact-detail-header {
+  @apply flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700;
+}
+
+.contact-detail-header h2 {
+  @apply text-2xl font-bold text-gray-900 dark:text-gray-100;
+}
+
+.admin-close-btn {
+  @apply text-2xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200;
+}
+
+.contact-detail-info {
+  @apply space-y-3 mb-6;
+}
+
+.contact-info-item {
+  @apply flex gap-2;
+}
+
+.contact-info-item strong {
+  @apply text-gray-700 dark:text-gray-300 min-w-[80px];
+}
+
+.contact-info-item span,
+.contact-info-item a {
+  @apply text-gray-900 dark:text-gray-100;
+}
+
+.contact-info-item a {
+  @apply text-blue-600 hover:underline dark:text-blue-400;
+}
+
+.contact-detail-message {
+  @apply mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg;
+}
+
+.contact-detail-message strong {
+  @apply block mb-2 text-gray-700 dark:text-gray-300;
+}
+
+.contact-detail-message p {
+  @apply text-gray-900 dark:text-gray-100 whitespace-pre-wrap;
+}
+
+.contact-detail-actions {
+  @apply flex flex-col sm:flex-row justify-between gap-4 pt-4 border-t border-gray-200 dark:border-gray-700;
+}
+
+.status-actions {
+  @apply flex gap-2;
+}
+
+.admin-status-btn {
+  @apply flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+}
+
+.admin-status-btn.active {
+  @apply bg-green-100 border-green-500 text-green-800 dark:bg-green-900 dark:border-green-700 dark:text-green-200;
+}
+
+.admin-delete-btn {
+  @apply flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors;
+}
+
+.admin-badge.status-new {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+.admin-badge.status-read {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200;
+}
+
+.admin-badge.status-replied {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+}
+
+.dark .admin-contact-item {
+  @apply bg-gray-800;
+}
+
+.dark .admin-contact-detail {
+  @apply bg-gray-800;
+}
+

@@ -1,0 +1,217 @@
+.contact-page {
+  @apply w-full;
+}
+
+/* Blue Banner Section */
+.contact-hero {
+  @apply bg-blue-600 text-white py-16 md:py-20;
+}
+
+.contact-hero-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center;
+}
+
+.contact-hero-title {
+  @apply text-4xl md:text-5xl font-bold mb-4;
+}
+
+.contact-hero-subtitle {
+  @apply text-lg md:text-xl text-blue-50;
+}
+
+/* Main Content Section */
+.contact-content {
+  @apply py-16 md:py-20 bg-white;
+}
+
+.dark .contact-content {
+  @apply bg-gray-900;
+}
+
+.contact-wrapper {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.contact-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16;
+}
+
+/* Left Column - Get In Touch */
+.contact-info-column {
+  @apply flex flex-col;
+}
+
+.section-title {
+  @apply text-2xl md:text-3xl font-bold mb-6 text-gray-900;
+}
+
+.dark .section-title {
+  @apply text-gray-100;
+}
+
+.info-intro {
+  @apply text-gray-600 mb-8 leading-relaxed;
+}
+
+.dark .info-intro {
+  @apply text-gray-300;
+}
+
+.contact-details {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8;
+}
+
+.contact-detail-item {
+  @apply flex items-start;
+}
+
+.detail-icon-wrapper {
+  @apply mr-4 flex-shrink-0;
+}
+
+.detail-icon-circle {
+  @apply w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0;
+}
+
+.detail-icon-svg {
+  @apply h-6 w-6 text-blue-600;
+}
+
+.detail-content {
+  @apply flex flex-col flex-1;
+}
+
+.detail-label {
+  @apply font-medium text-gray-900;
+}
+
+.dark .detail-label {
+  @apply text-gray-100;
+}
+
+.detail-value {
+  @apply text-gray-600;
+}
+
+.dark .detail-value {
+  @apply text-gray-300;
+}
+
+.detail-value a {
+  @apply text-blue-600 hover:underline no-underline;
+}
+
+.detail-value a:hover {
+  @apply underline;
+}
+
+/* Social Media Section */
+.social-section {
+  @apply bg-gray-50 p-6 rounded-lg border border-gray-200 mt-0;
+}
+
+.dark .social-section {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.social-title {
+  @apply font-semibold mb-2 text-gray-900;
+}
+
+.dark .social-title {
+  @apply text-gray-100;
+}
+
+.social-description {
+  @apply text-gray-600 mb-4;
+}
+
+.dark .social-description {
+  @apply text-gray-300;
+}
+
+.social-icons {
+  @apply flex space-x-4;
+}
+
+.social-icon-link {
+  @apply text-gray-500 hover:text-blue-600 transition-colors;
+}
+
+.social-icon-link svg {
+  @apply h-6 w-6;
+}
+
+/* Right Column - Contact Form */
+.contact-form-column {
+  @apply flex flex-col;
+}
+
+.form-wrapper {
+  @apply bg-white p-6 rounded-lg border border-gray-200;
+}
+
+.dark .form-wrapper {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.contact-form {
+  @apply flex flex-col;
+}
+
+.form-group {
+  @apply mb-6;
+}
+
+.form-label {
+  @apply block text-gray-700 font-medium mb-2 text-sm;
+}
+
+.dark .form-label {
+  @apply text-gray-300;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900;
+}
+
+.dark .form-input,
+.dark .form-select,
+.dark .form-textarea {
+  @apply bg-gray-700 border-gray-600 text-gray-100;
+}
+
+.form-select {
+  @apply appearance-none bg-white;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.form-textarea {
+  @apply resize-none;
+}
+
+.form-button {
+  @apply bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 w-full mt-2 hover:bg-blue-700;
+}
+
+.form-button:hover:not(:disabled) {
+  @apply transform translate-y-[-2px] shadow-lg;
+}
+
+.form-button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.form-error {
+  @apply bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm;
+}
+
+.form-success {
+  @apply bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4 text-sm;
+}

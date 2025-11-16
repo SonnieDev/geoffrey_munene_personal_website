@@ -1,0 +1,165 @@
+.blog-detail-page {
+  @apply w-full min-h-screen bg-gray-50;
+}
+
+.dark .blog-detail-page {
+  @apply bg-gray-900;
+}
+
+.loading-state,
+.error-state {
+  @apply text-center py-20 text-gray-600;
+}
+
+.dark .loading-state {
+  @apply text-gray-400;
+}
+
+.error-state {
+  @apply text-red-600;
+}
+
+.detail-hero {
+  @apply w-full;
+}
+
+.detail-thumbnail {
+  @apply w-full h-96 overflow-hidden;
+}
+
+.blog-detail {
+  @apply max-w-4xl mx-auto bg-white shadow-lg -mt-20 relative z-10;
+}
+
+.dark .blog-detail {
+  @apply bg-gray-800;
+}
+
+.detail-thumbnail img {
+  @apply w-full h-full object-cover;
+}
+
+.detail-content {
+  @apply p-8 md:p-12;
+}
+
+.detail-header {
+  @apply flex items-center justify-between mb-6 pb-4 border-b border-gray-200;
+}
+
+.dark .detail-header {
+  @apply border-gray-700;
+}
+
+.detail-category {
+  @apply bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium;
+}
+
+.detail-date {
+  @apply text-gray-500 text-sm;
+}
+
+.detail-title {
+  @apply text-3xl md:text-4xl font-bold mb-4 text-gray-900;
+}
+
+.dark .detail-title {
+  @apply text-gray-100;
+}
+
+.detail-excerpt {
+  @apply text-xl text-gray-600 mb-8 leading-relaxed;
+}
+
+.dark .detail-excerpt {
+  @apply text-gray-300;
+}
+
+.detail-video {
+  @apply mb-8 rounded-lg overflow-hidden;
+}
+
+.detail-video iframe {
+  @apply w-full aspect-video;
+}
+
+.detail-body {
+  @apply max-w-none;
+}
+
+.detail-body ul {
+  @apply list-disc ml-6 mb-4;
+}
+
+.detail-body ol {
+  @apply list-decimal ml-6 mb-4;
+}
+
+.content-h2 {
+  @apply text-2xl md:text-3xl font-bold mt-8 mb-4 text-gray-900;
+}
+
+.dark .content-h2 {
+  @apply text-gray-100;
+}
+
+.content-h3 {
+  @apply text-xl md:text-2xl font-semibold mt-6 mb-3 text-gray-900;
+}
+
+.dark .content-h3 {
+  @apply text-gray-100;
+}
+
+.content-h4 {
+  @apply text-lg md:text-xl font-semibold mt-4 mb-2 text-gray-900;
+}
+
+.dark .content-h4 {
+  @apply text-gray-100;
+}
+
+.content-paragraph {
+  @apply text-gray-700 mb-4 leading-relaxed;
+}
+
+.dark .content-paragraph {
+  @apply text-gray-300;
+}
+
+.content-list {
+  @apply mb-4 ml-6;
+}
+
+.content-li {
+  @apply text-gray-700 mb-2;
+}
+
+.dark .content-li {
+  @apply text-gray-300;
+}
+
+.checkbox-list {
+  @apply list-none ml-0;
+}
+
+.checkbox-item {
+  @apply flex items-start mb-2;
+}
+
+.checkbox-input {
+  @apply mr-2 mt-1;
+}
+
+.detail-footer {
+  @apply mt-12 pt-8 border-t border-gray-200;
+}
+
+.dark .detail-footer {
+  @apply border-gray-700;
+}
+
+.back-link {
+  @apply text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200 inline-flex items-center;
+}
+

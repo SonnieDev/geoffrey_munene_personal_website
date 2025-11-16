@@ -1,0 +1,84 @@
+.admin-dashboard {
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900 p-6;
+}
+
+.admin-header {
+  @apply flex justify-between items-center mb-8;
+}
+
+.admin-header h1 {
+  @apply text-3xl font-bold text-gray-900 dark:text-gray-100;
+}
+
+.admin-header p {
+  @apply text-gray-600 dark:text-gray-400 mt-1;
+}
+
+.admin-logout-btn {
+  @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors;
+}
+
+.admin-stats-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6 mb-8;
+}
+
+.admin-stat-card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex items-center gap-4 hover:shadow-lg transition-shadow cursor-pointer;
+}
+
+.stat-icon {
+  @apply w-16 h-16 rounded-full flex items-center justify-center text-2xl text-white;
+}
+
+.stat-icon.blogs {
+  @apply bg-blue-500;
+}
+
+.stat-icon.jobs {
+  @apply bg-green-500;
+}
+
+.stat-icon.contacts {
+  @apply bg-purple-500;
+}
+
+.stat-content h3 {
+  @apply text-3xl font-bold text-gray-900 dark:text-gray-100;
+}
+
+.stat-content p {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.stat-arrow {
+  @apply ml-auto text-gray-400 dark:text-gray-500 text-xl;
+}
+
+.admin-quick-actions {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+}
+
+.admin-quick-actions h2 {
+  @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4;
+}
+
+.admin-actions-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.admin-action-btn {
+  @apply flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors;
+}
+
+.admin-action-btn svg {
+  @apply text-xl;
+}
+
+.dark .admin-stat-card {
+  @apply bg-gray-800;
+}
+
+.dark .admin-quick-actions {
+  @apply bg-gray-800;
+}
+

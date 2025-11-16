@@ -1,0 +1,11 @@
+# robots.txt for geoffreymunene.netlify.app
+
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://geoffreymunene.netlify.app/sitemap.xml
+
