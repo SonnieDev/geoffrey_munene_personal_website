@@ -3,9 +3,16 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize OpenAI client only if API key is available
+const getOpenAIClient = () => {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    return null
+  }
+  return new OpenAI({
+    apiKey: apiKey,
+  })
+}
 
 // @desc    Generate resume content
 // @route   POST /api/tools/resume
@@ -36,6 +43,14 @@ Skills:
 ${skills}
 
 Please format this as a professional resume with clear sections: Header (name, contact), Professional Summary, Work Experience, and Skills. Make it ATS-friendly and optimized for remote work positions.`
+
+    const openai = getOpenAIClient()
+    if (!openai) {
+      return res.status(503).json({
+        success: false,
+        message: 'OpenAI API key is not configured. Please contact the administrator.',
+      })
+    }
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -98,6 +113,14 @@ Create a professional cover letter that:
 3. Demonstrates relevant skills and experience
 4. Is personalized to the company and role
 5. Is concise and impactful (3-4 paragraphs)`
+
+    const openai = getOpenAIClient()
+    if (!openai) {
+      return res.status(503).json({
+        success: false,
+        message: 'OpenAI API key is not configured. Please contact the administrator.',
+      })
+    }
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -165,6 +188,14 @@ Create a professional, concise email that:
 4. Maintains appropriate tone
 5. Is 2-3 paragraphs maximum`
 
+    const openai = getOpenAIClient()
+    if (!openai) {
+      return res.status(503).json({
+        success: false,
+        message: 'OpenAI API key is not configured. Please contact the administrator.',
+      })
+    }
+
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
@@ -223,6 +254,14 @@ Focus on questions about:
 - Work-life balance
 - Collaboration in remote settings`
 
+    const openai = getOpenAIClient()
+    if (!openai) {
+      return res.status(503).json({
+        success: false,
+        message: 'OpenAI API key is not configured. Please contact the administrator.',
+      })
+    }
+
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
@@ -275,6 +314,14 @@ Provide:
 4. Recommended skills to develop
 5. Actionable steps to improve remote work readiness
 6. Tools and resources to consider`
+
+    const openai = getOpenAIClient()
+    if (!openai) {
+      return res.status(503).json({
+        success: false,
+        message: 'OpenAI API key is not configured. Please contact the administrator.',
+      })
+    }
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -330,6 +377,14 @@ Provide:
 4. Sample negotiation email/script
 5. Common mistakes to avoid
 6. Tips specific to remote work negotiations`
+
+    const openai = getOpenAIClient()
+    if (!openai) {
+      return res.status(503).json({
+        success: false,
+        message: 'OpenAI API key is not configured. Please contact the administrator.',
+      })
+    }
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
