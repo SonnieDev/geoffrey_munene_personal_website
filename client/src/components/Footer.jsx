@@ -64,6 +64,11 @@ function Footer() {
         </div>
         
         <div className="footer-bottom">
+          <div className="footer-legal-links">
+            <Link to="/terms" className="footer-legal-link">Terms & Conditions</Link>
+            <span className="footer-legal-separator">|</span>
+            <Link to="/privacy" className="footer-legal-link">Privacy Policy</Link>
+          </div>
           <p className="footer-copyright">
             © {new Date().getFullYear()} Geoffrey Munene. All rights reserved.
           </p>

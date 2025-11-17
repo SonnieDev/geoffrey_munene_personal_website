@@ -10,6 +10,8 @@ import Tools from './pages/Tools'
 import Learn from './pages/Learn'
 import RemoteJobs from './pages/RemoteJobs'
 import Contact from './pages/Contact'
+import Terms from './pages/Terms'
+import Privacy from './pages/Privacy'
 import AdminLogin from './pages/admin/AdminLogin'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminBlogs from './pages/admin/AdminBlogs'
@@ -45,6 +47,8 @@ function App() {
                       <Route path="/remote-jobs" element={<RemoteJobs />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
+                      <Route path="/terms" element={<Terms />} />
+                      <Route path="/privacy" element={<Privacy />} />
                     </Routes>
                   </main>
                   <Footer />

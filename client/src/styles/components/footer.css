@@ -90,6 +90,26 @@
   @apply border-gray-700;
 }
 
+.footer-legal-links {
+  @apply flex items-center justify-center gap-3 mb-4;
+}
+
+.footer-legal-link {
+  @apply text-sm text-gray-600 hover:text-blue-600 transition-colors;
+}
+
+.dark .footer-legal-link {
+  @apply text-gray-400 hover:text-blue-400;
+}
+
+.footer-legal-separator {
+  @apply text-gray-400;
+}
+
+.dark .footer-legal-separator {
+  @apply text-gray-600;
+}
+
 .footer-copyright {
   @apply text-center text-sm text-gray-600;
 }
