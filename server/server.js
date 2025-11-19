@@ -29,6 +29,10 @@ connectDB()
 
 const app = express()
 
+// Trust proxy - Required for Railway/Heroku and other reverse proxy setups
+// This allows Express to correctly identify the client's IP address
+app.set('trust proxy', 1)
+
 // CORS configuration - MUST be before other middleware for preflight requests
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [
