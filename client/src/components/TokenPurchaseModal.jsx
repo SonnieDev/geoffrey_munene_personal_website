@@ -106,8 +106,8 @@ function TokenPurchaseModal({ onClose }) {
           ))}
         </div>
 
-        <div className="token-purchase-email-field" style={{ padding: '0 2rem', marginBottom: '1rem' }}>
-          <label htmlFor="payment-email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+        <div className="token-purchase-email-field">
+          <label htmlFor="payment-email" className="token-purchase-email-label">
             Email Address *
           </label>
           <input
@@ -117,13 +117,7 @@ function TokenPurchaseModal({ onClose }) {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your.email@example.com"
             required
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #d1d5db',
-              borderRadius: '0.5rem',
-              fontSize: '1rem'
-            }}
+            className="token-purchase-email-input"
           />
         </div>
 
@@ -132,7 +126,18 @@ function TokenPurchaseModal({ onClose }) {
           onClick={() => handlePurchase(selectedPackage)}
           disabled={loading || !email}
         >
-          {loading ? 'Processing...' : `Purchase ${TOKEN_PACKAGES[selectedPackage].tokens} Tokens - KES ${TOKEN_PACKAGES[selectedPackage].price.toLocaleString()}`}
+          {loading ? (
+            'Processing...'
+          ) : (
+            <>
+              <span className="hidden sm:inline">
+                Purchase {TOKEN_PACKAGES[selectedPackage].tokens} Tokens - KES {TOKEN_PACKAGES[selectedPackage].price.toLocaleString()}
+              </span>
+              <span className="sm:hidden">
+                Buy {TOKEN_PACKAGES[selectedPackage].tokens} Tokens
+              </span>
+            </>
+          )}
         </button>
 
         <p className="token-purchase-note">
