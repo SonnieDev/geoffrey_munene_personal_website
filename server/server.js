@@ -41,11 +41,12 @@ app.set('trust proxy', 1)
 // CORS configuration - MUST be before other middleware for preflight requests
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [
-      process.env.FRONTEND_URL,
-      'https://geoffreymunene.netlify.app',
-      'https://geoffreymunene.com',
-      'https://www.geoffreymunene.com'
-    ].filter(Boolean) // Remove any undefined values
+    process.env.FRONTEND_URL,
+    'https://geoffreymunene.netlify.app',
+    'https://geoffrey-personal-website.netlify.app',
+    'https://geoffreymunene.com',
+    'https://www.geoffreymunene.com'
+  ].filter(Boolean) // Remove any undefined values
   : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174']
 
 // Log allowed origins in production for debugging
@@ -61,7 +62,7 @@ app.use(cors({
     if (!origin) {
       return callback(null, true)
     }
-    
+
     // In production, check against allowed origins
     if (process.env.NODE_ENV === 'production') {
       if (allowedOrigins.indexOf(origin) !== -1) {
@@ -203,7 +204,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 // Middleware to log API requests (for dev tools) - must be after body parser
 app.use((req, res, next) => {
   const startTime = Date.now()
-  
+
   res.on('finish', () => {
     const responseTime = Date.now() - startTime
     // Only log admin API requests - check both originalUrl and path
@@ -218,7 +219,7 @@ app.use((req, res, next) => {
       }
     }
   })
-  
+
   next()
 })
 
@@ -267,12 +268,12 @@ app.use((err, req, res, next) => {
       message: 'CORS: Request not allowed from this origin',
     })
   }
-  
+
   // Use logger when available, fallback to console for error middleware
   console.error(err.stack)
-  res.status(err.status || 500).json({ 
-    success: false, 
-    message: err.message || 'Something went wrong!', 
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Something went wrong!',
     ...(process.env.NODE_ENV === 'development' && { error: err.message, stack: err.stack })
   })
 })
