@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       unique: true,
       sparse: true, // Allows multiple null values
+      // unique: true automatically creates an index, no need for separate index() call
     },
     // Optional: Email for registered users
     email: {
@@ -14,6 +15,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       sparse: true,
+      index: true, // Index for faster lookups
     },
     // Token balance
     tokens: {
@@ -47,9 +49,8 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-// Index for faster lookups
-userSchema.index({ sessionId: 1 })
-userSchema.index({ email: 1 })
+// Note: Indexes are defined in the schema fields above (unique: true and index: true)
+// No need for separate index() calls to avoid duplicates
 
 // Update last activity before saving
 userSchema.pre('save', function (next) {

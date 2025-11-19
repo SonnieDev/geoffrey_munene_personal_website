@@ -20,6 +20,7 @@ const tokenTransactionSchema = new mongoose.Schema(
     stripePaymentIntentId: {
       type: String,
       sparse: true,
+      index: true, // Index defined here, not in separate index() call
     },
     stripeSessionId: {
       type: String,
@@ -54,7 +55,7 @@ const tokenTransactionSchema = new mongoose.Schema(
 
 // Indexes for faster queries
 tokenTransactionSchema.index({ userId: 1, createdAt: -1 })
-tokenTransactionSchema.index({ stripePaymentIntentId: 1 })
+// Note: stripePaymentIntentId index is defined in the schema field above
 tokenTransactionSchema.index({ type: 1 })
 
 const TokenTransaction = mongoose.model('TokenTransaction', tokenTransactionSchema)
