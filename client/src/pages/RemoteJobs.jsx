@@ -52,6 +52,7 @@ function RemoteJobs() {
   const fetchJobs = async () => {
     try {
       setLoading(true)
+      setError('')
       const params = {
         search: searchTerm,
         category: selectedCategory,
@@ -60,9 +61,11 @@ function RemoteJobs() {
       }
 
       const response = await jobsAPI.getJobs(params)
+      console.log('Jobs API response:', response)
       
       if (response.success) {
-        setJobs(response.data)
+        const jobsData = response.data || []
+        setJobs(Array.isArray(jobsData) ? jobsData : [])
         setPagination(response.pagination || { current: 1, total: 1, count: 0 })
         setError('')
         
@@ -116,7 +119,7 @@ function RemoteJobs() {
       }
     } catch (err) {
       console.error('Error fetching jobs:', err)
-      setError('Failed to load jobs. Please try again later.')
+      setError(err.response?.data?.message || err.message || 'Failed to load remote jobs. Please check your connection and try again.')
     } finally {
       setLoading(false)
     }

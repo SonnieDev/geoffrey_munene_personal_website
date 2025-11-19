@@ -1,0 +1,111 @@
+.tour-trigger-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  z-index: 9999;
+  transition: all 0.3s ease;
+}
+
+.tour-trigger-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+.tour-trigger-btn:active {
+  transform: translateY(0);
+}
+
+/* Joyride Tooltip Styles */
+.react-joyride__tooltip {
+  border-radius: 12px !important;
+  padding: 20px !important;
+  max-width: 400px !important;
+  min-width: 300px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+  font-size: 16px !important;
+}
+
+.react-joyride__tooltip__content {
+  padding: 10px 0 !important;
+  line-height: 1.6 !important;
+  margin-bottom: 15px !important;
+}
+
+.react-joyride__tooltip__footer {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 15px !important;
+  padding-top: 15px !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.react-joyride__tooltip__button--primary {
+  background-color: #667eea !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s !important;
+}
+
+.react-joyride__tooltip__button--primary:hover {
+  background-color: #5568d3 !important;
+}
+
+.react-joyride__tooltip__button--secondary {
+  color: #667eea !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 10px 15px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.react-joyride__tooltip__button--skip {
+  color: #6b7280 !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 10px 15px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+}
+
+.react-joyride__overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.react-joyride__spotlight {
+  border-radius: 8px !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tour-trigger-btn {
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  .react-joyride__tooltip {
+    max-width: 90vw !important;
+    min-width: 280px !important;
+    padding: 16px !important;
+  }
+}
+

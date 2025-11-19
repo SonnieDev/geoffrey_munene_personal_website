@@ -1,0 +1,90 @@
+.user-settings-page {
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8;
+}
+
+.settings-container {
+  @apply max-w-6xl mx-auto;
+}
+
+.settings-header {
+  @apply mb-8;
+}
+
+.settings-header h1 {
+  @apply text-3xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.settings-header p {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.settings-layout {
+  @apply flex flex-col md:flex-row gap-6;
+}
+
+.settings-sidebar {
+  @apply w-full md:w-64 bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 space-y-2;
+}
+
+.settings-nav-item {
+  @apply w-full px-4 py-3 text-left rounded-lg transition-colors flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700;
+}
+
+.settings-nav-item.active {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+.settings-content {
+  @apply flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6;
+}
+
+.settings-section h2 {
+  @apply text-2xl font-bold text-gray-900 dark:text-white mb-6;
+}
+
+.settings-form {
+  @apply space-y-6;
+}
+
+.form-group {
+  @apply space-y-2;
+}
+
+.form-group label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  @apply w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white;
+}
+
+.form-group input:disabled {
+  @apply bg-gray-100 dark:bg-gray-800 cursor-not-allowed;
+}
+
+.form-group small {
+  @apply block text-xs text-gray-500 dark:text-gray-400 mt-1;
+}
+
+.checkbox-group {
+  @apply space-y-1;
+}
+
+.checkbox-label {
+  @apply flex items-center gap-3 cursor-pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  @apply w-5 h-5 text-blue-600 rounded;
+}
+
+.password-input-wrapper {
+  @apply relative;
+}
+
+.password-toggle {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200;
+}
+

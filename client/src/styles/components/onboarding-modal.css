@@ -1,0 +1,134 @@
+.onboarding-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4;
+  pointer-events: auto !important;
+  z-index: 9998 !important;
+}
+
+.onboarding-modal {
+  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col;
+  animation: slideUp 0.3s ease-out;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 9999 !important;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.onboarding-header {
+  @apply flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.onboarding-progress {
+  @apply flex-1;
+}
+
+.progress-bar {
+  @apply w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mb-2;
+}
+
+.progress-fill {
+  @apply h-full bg-blue-600 transition-all duration-300;
+}
+
+.progress-text {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.onboarding-skip {
+  @apply text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors cursor-pointer bg-transparent border-none;
+}
+
+.onboarding-content {
+  @apply flex-1 overflow-y-auto p-8 text-center;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.onboarding-icon {
+  @apply text-6xl text-blue-600 dark:text-blue-400 mb-4 flex justify-center;
+}
+
+.onboarding-title {
+  @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3;
+}
+
+.onboarding-description {
+  @apply text-gray-600 dark:text-gray-400 mb-8;
+}
+
+.onboarding-options {
+  @apply space-y-3 max-w-lg mx-auto;
+}
+
+.onboarding-option {
+  @apply w-full p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg text-left transition-all hover:border-blue-500 dark:hover:border-blue-500 flex items-center gap-4 relative cursor-pointer bg-transparent;
+}
+
+.onboarding-option.selected {
+  @apply border-blue-600 dark:border-blue-500 bg-blue-50 dark:bg-blue-900/20;
+}
+
+.option-icon {
+  @apply text-2xl text-blue-600 dark:text-blue-400 flex-shrink-0;
+}
+
+.option-content {
+  @apply flex-1;
+}
+
+.option-label {
+  @apply font-semibold text-gray-900 dark:text-gray-100 mb-1;
+}
+
+.option-description {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.option-check {
+  @apply text-blue-600 dark:text-blue-400 text-xl flex-shrink-0;
+}
+
+.onboarding-footer {
+  @apply flex justify-between items-center p-6 border-t border-gray-200 dark:border-gray-700 gap-4;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.onboarding-btn {
+  @apply px-6 py-3 rounded-lg font-semibold transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer border-none;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
+}
+
+.onboarding-btn.primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700 ml-auto;
+}
+
+.onboarding-btn:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.onboarding-btn:not(:disabled):active {
+  transform: translateY(0);
+}
+
+.onboarding-btn.secondary {
+  @apply bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600;
+}
+

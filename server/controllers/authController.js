@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import Admin from '../models/Admin.js'
+import logger from '../utils/logger.js'
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -66,7 +67,7 @@ export const registerAdmin = async (req, res) => {
       })
     }
   } catch (error) {
-    console.error('Error registering admin:', error)
+    logger.errorWithContext(error, { action: 'registerAdmin' })
     res.status(500).json({
       success: false,
       message: 'Failed to register admin',
@@ -116,7 +117,7 @@ export const loginAdmin = async (req, res) => {
       })
     }
   } catch (error) {
-    console.error('Error logging in admin:', error)
+    logger.errorWithContext(error, { action: 'loginAdmin' })
     res.status(500).json({
       success: false,
       message: 'Failed to login',
@@ -145,7 +146,7 @@ export const getMe = async (req, res) => {
       },
     })
   } catch (error) {
-    console.error('Error getting admin:', error)
+    logger.errorWithContext(error, { action: 'getMe' })
     res.status(500).json({
       success: false,
       message: 'Failed to get admin',

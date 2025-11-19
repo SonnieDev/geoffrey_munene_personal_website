@@ -1,0 +1,416 @@
+.user-billing-page {
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8;
+}
+
+.billing-container {
+  @apply max-w-6xl mx-auto;
+}
+
+.billing-header {
+  @apply mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4;
+}
+
+.billing-header h1 {
+  @apply text-3xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.billing-header p {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.billing-tabs {
+  @apply flex gap-2 mb-6 border-b border-gray-200 dark:border-gray-700;
+}
+
+.billing-tab {
+  @apply px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors border-b-2 border-transparent;
+}
+
+.billing-tab.active {
+  @apply text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400;
+}
+
+.billing-content {
+  @apply space-y-6;
+}
+
+.billing-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-md p-6;
+}
+
+.card-header {
+  @apply flex justify-between items-center mb-6;
+}
+
+.card-header h2 {
+  @apply text-xl font-bold text-gray-900 dark:text-white;
+}
+
+.tokens-card .card-header h2 {
+  @apply text-white;
+}
+
+.card-icon {
+  @apply text-2xl text-blue-600 dark:text-blue-400;
+}
+
+.tokens-card .card-icon {
+  @apply text-white;
+}
+
+.tokens-card {
+  @apply bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white;
+}
+
+.tokens-display {
+  @apply text-center mb-6;
+}
+
+.tokens-amount-large {
+  @apply text-5xl font-bold mb-2;
+}
+
+.tokens-label {
+  @apply text-blue-100 text-lg;
+}
+
+.tokens-stats-grid {
+  @apply grid grid-cols-3 gap-4 mb-6;
+}
+
+.token-stat {
+  @apply text-center;
+}
+
+.token-stat-label {
+  @apply text-blue-100 text-sm mb-1;
+}
+
+.token-stat-value {
+  @apply text-2xl font-bold;
+}
+
+.token-stat-value.highlight {
+  @apply text-yellow-300;
+}
+
+.full-width {
+  @apply w-full;
+}
+
+/* Override global btn-primary styles for tokens card button */
+.tokens-card .btn-primary {
+  background: white !important;
+  background-color: white !important;
+  color: #2563eb !important;
+  border: none !important;
+  @apply font-semibold;
+}
+
+.tokens-card .btn-primary:hover {
+  background: #eff6ff !important;
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+}
+
+.tokens-card .btn-primary svg {
+  color: #2563eb !important;
+}
+
+.tokens-card .btn-primary:hover svg {
+  color: #1d4ed8 !important;
+}
+
+.tokens-card .btn-primary::before {
+  display: none !important;
+}
+
+/* Override global btn-primary styles for header button */
+.billing-header .btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  background-color: #2563eb !important;
+  color: white !important;
+  border: none !important;
+  @apply font-semibold;
+}
+
+.billing-header .btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+  background-color: #1d4ed8 !important;
+  color: white !important;
+}
+
+.billing-header .btn-primary svg {
+  color: white !important;
+}
+
+.billing-header .btn-primary:hover svg {
+  color: white !important;
+}
+
+.billing-header .btn-primary::before {
+  display: none !important;
+}
+
+.billing-stats-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.billing-stat-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 flex items-center gap-4;
+}
+
+.stat-icon {
+  @apply text-3xl text-blue-600 dark:text-blue-400;
+}
+
+.stat-content {
+  @apply flex-1;
+}
+
+.stat-value {
+  @apply text-2xl font-bold text-gray-900 dark:text-white;
+}
+
+.stat-label {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.transactions-preview {
+  @apply space-y-3;
+}
+
+.transaction-preview-item {
+  @apply flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg;
+}
+
+.transaction-preview-icon {
+  @apply text-xl;
+}
+
+.transaction-preview-info {
+  @apply flex-1;
+}
+
+.transaction-preview-type {
+  @apply font-medium text-gray-900 dark:text-white;
+}
+
+.transaction-preview-date {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.transaction-preview-amount {
+  @apply font-semibold;
+}
+
+.transaction-preview-amount.positive {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.transaction-preview-amount.negative {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.transactions-list {
+  @apply space-y-4;
+}
+
+.transaction-item {
+  @apply flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg;
+}
+
+.transaction-icon-wrapper {
+  @apply relative;
+}
+
+.transaction-icon {
+  @apply text-2xl;
+}
+
+.transaction-icon.purchase {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.transaction-icon.trial {
+  @apply text-blue-600 dark:text-blue-400;
+}
+
+.transaction-icon.usage {
+  @apply text-orange-600 dark:text-orange-400;
+}
+
+.status-icon {
+  @apply absolute -top-1 -right-1 text-sm;
+}
+
+.status-icon.success {
+  @apply text-green-500;
+}
+
+.status-icon.failed {
+  @apply text-red-500;
+}
+
+.status-icon.pending {
+  @apply text-yellow-500;
+}
+
+.transaction-details {
+  @apply flex-1;
+}
+
+.transaction-type {
+  @apply font-medium text-gray-900 dark:text-white;
+}
+
+.transaction-description {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.transaction-date {
+  @apply text-xs text-gray-500 dark:text-gray-500;
+}
+
+.transaction-tool {
+  @apply text-xs text-blue-600 dark:text-blue-400 mt-1;
+}
+
+.transaction-amounts {
+  @apply text-right;
+}
+
+.transaction-amount {
+  @apply font-semibold text-lg;
+}
+
+.transaction-amount.positive {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.transaction-amount.negative {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.transaction-balance {
+  @apply text-xs text-gray-600 dark:text-gray-400 mt-1;
+}
+
+.subscription-content {
+  @apply space-y-6;
+}
+
+.subscription-active {
+  @apply p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg;
+}
+
+.subscription-info h3 {
+  @apply text-lg font-semibold text-gray-900 dark:text-white mb-4;
+}
+
+.subscription-tier {
+  @apply text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2;
+}
+
+.subscription-status,
+.subscription-expiry {
+  @apply text-gray-700 dark:text-gray-300 mb-2;
+}
+
+.status-badge {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.status-badge.active {
+  @apply bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200;
+}
+
+.status-badge.inactive {
+  @apply bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200;
+}
+
+.subscription-empty {
+  @apply text-center py-8;
+}
+
+.subscription-empty h3 {
+  @apply text-xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.subscription-empty p {
+  @apply text-gray-600 dark:text-gray-400 mb-6;
+}
+
+.subscription-plans {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6 mt-6;
+}
+
+.plan-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border-2 border-gray-200 dark:border-gray-700;
+}
+
+.plan-card.featured {
+  @apply border-blue-600 dark:border-blue-400;
+}
+
+.plan-card h4 {
+  @apply text-xl font-bold text-gray-900 dark:text-white mb-2;
+}
+
+.plan-price {
+  @apply text-3xl font-bold text-gray-900 dark:text-white mb-4;
+}
+
+.plan-features {
+  @apply space-y-2 mb-6 text-gray-600 dark:text-gray-400;
+}
+
+.plan-features li {
+  @apply flex items-center gap-2;
+}
+
+.plan-features li::before {
+  content: '✓';
+  @apply text-green-600 dark:text-green-400 font-bold;
+  margin-right: 0.5rem;
+}
+
+/* Plan card buttons */
+.plan-card .btn-primary {
+  @apply w-full bg-blue-600 text-white hover:bg-blue-700 font-semibold py-3 px-6 rounded-lg transition-colors;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  border: none !important;
+}
+
+.plan-card .btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+}
+
+.plan-card .btn-primary::before {
+  display: none !important;
+}
+
+.plan-card .btn-secondary {
+  @apply w-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 font-semibold py-3 px-6 rounded-lg transition-colors;
+  border: none !important;
+}
+
+.plan-card.featured {
+  @apply border-blue-600 dark:border-blue-400 shadow-lg;
+  position: relative;
+}
+
+.plan-card.featured::before {
+  content: 'Popular';
+  @apply absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full;
+}
+
+.link-button {
+  @apply text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1;
+}
+
+.loading-state,
+.empty-state {
+  @apply text-center py-8 text-gray-600 dark:text-gray-400;
+}
+

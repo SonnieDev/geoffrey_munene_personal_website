@@ -48,6 +48,8 @@ function Footer() {
                 <li><Link to="/tools" className="footer-link">Tools</Link></li>
                 <li><Link to="/learn" className="footer-link">Learn</Link></li>
                 <li><Link to="/remote-jobs" className="footer-link">Remote Jobs</Link></li>
+                <li><Link to="/community" className="footer-link">Community</Link></li>
+                <li><Link to="/about" className="footer-link">About</Link></li>
                 <li><Link to="/contact" className="footer-link">Contact</Link></li>
               </ul>
             </div>

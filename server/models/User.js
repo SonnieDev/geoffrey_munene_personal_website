@@ -1,21 +1,28 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
 const userSchema = new mongoose.Schema(
   {
-    // Session-based identifier (stored in localStorage)
-    sessionId: {
-      type: String,
-      unique: true,
-      sparse: true, // Allows multiple null values
-      // unique: true automatically creates an index, no need for separate index() call
-    },
-    // Optional: Email for registered users
+    // Email for registered users (required for authenticated users)
     email: {
       type: String,
       trim: true,
       lowercase: true,
-      sparse: true,
+      unique: true,
+      sparse: true, // Allows multiple null values but enforces uniqueness for non-null
       index: true, // Index for faster lookups
+    },
+    // Password for authenticated users
+    password: {
+      type: String,
+      minlength: 8,
+      select: false, // Don't return password by default
+    },
+    // Session-based identifier (for backward compatibility, optional)
+    sessionId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows multiple null values
     },
     // Token balance
     tokens: {
@@ -43,18 +50,112 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    // Onboarding and preferences
+    signupPurpose: {
+      type: String,
+      enum: ['coaching', 'tools', 'content', 'all', null],
+      default: null,
+    },
+    onboardingCompleted: {
+      type: Boolean,
+      default: false,
+    },
+    onboardingSteps: {
+      profileSetup: { type: Boolean, default: false },
+      firstToolUsed: { type: Boolean, default: false },
+      firstContentGenerated: { type: Boolean, default: false },
+      tokensPurchased: { type: Boolean, default: false },
+      resourcesViewed: { type: Boolean, default: false },
+    },
+    preferences: {
+      interests: [String],
+      experienceLevel: {
+        type: String,
+        enum: ['beginner', 'intermediate', 'advanced', null],
+        default: null,
+      },
+      goals: [String],
+      // Profile preferences
+      displayName: String,
+      bio: String,
+      location: String,
+      website: String,
+      // Notification preferences
+      emailNotifications: { type: Boolean, default: true },
+      marketingEmails: { type: Boolean, default: false },
+      productUpdates: { type: Boolean, default: true },
+      weeklyDigest: { type: Boolean, default: true },
+      // General preferences
+      theme: { type: String, enum: ['light', 'dark', 'system'], default: 'system' },
+      language: { type: String, default: 'en' },
+      timezone: String,
+    },
+    progress: {
+      level: { type: Number, default: 1 },
+      points: { type: Number, default: 0 },
+      achievements: [String],
+      streak: { type: Number, default: 0 },
+      lastActiveDate: Date,
+    },
+    welcomeEmailSent: {
+      type: Boolean,
+      default: false,
+    },
+    // Subscription and course access
+    subscriptions: {
+      activeCourses: [{
+        courseId: String,
+        courseSlug: String,
+        enrolledAt: { type: Date, default: Date.now },
+        progress: { type: Number, default: 0 }, // 0-100
+        completed: { type: Boolean, default: false },
+        completedAt: Date,
+      }],
+      subscriptionTier: {
+        type: String,
+        enum: ['free', 'basic', 'premium', 'lifetime', null],
+        default: null,
+      },
+      subscriptionStatus: {
+        type: String,
+        enum: ['active', 'cancelled', 'expired', 'trial', null],
+        default: null,
+      },
+      subscriptionExpiresAt: Date,
+      subscriptionStartedAt: Date,
+    },
   },
   {
     timestamps: true,
   }
 )
 
-// Note: Indexes are defined in the schema fields above (unique: true and index: true)
-// No need for separate index() calls to avoid duplicates
-
-// Update last activity before saving
-userSchema.pre('save', function (next) {
+// Hash password before saving
+userSchema.pre('save', async function (next) {
+  // Only hash password if it's modified and exists
+  if (!this.isModified('password') || !this.password) {
+    this.lastActivity = new Date()
+    return next()
+  }
+  const salt = await bcrypt.genSalt(10)
+  this.password = await bcrypt.hash(this.password, salt)
   this.lastActivity = new Date()
+  next()
+})
+
+// Compare password method
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  if (!this.password) {
+    return false
+  }
+  return await bcrypt.compare(enteredPassword, this.password)
+}
+
+// Update last activity before saving (for non-password updates)
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password')) {
+    this.lastActivity = new Date()
+  }
   next()
 })
 

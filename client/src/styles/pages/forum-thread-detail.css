@@ -1,0 +1,220 @@
+.forum-thread-detail-page {
+  min-height: 100vh;
+  background: var(--bg-color, #ffffff);
+  padding: 2rem 1rem;
+}
+
+.thread-detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  color: var(--text-color, #1a1a1a);
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: var(--hover-bg, #f3f4f6);
+  border-color: var(--primary-color, #3b82f6);
+  color: var(--primary-color, #3b82f6);
+}
+
+.thread-detail {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.thread-header-detail {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color, #e5e7eb);
+}
+
+.thread-title-detail {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color, #1a1a1a);
+  margin-bottom: 1rem;
+}
+
+.thread-meta-detail {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+  color: var(--text-muted, #6b7280);
+  margin-bottom: 1rem;
+}
+
+.thread-author-detail {
+  font-weight: 600;
+  color: var(--text-color, #1a1a1a);
+}
+
+.thread-date,
+.thread-views {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.thread-tags-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.thread-content-detail {
+  margin-bottom: 2rem;
+  line-height: 1.8;
+  color: var(--text-color, #1a1a1a);
+  font-size: 1.125rem;
+}
+
+.thread-replies-section {
+  padding-top: 2rem;
+  border-top: 2px solid var(--border-color, #e5e7eb);
+}
+
+.replies-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color, #1a1a1a);
+  margin-bottom: 1.5rem;
+}
+
+.reply-form {
+  background: var(--bg-color, #f9fafb);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.reply-input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  background: var(--card-bg, #ffffff);
+  color: var(--text-color, #1a1a1a);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 120px;
+  margin-bottom: 1rem;
+}
+
+.reply-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.replies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.reply-item {
+  background: var(--bg-color, #f9fafb);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.reply-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.author-avatar-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-color, #3b82f6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.reply-author-name {
+  font-weight: 600;
+  color: var(--text-color, #1a1a1a);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.reply-date {
+  font-size: 0.75rem;
+  color: var(--text-muted, #6b7280);
+}
+
+.solution-badge {
+  padding: 0.25rem 0.75rem;
+  background: var(--success-color, #10b981);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.reply-content {
+  line-height: 1.6;
+  color: var(--text-color, #1a1a1a);
+  margin-bottom: 0.5rem;
+}
+
+.reply-likes {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-muted, #6b7280);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .thread-detail {
+    padding: 1.5rem;
+  }
+
+  .thread-title-detail {
+    font-size: 1.5rem;
+  }
+
+  .thread-meta-detail {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+

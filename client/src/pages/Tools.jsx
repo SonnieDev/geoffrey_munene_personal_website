@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { toolsAPI } from '../services/api'
 import { useTokens } from '../contexts/TokenContext'
+import { useUser } from '../contexts/UserContext'
 import SEO from '../components/SEO'
 import TokenBalance from '../components/TokenBalance'
 import TokenPurchaseModal from '../components/TokenPurchaseModal'
@@ -28,7 +29,17 @@ const TOKEN_COSTS = {
 
 function Tools() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const { sessionId, tokens, refreshBalance } = useTokens()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { isAuthenticated, loading: userLoading } = useUser()
+
+  // Redirect authenticated users to /user/tools for consistency
+  useEffect(() => {
+    if (!userLoading && isAuthenticated && location.pathname === '/tools') {
+      navigate('/user/tools', { replace: true })
+    }
+  }, [isAuthenticated, userLoading, navigate, location.pathname])
+  const { tokens, refreshBalance } = useTokens()
   const [activeTool, setActiveTool] = useState(null)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState('')
@@ -112,6 +123,13 @@ function Tools() {
   }, [searchParams, setSearchParams])
 
   const handleToolClick = (toolId) => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      toast.error('Please login or sign up to use this tool')
+      navigate('/login', { state: { from: { pathname: '/tools', search: `?tool=${toolId}` } } })
+      return
+    }
+
     setActiveTool(toolId)
     setResult('')
     setError('')
@@ -125,6 +143,13 @@ function Tools() {
 
   const handleSubmit = async (e, toolId) => {
     e.preventDefault()
+    
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      toast.error('Please login or sign up to use this tool')
+      navigate('/login', { state: { from: { pathname: '/tools', search: `?tool=${toolId}` } } })
+      return
+    }
     
     // Check if user has enough tokens
     const tokenCost = TOKEN_COSTS[toolId] || 5
@@ -145,27 +170,27 @@ function Tools() {
       let response
       switch (toolId) {
         case 'resume':
-          response = await toolsAPI.generateResume(data, sessionId)
+          response = await toolsAPI.generateResume(data)
           setResult(response.data.resume)
           break
         case 'cover-letter':
-          response = await toolsAPI.generateCoverLetter(data, sessionId)
+          response = await toolsAPI.generateCoverLetter(data)
           setResult(response.data.coverLetter)
           break
         case 'email':
-          response = await toolsAPI.generateEmail(data, sessionId)
+          response = await toolsAPI.generateEmail(data)
           setResult(response.data.email)
           break
         case 'interview-prep':
-          response = await toolsAPI.generateInterviewPrep(data, sessionId)
+          response = await toolsAPI.generateInterviewPrep(data)
           setResult(response.data.interviewPrep)
           break
         case 'skills-assessment':
-          response = await toolsAPI.generateSkillsAssessment(data, sessionId)
+          response = await toolsAPI.generateSkillsAssessment(data)
           setResult(response.data.assessment)
           break
         case 'salary-negotiation':
-          response = await toolsAPI.generateSalaryNegotiation(data, sessionId)
+          response = await toolsAPI.generateSalaryNegotiation(data)
           setResult(response.data.guide)
           break
         default:
@@ -178,8 +203,13 @@ function Tools() {
         toast.success(`Generated successfully! ${response.data.tokensRemaining} tokens remaining.`)
       }
     } catch (err) {
+      // Handle authentication errors
+      if (err.response?.status === 401) {
+        setError('Please login to use tools')
+        navigate('/login', { state: { from: { pathname: '/tools' } } })
+      } 
       // Handle token errors (402 Payment Required)
-      if (err.response?.status === 402) {
+      else if (err.response?.status === 402) {
         setError(err.response.data.message)
         setShowPurchaseModal(true)
       } else {
@@ -405,9 +435,18 @@ function Tools() {
           <p className="page-subtitle">
             Professional AI tools to help you land remote jobs and grow your digital career
           </p>
-          <div className="tools-token-balance-wrapper">
-            <TokenBalance />
-          </div>
+          {isAuthenticated ? (
+            <div className="tools-token-balance-wrapper">
+              <TokenBalance />
+            </div>
+          ) : (
+            <div className="tools-auth-prompt">
+              <p className="tools-auth-message">
+                <Link to="/signup" className="tools-auth-link">Sign up</Link> or{' '}
+                <Link to="/login" className="tools-auth-link">login</Link> to use these tools and get 10 free trial tokens!
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -482,7 +521,7 @@ function Tools() {
         </div>
       )}
 
-      {showPurchaseModal && (
+      {showPurchaseModal && isAuthenticated && (
         <TokenPurchaseModal onClose={() => setShowPurchaseModal(false)} />
       )}
     </div>

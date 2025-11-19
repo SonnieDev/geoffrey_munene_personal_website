@@ -14,7 +14,8 @@
     "add-blogs": "node scripts/addBlogs.js",
     "add-testimonials": "node scripts/addTestimonials.js",
     "update-thumbnails": "node scripts/updateBlogThumbnails.js",
-    "fetch-himalayas-jobs": "node scripts/fetchHimalayasJobs.js"
+    "fetch-himalayas-jobs": "node scripts/fetchHimalayasJobs.js",
+    "seed-forums": "node scripts/seedForums.js"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -38,6 +39,7 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
+    "nodemailer": "^7.0.10",
     "openai": "^6.9.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0"

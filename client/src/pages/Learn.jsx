@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useUser } from '../contexts/UserContext'
 import { youtubeAPI } from '../services/api'
 import SEO from '../components/SEO'
 import '../styles/pages/learn.css'
@@ -6,10 +8,20 @@ import '../styles/pages/learn.css'
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@munenegeoffrey'
 
 function Learn() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { isAuthenticated, loading: userLoading, user } = useUser()
   const [videos, setVideos] = useState([])
   const [playlists, setPlaylists] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+  // Redirect authenticated users to /user/learn for user-specific content
+  useEffect(() => {
+    if (!userLoading && isAuthenticated && location.pathname === '/learn') {
+      navigate('/user/learn', { replace: true })
+    }
+  }, [isAuthenticated, userLoading, navigate, location.pathname])
 
   useEffect(() => {
     fetchVideos()
@@ -111,18 +123,31 @@ function Learn() {
   return (
     <>
       <SEO
-        title="Learn Remote Work"
-        description="Comprehensive tutorials, YouTube playlists, and resources to accelerate your remote work journey. Learn from video tutorials, guides, and expert tips."
+        title={isAuthenticated ? "My Courses - Learn Remote Work" : "Learn Remote Work"}
+        description={isAuthenticated 
+          ? "Access your enrolled courses, track progress, and discover new learning resources for remote work."
+          : "Comprehensive tutorials, YouTube playlists, and resources to accelerate your remote work journey. Learn from video tutorials, guides, and expert tips."}
         keywords="remote work tutorials, remote work courses, learn remote work, remote work training, work from home guide, remote work skills"
-        url="/learn"
+        url={isAuthenticated ? "/user/learn" : "/learn"}
       />
       <div className="learn-page">
       <section className="learn-hero">
         <div className="learn-container">
-          <h1 className="page-title">Learn Remote Work</h1>
+          <h1 className="page-title">
+            {isAuthenticated ? 'My Courses & Learning' : 'Learn Remote Work'}
+          </h1>
           <p className="page-subtitle">
-            Comprehensive tutorials and YouTube playlists to accelerate your remote work journey
+            {isAuthenticated 
+              ? 'Access your enrolled courses, track your progress, and discover new learning resources'
+              : 'Comprehensive tutorials and YouTube playlists to accelerate your remote work journey'}
           </p>
+          {isAuthenticated && user?.subscriptions?.activeCourses?.length > 0 && (
+            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <p className="text-blue-800 dark:text-blue-200">
+                📚 You're enrolled in {user.subscriptions.activeCourses.length} course{user.subscriptions.activeCourses.length !== 1 ? 's' : ''}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

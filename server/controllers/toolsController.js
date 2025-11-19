@@ -1,6 +1,8 @@
 import OpenAI from 'openai'
 import dotenv from 'dotenv'
 import { deductTokens } from '../middleware/tokenMiddleware.js'
+import GeneratedContent from '../models/GeneratedContent.js'
+import User from '../models/User.js'
 
 dotenv.config()
 
@@ -13,6 +15,61 @@ const getOpenAIClient = () => {
   return new OpenAI({
     apiKey: apiKey,
   })
+}
+
+// Helper function to save generated content and update onboarding steps
+const saveGeneratedContent = async (userId, toolType, title, content, inputData, tokensUsed) => {
+  try {
+    await GeneratedContent.create({
+      userId,
+      toolType,
+      title,
+      content,
+      inputData,
+      tokensUsed,
+    })
+
+    // Update onboarding steps for first-time tool usage and content generation
+    const user = await User.findById(userId)
+    if (user) {
+      const updates = {}
+      
+      // Mark first tool used
+      if (!user.onboardingSteps?.firstToolUsed) {
+        updates['onboardingSteps.firstToolUsed'] = true
+      }
+      
+      // Mark first content generated
+      if (!user.onboardingSteps?.firstContentGenerated) {
+        updates['onboardingSteps.firstContentGenerated'] = true
+      }
+
+      // Award points for first-time actions
+      if (Object.keys(updates).length > 0) {
+        const currentPoints = user.progress?.points || 0
+        let pointsToAdd = 0
+        
+        if (!user.onboardingSteps?.firstToolUsed) {
+          pointsToAdd += 20
+        }
+        if (!user.onboardingSteps?.firstContentGenerated) {
+          pointsToAdd += 15
+        }
+
+        if (pointsToAdd > 0) {
+          const newPoints = currentPoints + pointsToAdd
+          updates['progress.points'] = newPoints
+          updates['progress.level'] = Math.floor(newPoints / 100) + 1
+          updates['progress.lastActiveDate'] = new Date()
+        }
+
+        await User.findByIdAndUpdate(userId, { $set: updates })
+      }
+    }
+  } catch (error) {
+    console.error('Error saving generated content:', error)
+    // Don't throw error - content generation was successful, saving is secondary
+  }
 }
 
 // @desc    Generate resume content
@@ -72,10 +129,23 @@ Please format this as a professional resume with clear sections: Header (name, c
     // Deduct tokens after successful generation
     const remainingTokens = await deductTokens(req.user._id, 'resume', req.tokenCost)
 
+    const generatedContent = completion.choices[0].message.content
+    const title = `Resume for ${name}${jobTitle ? ` - ${jobTitle}` : ''}`
+
+    // Save generated content to database
+    await saveGeneratedContent(
+      req.user._id,
+      'resume',
+      title,
+      generatedContent,
+      { name, email, phone, experience, skills, jobTitle, summary },
+      req.tokenCost
+    )
+
     res.status(200).json({
       success: true,
       data: {
-        resume: completion.choices[0].message.content,
+        resume: generatedContent,
         tokensRemaining: remainingTokens,
       },
     })
@@ -146,10 +216,23 @@ Create a professional cover letter that:
     // Deduct tokens after successful generation
     const remainingTokens = await deductTokens(req.user._id, 'cover-letter', req.tokenCost)
 
+    const generatedContent = completion.choices[0].message.content
+    const title = `Cover Letter for ${companyName || 'Company'}${jobTitle ? ` - ${jobTitle}` : ''}`
+
+    // Save generated content to database
+    await saveGeneratedContent(
+      req.user._id,
+      'cover-letter',
+      title,
+      generatedContent,
+      { name, companyName, jobTitle, experience, skills, whyInterested },
+      req.tokenCost
+    )
+
     res.status(200).json({
       success: true,
       data: {
-        coverLetter: completion.choices[0].message.content,
+        coverLetter: generatedContent,
         tokensRemaining: remainingTokens,
       },
     })
@@ -224,10 +307,29 @@ Create a professional, concise email that:
     // Deduct tokens after successful generation
     const remainingTokens = await deductTokens(req.user._id, 'email', req.tokenCost)
 
+    const generatedContent = completion.choices[0].message.content
+    const emailTypeLabels = {
+      networking: 'Networking',
+      followup: 'Follow-up',
+      application: 'Application',
+      thankYou: 'Thank You',
+    }
+    const title = `${emailTypeLabels[emailType] || 'Email'}${recipientName ? ` to ${recipientName}` : ''}`
+
+    // Save generated content to database
+    await saveGeneratedContent(
+      req.user._id,
+      'email',
+      title,
+      generatedContent,
+      { emailType, recipientName, purpose, context },
+      req.tokenCost
+    )
+
     res.status(200).json({
       success: true,
       data: {
-        email: completion.choices[0].message.content,
+        email: generatedContent,
         tokensRemaining: remainingTokens,
       },
     })
@@ -294,10 +396,23 @@ Focus on questions about:
     // Deduct tokens after successful generation
     const remainingTokens = await deductTokens(req.user._id, 'interview-prep', req.tokenCost)
 
+    const generatedContent = completion.choices[0].message.content
+    const title = `Interview Prep for ${jobTitle || 'Position'}${companyName ? ` at ${companyName}` : ''}`
+
+    // Save generated content to database
+    await saveGeneratedContent(
+      req.user._id,
+      'interview-prep',
+      title,
+      generatedContent,
+      { jobTitle, companyName, jobDescription, experience, skills, interviewType },
+      req.tokenCost
+    )
+
     res.status(200).json({
       success: true,
       data: {
-        interviewPrep: completion.choices[0].message.content,
+        interviewPrep: generatedContent,
         tokensRemaining: remainingTokens,
       },
     })
@@ -359,10 +474,23 @@ Provide:
     // Deduct tokens after successful generation
     const remainingTokens = await deductTokens(req.user._id, 'skills-assessment', req.tokenCost)
 
+    const generatedContent = completion.choices[0].message.content
+    const title = `Skills Assessment for ${jobTitle || 'Position'}`
+
+    // Save generated content to database
+    await saveGeneratedContent(
+      req.user._id,
+      'skills-assessment',
+      title,
+      generatedContent,
+      { jobTitle, currentSkills, targetSkills, experience },
+      req.tokenCost
+    )
+
     res.status(200).json({
       success: true,
       data: {
-        assessment: completion.choices[0].message.content,
+        assessment: generatedContent,
         tokensRemaining: remainingTokens,
       },
     })
@@ -426,10 +554,23 @@ Provide:
     // Deduct tokens after successful generation
     const remainingTokens = await deductTokens(req.user._id, 'salary-negotiation', req.tokenCost)
 
+    const generatedContent = completion.choices[0].message.content
+    const title = `Salary Negotiation Guide${jobTitle ? ` for ${jobTitle}` : ''}${offerAmount ? ` - ${offerAmount}` : ''}`
+
+    // Save generated content to database
+    await saveGeneratedContent(
+      req.user._id,
+      'salary-negotiation',
+      title,
+      generatedContent,
+      { jobTitle, currentSalary, offerAmount, location, experience, skills },
+      req.tokenCost
+    )
+
     res.status(200).json({
       success: true,
       data: {
-        guide: completion.choices[0].message.content,
+        guide: generatedContent,
         tokensRemaining: remainingTokens,
       },
     })

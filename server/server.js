@@ -12,11 +12,16 @@ import tokenRoutes from './routes/tokenRoutes.js'
 import youtubeRoutes from './routes/youtubeRoutes.js'
 import jobsRoutes from './routes/jobsRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import userAuthRoutes from './routes/userAuthRoutes.js'
+import userContentRoutes from './routes/userContentRoutes.js'
+import userOnboardingRoutes from './routes/userOnboardingRoutes.js'
+import communityRoutes from './routes/communityRoutes.js'
 import adminJobRoutes from './routes/adminJobRoutes.js'
 import adminBlogRoutes from './routes/adminBlogRoutes.js'
 import adminContactRoutes from './routes/adminContactRoutes.js'
 import testimonialRoutes from './routes/testimonialRoutes.js'
 import adminTestimonialRoutes from './routes/adminTestimonialRoutes.js'
+import adminForumRoutes from './routes/adminForumRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import devToolsRoutes from './routes/devToolsRoutes.js'
 import { logApiRequest } from './controllers/devToolsController.js'
@@ -45,6 +50,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
 
 // Log allowed origins in production for debugging
 if (process.env.NODE_ENV === 'production') {
+  // Use logger when available, fallback to console for server startup
   console.log('CORS Allowed Origins:', allowedOrigins)
 }
 
@@ -62,6 +68,7 @@ app.use(cors({
         callback(null, true)
       } else {
         // Log the rejected origin for debugging (but don't crash)
+        // Use logger when available, fallback to console for CORS middleware
         console.warn(`CORS: Origin ${origin} not allowed. Allowed origins:`, allowedOrigins)
         callback(new Error(`CORS: Origin ${origin} not allowed`))
       }
@@ -115,14 +122,17 @@ if (process.env.NODE_ENV === 'development') {
 app.use(helmet(helmetConfig))
 
 // Rate limiting
-// General API rate limiter (skip OPTIONS requests for CORS preflight)
-const apiLimiter = rateLimit({
+// More lenient in development, stricter in production
+const isDevelopment = process.env.NODE_ENV === 'development'
+
+// Lenient rate limiter for public read-only endpoints (blogs, testimonials, jobs)
+const publicReadLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
+  max: isDevelopment ? 1000 : 200, // Higher limit for public content
+  message: 'Too many requests, please try again later.',
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => req.method === 'OPTIONS', // Skip preflight requests
+  skip: (req) => req.method === 'OPTIONS',
 })
 
 // Stricter rate limiter for auth endpoints (skip OPTIONS requests)
@@ -145,9 +155,38 @@ const toolsLimiter = rateLimit({
 })
 
 // Apply rate limiting (after CORS to allow preflight requests)
-app.use('/api/', apiLimiter)
+// IMPORTANT: More specific routes must come before general routes
+// Public read-only endpoints get more lenient rate limiting
+app.use('/api/blogs', publicReadLimiter)
+app.use('/api/testimonials', publicReadLimiter)
+app.use('/api/jobs', publicReadLimiter)
+app.use('/api/youtube', publicReadLimiter)
+app.use('/api/projects', publicReadLimiter)
+
+// Stricter limiters for specific endpoints (must come before general limiter)
 app.use('/api/admin/login', authLimiter)
 app.use('/api/tools', toolsLimiter)
+
+// General API rate limiter for other endpoints (excludes already matched routes)
+// Skip public read-only endpoints and already rate-limited routes
+const generalApiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: isDevelopment ? 1000 : 100,
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => {
+    // Skip OPTIONS requests
+    if (req.method === 'OPTIONS') return true
+    // Skip public read-only endpoints (already have their own limiters)
+    const publicPaths = ['/api/blogs', '/api/testimonials', '/api/jobs', '/api/youtube', '/api/projects']
+    if (publicPaths.some(path => req.path.startsWith(path))) return true
+    // Skip already rate-limited endpoints
+    if (req.path.startsWith('/api/admin/login') || req.path.startsWith('/api/tools')) return true
+    return false
+  },
+})
+app.use('/api/', generalApiLimiter)
 
 // Paystack webhook route (must be before JSON body parser)
 // Paystack sends JSON body, so we use regular JSON parser
@@ -174,6 +213,7 @@ app.use((req, res, next) => {
         logApiRequest(req, res, responseTime)
       } catch (error) {
         // Silently fail if logging fails
+        // Use logger when available, fallback to console
         console.error('Failed to log API request:', error)
       }
     }
@@ -188,9 +228,13 @@ app.use('/api/projects', projectRoutes)
 app.use('/api/blogs', blogRoutes)
 app.use('/api/tools', toolsRoutes)
 app.use('/api/tokens', tokenRoutes)
+app.use('/api/users', userAuthRoutes)
+app.use('/api/users', userOnboardingRoutes)
+app.use('/api/user', userContentRoutes)
 app.use('/api/youtube', youtubeRoutes)
 app.use('/api/jobs', jobsRoutes)
 app.use('/api/testimonials', testimonialRoutes)
+app.use('/api/community', communityRoutes)
 
 // Admin routes
 app.use('/api/admin', authRoutes)
@@ -198,6 +242,7 @@ app.use('/api/admin/jobs', adminJobRoutes)
 app.use('/api/admin/blogs', adminBlogRoutes)
 app.use('/api/admin/contacts', adminContactRoutes)
 app.use('/api/admin/testimonials', adminTestimonialRoutes)
+app.use('/api/admin/forums', adminForumRoutes)
 app.use('/api/admin/admins', adminRoutes)
 app.use('/api/admin/dev', devToolsRoutes)
 
@@ -223,6 +268,7 @@ app.use((err, req, res, next) => {
     })
   }
   
+  // Use logger when available, fallback to console for error middleware
   console.error(err.stack)
   res.status(err.status || 500).json({ 
     success: false, 
@@ -239,6 +285,7 @@ app.use((req, res) => {
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT, () => {
+  // Use logger when available, fallback to console for server startup
   console.log(`Server is running on port ${PORT}`)
 })
 

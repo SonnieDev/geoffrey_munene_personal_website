@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUser } from '../contexts/UserContext'
 import { blogsAPI, testimonialsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import SkeletonLoader from '../components/SkeletonLoader'
@@ -16,15 +17,27 @@ import {
 import '../styles/pages/home.css'
 
 function Home() {
+  const { isAuthenticated, loading: authLoading } = useUser()
+  const navigate = useNavigate()
   const [recentPosts, setRecentPosts] = useState([])
   const [testimonials, setTestimonials] = useState([])
   const [loading, setLoading] = useState(true)
   const [testimonialsLoading, setTestimonialsLoading] = useState(true)
 
+  // Redirect authenticated users to dashboard
   useEffect(() => {
-    fetchRecentPosts()
-    fetchTestimonials()
-  }, [])
+    if (!authLoading && isAuthenticated) {
+      navigate('/user/dashboard', { replace: true })
+    }
+  }, [isAuthenticated, authLoading, navigate])
+
+  useEffect(() => {
+    // Only fetch data if user is not authenticated
+    if (!authLoading && !isAuthenticated) {
+      fetchRecentPosts()
+      fetchTestimonials()
+    }
+  }, [authLoading, isAuthenticated])
 
   const fetchRecentPosts = async () => {
     try {
@@ -56,6 +69,18 @@ function Home() {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
     }
     return name.substring(0, 2).toUpperCase()
+  }
+
+  // Don't render home page content if user is authenticated (will redirect)
+  if (authLoading || isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (

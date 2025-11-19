@@ -37,6 +37,7 @@ function DevTools() {
     }
     
     loadData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, admin, activeTab])
 
   const loadData = async () => {

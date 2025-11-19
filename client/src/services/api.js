@@ -54,72 +54,100 @@ export const blogsAPI = {
   },
 }
 
-// Tools API
+// Tools API (now requires authentication)
 export const toolsAPI = {
-  generateResume: async (data, sessionId) => {
-    const response = await api.post('/tools/resume', { ...data, sessionId }, {
-      headers: { 'X-Session-Id': sessionId }
-    })
+  generateResume: async (data) => {
+    const response = await api.post('/tools/resume', data)
     return response.data
   },
-  generateCoverLetter: async (data, sessionId) => {
-    const response = await api.post('/tools/cover-letter', { ...data, sessionId }, {
-      headers: { 'X-Session-Id': sessionId }
-    })
+  generateCoverLetter: async (data) => {
+    const response = await api.post('/tools/cover-letter', data)
     return response.data
   },
-  generateEmail: async (data, sessionId) => {
-    const response = await api.post('/tools/email', { ...data, sessionId }, {
-      headers: { 'X-Session-Id': sessionId }
-    })
+  generateEmail: async (data) => {
+    const response = await api.post('/tools/email', data)
     return response.data
   },
-  generateInterviewPrep: async (data, sessionId) => {
-    const response = await api.post('/tools/interview-prep', { ...data, sessionId }, {
-      headers: { 'X-Session-Id': sessionId }
-    })
+  generateInterviewPrep: async (data) => {
+    const response = await api.post('/tools/interview-prep', data)
     return response.data
   },
-  generateSkillsAssessment: async (data, sessionId) => {
-    const response = await api.post('/tools/skills-assessment', { ...data, sessionId }, {
-      headers: { 'X-Session-Id': sessionId }
-    })
+  generateSkillsAssessment: async (data) => {
+    const response = await api.post('/tools/skills-assessment', data)
     return response.data
   },
-  generateSalaryNegotiation: async (data, sessionId) => {
-    const response = await api.post('/tools/salary-negotiation', { ...data, sessionId }, {
-      headers: { 'X-Session-Id': sessionId }
-    })
+  generateSalaryNegotiation: async (data) => {
+    const response = await api.post('/tools/salary-negotiation', data)
     return response.data
   },
 }
 
-// Tokens API
+// User Auth API
+export const userAPI = {
+  register: async (email, password, sessionId, signupPurpose = null) => {
+    const response = await api.post('/users/register', { email, password, sessionId, signupPurpose })
+    return response.data
+  },
+  login: async (email, password) => {
+    const response = await api.post('/users/login', { email, password })
+    return response.data
+  },
+  getMe: async () => {
+    const response = await api.get('/users/me')
+    return response.data
+  },
+  updatePreferences: async (preferences) => {
+    const response = await api.put('/users/preferences', preferences)
+    return response.data
+  },
+  changePassword: async (currentPassword, newPassword) => {
+    const response = await api.put('/users/password', { currentPassword, newPassword })
+    return response.data
+  },
+  getOnboardingStatus: async () => {
+    const response = await api.get('/users/onboarding')
+    return response.data
+  },
+  updateOnboardingStep: async (step, completed) => {
+    const response = await api.put('/users/onboarding/step', { step, completed })
+    return response.data
+  },
+}
+
+// User Content API
+export const userContentAPI = {
+  getContentHistory: async (page = 1, limit = 20, toolType = null) => {
+    const params = { page, limit }
+    if (toolType) params.toolType = toolType
+    const response = await api.get('/user/content', { params })
+    return response.data
+  },
+  getContentById: async (id) => {
+    const response = await api.get(`/user/content/${id}`)
+    return response.data
+  },
+  deleteContent: async (id) => {
+    const response = await api.delete(`/user/content/${id}`)
+    return response.data
+  },
+}
+
+// Tokens API (now requires authentication)
 export const tokensAPI = {
-  getBalance: async (sessionId) => {
-    const response = await api.get('/tokens/balance', {
-      params: { sessionId },
-      headers: { 'X-Session-Id': sessionId }
-    })
+  getBalance: async () => {
+    const response = await api.get('/tokens/balance')
     return response.data
   },
-  getTransactions: async (sessionId, limit = 20) => {
-    const response = await api.get('/tokens/transactions', {
-      params: { sessionId, limit },
-      headers: { 'X-Session-Id': sessionId }
-    })
+  getTransactions: async (limit = 20) => {
+    const response = await api.get('/tokens/transactions', { params: { limit } })
     return response.data
   },
-  initializePayment: async (sessionId, tokenPackage, email) => {
-    const response = await api.post('/tokens/initialize-payment', {
-      sessionId,
-      tokenPackage,
-      email
-    })
+  initializePayment: async (tokenPackage) => {
+    const response = await api.post('/tokens/initialize-payment', { tokenPackage })
     return response.data
   },
-  verifyPayment: async (sessionId, reference) => {
-    const response = await api.post('/tokens/verify-payment', { sessionId, reference })
+  verifyPayment: async (reference) => {
+    const response = await api.post('/tokens/verify-payment', { reference })
     return response.data
   },
 }
@@ -160,6 +188,87 @@ export const testimonialsAPI = {
   },
   getById: async (id) => {
     const response = await api.get(`/testimonials/${id}`)
+    return response.data
+  },
+}
+
+// Community API
+export const communityAPI = {
+  // Community Posts
+  getPosts: async (params = {}) => {
+    const response = await api.get('/community/posts', { params })
+    return response.data
+  },
+  createPost: async (data) => {
+    const response = await api.post('/community/posts', data)
+    return response.data
+  },
+  togglePostLike: async (postId) => {
+    const response = await api.post(`/community/posts/${postId}/like`)
+    return response.data
+  },
+  addPostComment: async (postId, content) => {
+    const response = await api.post(`/community/posts/${postId}/comments`, { content })
+    return response.data
+  },
+  deletePost: async (postId) => {
+    const response = await api.delete(`/community/posts/${postId}`)
+    return response.data
+  },
+  
+  // Forums
+  getForums: async () => {
+    const response = await api.get('/community/forums')
+    return response.data
+  },
+  getForumThreads: async (forumId, params = {}) => {
+    const response = await api.get(`/community/forums/${forumId}/threads`, { params })
+    return response.data
+  },
+  getForumThread: async (threadId) => {
+    const response = await api.get(`/community/threads/${threadId}`)
+    return response.data
+  },
+  createForumThread: async (forumId, data) => {
+    const response = await api.post(`/community/forums/${forumId}/threads`, data)
+    return response.data
+  },
+  addThreadReply: async (threadId, content) => {
+    const response = await api.post(`/community/threads/${threadId}/replies`, { content })
+    return response.data
+  },
+  
+  // Events
+  getEvents: async (params = {}) => {
+    const response = await api.get('/community/events', { params })
+    return response.data
+  },
+  createEvent: async (data) => {
+    const response = await api.post('/community/events', data)
+    return response.data
+  },
+  registerForEvent: async (eventId) => {
+    const response = await api.post(`/community/events/${eventId}/register`)
+    return response.data
+  },
+  
+  // Resources
+  getResources: async (params = {}) => {
+    const response = await api.get('/community/resources', { params })
+    return response.data
+  },
+  createResource: async (data) => {
+    const response = await api.post('/community/resources', data)
+    return response.data
+  },
+  
+  // Showcase
+  getShowcase: async (params = {}) => {
+    const response = await api.get('/community/showcase', { params })
+    return response.data
+  },
+  createShowcase: async (data) => {
+    const response = await api.post('/community/showcase', data)
     return response.data
   },
 }
@@ -260,6 +369,28 @@ export const adminAPI = {
     return response.data
   },
   
+  // Forums
+  getAllForums: async () => {
+    const response = await api.get('/admin/forums')
+    return response.data
+  },
+  getForumById: async (id) => {
+    const response = await api.get(`/admin/forums/${id}`)
+    return response.data
+  },
+  createForum: async (data) => {
+    const response = await api.post('/admin/forums', data)
+    return response.data
+  },
+  updateForum: async (id, data) => {
+    const response = await api.put(`/admin/forums/${id}`, data)
+    return response.data
+  },
+  deleteForum: async (id) => {
+    const response = await api.delete(`/admin/forums/${id}`)
+    return response.data
+  },
+  
   // Admin Management (Super Admin only)
   getAllAdmins: async () => {
     const response = await api.get('/admin/admins')
@@ -309,11 +440,18 @@ export const adminAPI = {
   },
 }
 
-// Add token to requests if available
+// Add token to requests if available (both admin and user tokens)
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('adminToken')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+  // Check for user token first (for regular users)
+  const userToken = localStorage.getItem('userToken')
+  if (userToken) {
+    config.headers.Authorization = `Bearer ${userToken}`
+  } else {
+    // Fallback to admin token (for admin routes)
+    const adminToken = localStorage.getItem('adminToken')
+    if (adminToken) {
+      config.headers.Authorization = `Bearer ${adminToken}`
+    }
   }
   return config
 })

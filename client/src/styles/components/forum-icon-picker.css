@@ -1,0 +1,79 @@
+.forum-icon-picker {
+  position: relative;
+  width: 100%;
+}
+
+.icon-picker-trigger {
+  @apply flex items-center gap-3 p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors bg-white dark:bg-gray-800;
+}
+
+.icon-preview {
+  @apply w-10 h-10 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white;
+}
+
+.icon-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.icon-react-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-picker-label {
+  @apply flex-1 text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.icon-picker-arrow {
+  @apply text-gray-400 dark:text-gray-500 text-xs;
+}
+
+.icon-picker-dropdown {
+  @apply absolute z-50 mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-80 overflow-hidden;
+  top: 100%;
+}
+
+.icon-picker-search {
+  @apply p-3 border-b border-gray-200 dark:border-gray-700;
+}
+
+.icon-search-input {
+  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.icon-picker-grid {
+  @apply p-3 grid grid-cols-4 gap-2 max-h-64 overflow-y-auto;
+}
+
+.icon-option {
+  @apply flex flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all border border-transparent hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20;
+}
+
+.icon-option.selected {
+  @apply border-blue-500 dark:border-blue-400 bg-blue-100 dark:bg-blue-900/40;
+}
+
+.icon-option .icon-react-icon {
+  @apply w-6 h-6 text-gray-700 dark:text-gray-300 mb-1;
+}
+
+.icon-option.emoji-option .emoji-preview {
+  @apply text-2xl mb-1;
+}
+
+.icon-option-name {
+  @apply text-xs text-center text-gray-600 dark:text-gray-400 truncate w-full;
+}
+
+.forum-icon-emoji {
+  display: inline-block;
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .icon-picker-grid {
+    @apply grid-cols-3;
+  }
+}
+

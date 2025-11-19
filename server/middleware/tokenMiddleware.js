@@ -41,26 +41,27 @@ export const getOrCreateUser = async (sessionId) => {
   return user
 }
 
-// Check if user has enough tokens
+// Check if user has enough tokens (requires authentication)
 export const checkTokens = async (req, res, next) => {
   try {
-    const sessionId = req.headers['x-session-id'] || req.body.sessionId
     // Extract tool ID from the route path (e.g., /api/tools/resume -> resume)
     const pathParts = req.path.split('/').filter(p => p)
     const toolId = pathParts[pathParts.length - 1] || req.body.toolId
 
-    if (!sessionId) {
-      return res.status(400).json({
+    // Check if user is authenticated (from userAuthMiddleware)
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({
         success: false,
-        message: 'Session ID is required. Please refresh the page.',
+        message: 'Authentication required. Please login to use tools.',
       })
     }
 
-    const user = await getOrCreateUser(sessionId)
+    // Get fresh user data
+    const user = await User.findById(req.user._id)
     if (!user) {
-      return res.status(500).json({
+      return res.status(404).json({
         success: false,
-        message: 'Failed to initialize user session',
+        message: 'User not found',
       })
     }
 

@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider } from './contexts/AuthContext'
+import { UserProvider } from './contexts/UserContext'
 import { TokenProvider } from './contexts/TokenContext'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -13,8 +14,17 @@ import Learn from './pages/Learn'
 import RemoteJobs from './pages/RemoteJobs'
 import Services from './pages/Services'
 import Contact from './pages/Contact'
+import Community from './pages/Community'
+import ForumThreadDetail from './pages/ForumThreadDetail'
 import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import UserDashboard from './pages/UserDashboard'
+import Profile from './pages/user/Profile'
+import Settings from './pages/user/Settings'
+import Billing from './pages/user/Billing'
+import ReEngagementBanner from './components/ReEngagementBanner'
 import AdminLogin from './pages/admin/AdminLogin'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminBlogs from './pages/admin/AdminBlogs'
@@ -24,10 +34,14 @@ import AdminJobForm from './pages/admin/AdminJobForm'
 import AdminContacts from './pages/admin/AdminContacts'
 import AdminTestimonials from './pages/admin/AdminTestimonials'
 import AdminTestimonialForm from './pages/admin/AdminTestimonialForm'
+import AdminForums from './pages/admin/AdminForums'
+import AdminForumForm from './pages/admin/AdminForumForm'
 import AdminAdmins from './pages/admin/AdminAdmins'
 import AdminAdminForm from './pages/admin/AdminAdminForm'
 import DevTools from './pages/admin/DevTools'
 import ProtectedRoute from './components/ProtectedRoute'
+import UserProtectedRoute from './components/UserProtectedRoute'
+import SubscriptionProtectedRoute from './components/SubscriptionProtectedRoute'
 import ErrorBoundary from './components/ErrorBoundary'
 import GoogleAnalytics from './components/GoogleAnalytics'
 import Navbar from './components/Navbar'
@@ -39,10 +53,17 @@ function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <ThemeProvider>
-          <TokenProvider>
-            <AuthProvider>
-              <Router>
+          <UserProvider>
+            <TokenProvider>
+              <AuthProvider>
+                <Router
+                  future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                  }}
+                >
               <GoogleAnalytics />
+              <ReEngagementBanner />
           <Routes>
             {/* Public routes with navbar and footer */}
             <Route
@@ -55,14 +76,85 @@ function App() {
                       <Route path="/" element={<Home />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/blog/:id" element={<BlogDetail />} />
+                      {/* Public tools page - shows tools but requires login to use */}
                       <Route path="/tools" element={<Tools />} />
+                      {/* Public learn page - free content only */}
                       <Route path="/learn" element={<Learn />} />
                       <Route path="/remote-jobs" element={<RemoteJobs />} />
                       <Route path="/services" element={<Services />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
+                      <Route path="/community" element={<Community />} />
+                      <Route path="/community/thread/:id" element={<ForumThreadDetail />} />
                       <Route path="/terms" element={<Terms />} />
                       <Route path="/privacy" element={<Privacy />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/signup" element={<Signup />} />
+                      {/* Redirect old /dashboard route to /user/dashboard for backward compatibility */}
+                      <Route path="/dashboard" element={<Navigate to="/user/dashboard" replace />} />
+                      {/* User-specific routes - require authentication */}
+                      <Route
+                        path="/user/dashboard"
+                        element={
+                          <UserProtectedRoute>
+                            <UserDashboard />
+                          </UserProtectedRoute>
+                        }
+                      />
+                      {/* User tools page - authenticated users */}
+                      <Route
+                        path="/user/tools"
+                        element={
+                          <UserProtectedRoute>
+                            <Tools />
+                          </UserProtectedRoute>
+                        }
+                      />
+                      {/* User learn page - can include paid courses */}
+                      <Route
+                        path="/user/learn"
+                        element={
+                          <UserProtectedRoute>
+                            <Learn />
+                          </UserProtectedRoute>
+                        }
+                      />
+                      {/* User profile page */}
+                      <Route
+                        path="/user/profile"
+                        element={
+                          <UserProtectedRoute>
+                            <Profile />
+                          </UserProtectedRoute>
+                        }
+                      />
+                      {/* User settings page */}
+                      <Route
+                        path="/user/settings"
+                        element={
+                          <UserProtectedRoute>
+                            <Settings />
+                          </UserProtectedRoute>
+                        }
+                      />
+                      {/* User billing page */}
+                      <Route
+                        path="/user/billing"
+                        element={
+                          <UserProtectedRoute>
+                            <Billing />
+                          </UserProtectedRoute>
+                        }
+                      />
+                      {/* Example: Protected course route (for future paid courses) */}
+                      {/* <Route
+                        path="/user/learn/course/:courseSlug"
+                        element={
+                          <SubscriptionProtectedRoute requiredTier="premium" courseId=":courseSlug">
+                            <CourseDetail />
+                          </SubscriptionProtectedRoute>
+                        }
+                      /> */}
                     </Routes>
                   </main>
                   <Footer />
@@ -161,6 +253,30 @@ function App() {
               }
             />
             <Route
+              path="/admin/forums"
+              element={
+                <ProtectedRoute>
+                  <AdminForums />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/forums/new"
+              element={
+                <ProtectedRoute>
+                  <AdminForumForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/forums/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <AdminForumForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/admin/admins"
               element={
                 <ProtectedRoute>
@@ -194,8 +310,9 @@ function App() {
             />
           </Routes>
           </Router>
-            </AuthProvider>
-          </TokenProvider>
+              </AuthProvider>
+            </TokenProvider>
+          </UserProvider>
       </ThemeProvider>
       <Toaster
         position="top-right"

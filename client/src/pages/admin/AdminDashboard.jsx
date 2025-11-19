@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { adminAPI } from '../../services/api'
-import { HiBookOpen, HiBriefcase, HiEnvelope, HiStar, HiArrowRight, HiUserGroup, HiShieldCheck, HiSun, HiMoon, HiCodeBracket } from 'react-icons/hi2'
+import { HiBookOpen, HiBriefcase, HiEnvelope, HiStar, HiArrowRight, HiUserGroup, HiShieldCheck, HiSun, HiMoon, HiCodeBracket, HiChatBubbleLeftRight } from 'react-icons/hi2'
 import '../../styles/pages/admin-dashboard.css'
 
 function AdminDashboard() {
@@ -14,6 +14,7 @@ function AdminDashboard() {
     jobs: 0,
     contacts: 0,
     testimonials: 0,
+    forums: 0,
   })
   const [loading, setLoading] = useState(true)
 
@@ -23,11 +24,12 @@ function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const [blogsRes, jobsRes, contactsRes, testimonialsRes] = await Promise.all([
+      const [blogsRes, jobsRes, contactsRes, testimonialsRes, forumsRes] = await Promise.all([
         adminAPI.getAllBlogs(),
         adminAPI.getAllJobs(),
         adminAPI.getAllContacts(),
         adminAPI.getAllTestimonials(),
+        adminAPI.getAllForums(),
       ])
 
       setStats({
@@ -35,6 +37,7 @@ function AdminDashboard() {
         jobs: jobsRes.data?.length || 0,
         contacts: contactsRes.data?.length || 0,
         testimonials: testimonialsRes.data?.length || 0,
+        forums: forumsRes.data?.length || 0,
       })
     } catch (error) {
       console.error('Error fetching stats:', error)
@@ -125,6 +128,17 @@ function AdminDashboard() {
           <HiArrowRight className="stat-arrow" />
         </Link>
 
+        <Link to="/admin/forums" className="admin-stat-card">
+          <div className="stat-icon forums">
+            <HiChatBubbleLeftRight />
+          </div>
+          <div className="stat-content">
+            <h3>{loading ? '...' : stats.forums}</h3>
+            <p>Forums</p>
+          </div>
+          <HiArrowRight className="stat-arrow" />
+        </Link>
+
         {admin?.role === 'super_admin' && (
           <Link to="/admin/admins" className="admin-stat-card">
             <div className="stat-icon admins">
@@ -153,6 +167,10 @@ function AdminDashboard() {
           <Link to="/admin/testimonials/new" className="admin-action-btn">
             <HiStar />
             <span>Add New Testimonial</span>
+          </Link>
+          <Link to="/admin/forums/new" className="admin-action-btn">
+            <HiChatBubbleLeftRight />
+            <span>Create New Forum</span>
           </Link>
         </div>
       </div>

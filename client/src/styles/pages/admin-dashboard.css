@@ -59,6 +59,10 @@
   @apply bg-yellow-500;
 }
 
+.stat-icon.forums {
+  @apply bg-pink-500;
+}
+
 .stat-icon.admins {
   @apply bg-indigo-500;
 }

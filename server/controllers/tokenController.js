@@ -1,31 +1,28 @@
 import User from '../models/User.js'
 import TokenTransaction from '../models/TokenTransaction.js'
-import { getOrCreateUser, getTokenBalance } from '../middleware/tokenMiddleware.js'
 
 // @desc    Get token balance
 // @route   GET /api/tokens/balance
-// @access  Public
+// @access  Private (requires authentication)
 export const getBalance = async (req, res) => {
   try {
-    const sessionId = req.headers['x-session-id'] || req.query.sessionId
+    // User is attached by protect middleware
+    const user = await User.findById(req.user.id)
 
-    if (!sessionId) {
-      return res.status(400).json({
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: 'Session ID is required',
+        message: 'User not found',
       })
     }
-
-    const balance = await getTokenBalance(sessionId)
-    const user = await User.findOne({ sessionId })
 
     res.status(200).json({
       success: true,
       data: {
-        tokens: balance,
-        trialTokensGiven: user?.trialTokensGiven || false,
-        totalTokensUsed: user?.totalTokensUsed || 0,
-        totalTokensPurchased: user?.totalTokensPurchased || 0,
+        tokens: user.tokens,
+        trialTokensGiven: user.trialTokensGiven || false,
+        totalTokensUsed: user.totalTokensUsed || 0,
+        totalTokensPurchased: user.totalTokensPurchased || 0,
       },
     })
   } catch (error) {
@@ -39,20 +36,13 @@ export const getBalance = async (req, res) => {
 
 // @desc    Get token transaction history
 // @route   GET /api/tokens/transactions
-// @access  Public
+// @access  Private (requires authentication)
 export const getTransactions = async (req, res) => {
   try {
-    const sessionId = req.headers['x-session-id'] || req.query.sessionId
     const limit = parseInt(req.query.limit) || 20
 
-    if (!sessionId) {
-      return res.status(400).json({
-        success: false,
-        message: 'Session ID is required',
-      })
-    }
-
-    const user = await getOrCreateUser(sessionId)
+    // User is attached by protect middleware
+    const user = await User.findById(req.user.id)
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -82,7 +72,7 @@ export const getTransactions = async (req, res) => {
 
 // @desc    Initialize Paystack payment for token purchase
 // @route   POST /api/tokens/initialize-payment
-// @access  Public
+// @access  Private (requires authentication)
 export const initializePayment = async (req, res) => {
   try {
     const axios = (await import('axios')).default
@@ -95,12 +85,14 @@ export const initializePayment = async (req, res) => {
       })
     }
     
-    const { sessionId, tokenPackage, email } = req.body
+    const { tokenPackage } = req.body
 
-    if (!sessionId) {
-      return res.status(400).json({
+    // User is attached by protect middleware
+    const user = await User.findById(req.user.id)
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: 'Session ID is required',
+        message: 'User not found',
       })
     }
 
@@ -120,14 +112,6 @@ export const initializePayment = async (req, res) => {
       })
     }
 
-    const user = await getOrCreateUser(sessionId)
-    if (!user) {
-      return res.status(500).json({
-        success: false,
-        message: 'Failed to initialize user session',
-      })
-    }
-
     // Generate unique reference
     const reference = `TOKENS_${user._id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -135,14 +119,13 @@ export const initializePayment = async (req, res) => {
     const response = await axios.post(
       'https://api.paystack.co/transaction/initialize',
       {
-        email: email || `user_${sessionId}@example.com`,
+        email: user.email || `user_${user._id}@example.com`,
         amount: selectedPackage.price * 100, // Paystack expects amount in kobo (smallest currency unit)
         currency: 'KES', // Kenyan Shillings
         reference: reference,
         callback_url: `${req.headers.origin || process.env.FRONTEND_URL || 'http://localhost:5173'}/tools?payment=success&reference=${reference}`,
         metadata: {
           userId: user._id.toString(),
-          sessionId: sessionId,
           tokens: selectedPackage.tokens.toString(),
           package: tokenPackage,
         },
@@ -257,7 +240,7 @@ export const handleWebhook = async (req, res) => {
 
 // @desc    Verify Paystack payment and add tokens (fallback if webhook fails)
 // @route   POST /api/tokens/verify-payment
-// @access  Public
+// @access  Private (requires authentication)
 export const verifyPayment = async (req, res) => {
   try {
     const axios = (await import('axios')).default
@@ -270,7 +253,7 @@ export const verifyPayment = async (req, res) => {
       })
     }
     
-    const { reference, sessionId } = req.body
+    const { reference } = req.body
 
     if (!reference) {
       return res.status(400).json({
@@ -291,16 +274,14 @@ export const verifyPayment = async (req, res) => {
 
     if (response.data.status && response.data.data.status === 'success') {
       const transaction = response.data.data
-      const userId = transaction.metadata?.userId || sessionId
+      const userId = transaction.metadata?.userId || req.user.id
 
-      // Find user by sessionId if userId not in metadata
-      let user
-      if (userId && userId.match(/^[0-9a-fA-F]{24}$/)) {
-        // It's a MongoDB ObjectId
+      // Get user (prefer authenticated user, fallback to metadata userId)
+      let user = await User.findById(req.user.id)
+      
+      // If metadata has different userId, verify it matches or use it if user not found
+      if (!user && userId && userId.match(/^[0-9a-fA-F]{24}$/)) {
         user = await User.findById(userId)
-      } else {
-        // It's a sessionId
-        user = await getOrCreateUser(sessionId)
       }
 
       if (!user) {

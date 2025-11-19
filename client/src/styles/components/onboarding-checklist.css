@@ -1,0 +1,103 @@
+.onboarding-checklist {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6;
+}
+
+.checklist-loading {
+  @apply text-center py-8 text-gray-500 dark:text-gray-400;
+}
+
+.checklist-header {
+  @apply flex justify-between items-start mb-6;
+}
+
+.checklist-title-section {
+  @apply flex-1;
+}
+
+.checklist-title {
+  @apply text-xl font-bold text-gray-900 dark:text-gray-100 mb-1;
+}
+
+.checklist-subtitle {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.checklist-progress-circle {
+  @apply relative flex-shrink-0;
+  width: 60px;
+  height: 60px;
+}
+
+.progress-ring {
+  @apply transform -rotate-90;
+}
+
+.progress-ring-background {
+  @apply text-gray-200 dark:text-gray-700;
+}
+
+.progress-ring-progress {
+  @apply text-blue-600 dark:text-blue-400 transition-all duration-500;
+  stroke-linecap: round;
+}
+
+.progress-text {
+  @apply absolute inset-0 flex flex-col items-center justify-center text-xs font-bold;
+}
+
+.progress-number {
+  @apply text-blue-600 dark:text-blue-400 text-lg;
+}
+
+.progress-total {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+.checklist-items {
+  @apply space-y-3;
+}
+
+.checklist-item {
+  @apply flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-all no-underline;
+}
+
+.checklist-item.completed {
+  @apply border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20;
+}
+
+.checklist-item-icon {
+  @apply text-2xl flex-shrink-0;
+}
+
+.checklist-item-content {
+  @apply flex-1;
+}
+
+.checklist-item-title {
+  @apply font-semibold text-gray-900 dark:text-gray-100 mb-1;
+}
+
+.checklist-item-description {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.checklist-item-badge {
+  @apply flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium text-gray-600 dark:text-gray-400;
+}
+
+.checklist-item-badge.completed {
+  @apply bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300;
+}
+
+.checklist-completion {
+  @apply mt-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-lg text-center;
+}
+
+.completion-icon {
+  @apply text-3xl text-blue-600 dark:text-blue-400 mx-auto mb-2;
+}
+
+.completion-message {
+  @apply text-gray-900 dark:text-gray-100 font-medium;
+}
+

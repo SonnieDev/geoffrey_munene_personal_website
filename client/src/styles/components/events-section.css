@@ -1,0 +1,143 @@
+.events-section {
+  @apply max-w-6xl mx-auto;
+}
+
+.events-header {
+  @apply flex flex-col sm:flex-row justify-between items-start gap-4 mb-6 sm:mb-8;
+}
+
+.events-header h2 {
+  @apply text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2;
+}
+
+.events-header p {
+  @apply text-gray-600 dark:text-gray-400 text-base;
+}
+
+.create-event-btn {
+  @apply flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg whitespace-nowrap w-full sm:w-auto;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.create-event-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+}
+
+.create-event-form {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col gap-4 sm:gap-6;
+}
+
+.form-row {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+.form-group {
+  @apply flex flex-col gap-2;
+}
+
+.form-group label {
+  @apply font-semibold text-gray-900 dark:text-gray-100 text-sm;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  @apply px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  font-family: inherit;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.events-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+}
+
+.event-card {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 flex flex-col gap-4 transition-all duration-200 shadow-md hover:shadow-lg;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+}
+
+.event-header {
+  @apply flex flex-col gap-2;
+}
+
+.event-type-badge {
+  @apply inline-block px-3 py-1.5 bg-blue-600 text-white rounded-full text-xs font-bold w-fit shadow-md;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.event-title {
+  @apply text-xl font-bold text-gray-900 dark:text-gray-100;
+}
+
+.event-description {
+  @apply text-gray-600 dark:text-gray-400 leading-relaxed flex-1;
+}
+
+.event-details {
+  @apply flex flex-col gap-3 pt-4 border-t border-gray-200 dark:border-gray-700;
+}
+
+.event-detail {
+  @apply flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400;
+}
+
+.event-detail svg {
+  @apply w-4 h-4 flex-shrink-0;
+}
+
+.event-detail a {
+  @apply text-blue-600 dark:text-blue-400 no-underline hover:underline;
+}
+
+.register-btn {
+  @apply px-4 sm:px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg mt-auto;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.register-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+}
+
+.register-btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.register-btn.registered {
+  @apply bg-green-600 hover:bg-green-700;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.empty-state {
+  @apply text-center py-8 sm:py-12 text-gray-500 dark:text-gray-400;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all duration-200;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors;
+}
+
+.form-actions {
+  @apply flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end;
+}

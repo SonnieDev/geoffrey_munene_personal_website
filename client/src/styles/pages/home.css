@@ -196,23 +196,61 @@
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-.section-header {
+/* Section Headers - Scoped to home page */
+.home-page .section-header {
   @apply text-center mb-12;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
-.section-title {
+.home-page .section-title {
   @apply text-3xl md:text-4xl font-bold mb-4 text-gray-900;
+  text-align: center !important;
 }
 
-.dark .section-title {
+.dark .home-page .section-title {
   @apply text-gray-100;
 }
 
-.section-subtitle {
+.home-page .section-subtitle {
   @apply text-lg text-gray-600 max-w-2xl mx-auto;
+  text-align: center !important;
 }
 
-.dark .section-subtitle {
+.dark .home-page .section-subtitle {
+  @apply text-gray-300;
+}
+
+/* Also apply to services and testimonials sections specifically */
+.services-section .section-header,
+.testimonials-section .section-header {
+  @apply text-center mb-12;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.services-section .section-title,
+.testimonials-section .section-title {
+  @apply text-3xl md:text-4xl font-bold mb-4 text-gray-900;
+  text-align: center !important;
+}
+
+.dark .services-section .section-title,
+.dark .testimonials-section .section-title {
+  @apply text-gray-100;
+}
+
+.services-section .section-subtitle,
+.testimonials-section .section-subtitle {
+  @apply text-lg text-gray-600 max-w-2xl mx-auto;
+  text-align: center !important;
+}
+
+.dark .services-section .section-subtitle,
+.dark .testimonials-section .section-subtitle {
   @apply text-gray-300;
 }
 
@@ -301,18 +339,32 @@
 
 .service-link {
   @apply text-blue-600 font-semibold text-sm no-underline hover:text-blue-700 transition-colors inline-flex items-center;
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 .dark .service-link {
   @apply text-blue-400 hover:text-blue-300;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 .service-icon {
-  @apply mb-4 flex justify-center;
+  @apply mb-4;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 64px;
 }
 
 .service-icon svg {
   @apply w-16 h-16 text-blue-600;
+  flex-shrink: 0 !important;
+  display: block !important;
+  margin: 0 auto !important;
 }
 
 /* Blog Section */
@@ -330,6 +382,28 @@
 
 .blog-section-header {
   @apply flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4;
+}
+
+/* Blog section titles should be left-aligned */
+.blog-section-header .section-title {
+  @apply text-3xl md:text-4xl font-bold mb-4 text-gray-900;
+  text-align: left !important;
+}
+
+.dark .blog-section-header .section-title {
+  @apply text-gray-100;
+}
+
+.blog-section-header .section-subtitle {
+  @apply text-lg text-gray-600;
+  text-align: left !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+.dark .blog-section-header .section-subtitle {
+  @apply text-gray-300;
 }
 
 .view-all-link {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTokens } from '../contexts/TokenContext'
+import { useUser } from '../contexts/UserContext'
 import { tokensAPI } from '../services/api'
 import { HiXMark } from 'react-icons/hi2'
 import toast from 'react-hot-toast'
@@ -12,15 +13,15 @@ const TOKEN_PACKAGES = {
 }
 
 function TokenPurchaseModal({ onClose }) {
-  const { sessionId, refreshBalance } = useTokens()
+  const { user } = useUser()
+  const { refreshBalance } = useTokens()
   const [loading, setLoading] = useState(false)
   const [selectedPackage, setSelectedPackage] = useState('medium')
-  const [email, setEmail] = useState('')
 
   const handlePaymentSuccess = async (reference) => {
     try {
       setLoading(true)
-      const response = await tokensAPI.verifyPayment(sessionId, reference)
+      const response = await tokensAPI.verifyPayment(reference)
       if (response.success) {
         toast.success(`Successfully purchased tokens!`)
         await refreshBalance()
@@ -54,14 +55,14 @@ function TokenPurchaseModal({ onClose }) {
   }, [])
 
   const handlePurchase = async (packageKey) => {
-    if (!email || !email.includes('@')) {
-      toast.error('Please enter a valid email address')
+    if (!user || !user.email) {
+      toast.error('Please login to purchase tokens')
       return
     }
 
     try {
       setLoading(true)
-      const response = await tokensAPI.initializePayment(sessionId, packageKey, email)
+      const response = await tokensAPI.initializePayment(packageKey)
       
       if (response.success && response.data.authorizationUrl) {
         // Redirect to Paystack payment page
@@ -106,25 +107,21 @@ function TokenPurchaseModal({ onClose }) {
           ))}
         </div>
 
-        <div className="token-purchase-email-field">
-          <label htmlFor="payment-email" className="token-purchase-email-label">
-            Email Address *
-          </label>
-          <input
-            id="payment-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your.email@example.com"
-            required
-            className="token-purchase-email-input"
-          />
-        </div>
+        {user && user.email && (
+          <div className="token-purchase-email-field">
+            <label className="token-purchase-email-label">
+              Payment Email
+            </label>
+            <div className="token-purchase-email-display">
+              {user.email}
+            </div>
+          </div>
+        )}
 
         <button
           className="token-purchase-button"
           onClick={() => handlePurchase(selectedPackage)}
-          disabled={loading || !email}
+          disabled={loading || !user}
         >
           {loading ? (
             'Processing...'

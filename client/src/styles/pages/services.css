@@ -48,10 +48,15 @@
 
 .section-header {
   @apply text-center mb-12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .section-title {
   @apply text-3xl md:text-4xl font-bold mb-4 text-gray-900;
+  display: block;
+  width: 100%;
 }
 
 .dark .section-title {
@@ -60,6 +65,8 @@
 
 .section-subtitle {
   @apply text-lg text-gray-600 max-w-2xl mx-auto;
+  display: block;
+  width: 100%;
 }
 
 .dark .section-subtitle {
@@ -371,10 +378,16 @@
 
 .services-cta-section .btn-primary {
   @apply bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold no-underline transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-xl;
+  background: white !important;
+  color: #2563eb !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
 .services-cta-section .btn-primary:hover {
-  @apply transform translate-y-[-2px] scale-[1.02] bg-gray-50;
+  @apply transform translate-y-[-2px] scale-[1.02];
+  background: #f9fafb !important;
+  color: #1d4ed8 !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
 .services-cta-section .btn-primary svg {

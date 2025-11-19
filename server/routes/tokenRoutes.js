@@ -6,14 +6,17 @@ import {
   handleWebhook,
   verifyPayment,
 } from '../controllers/tokenController.js'
+import { protect } from '../middleware/userAuthMiddleware.js'
 
 const router = express.Router()
 
-// Regular routes
-router.get('/balance', getBalance)
-router.get('/transactions', getTransactions)
-router.post('/initialize-payment', initializePayment)
-router.post('/verify-payment', verifyPayment)
+// Protected routes (require authentication)
+router.get('/balance', protect, getBalance)
+router.get('/transactions', protect, getTransactions)
+router.post('/initialize-payment', protect, initializePayment)
+router.post('/verify-payment', protect, verifyPayment)
+
+// Webhook route (public, handled in server.js)
 
 export default router
 

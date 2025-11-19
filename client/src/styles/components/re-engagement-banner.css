@@ -1,0 +1,56 @@
+.re-engagement-banner {
+  @apply fixed bottom-4 right-4 left-4 md:left-auto max-w-md bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl shadow-2xl p-4 z-50 flex items-start gap-4;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.re-engagement-content {
+  @apply flex-1;
+}
+
+.re-engagement-icon {
+  @apply text-2xl mb-2;
+}
+
+.re-engagement-text {
+  @apply mb-4;
+}
+
+.re-engagement-title {
+  @apply font-bold text-lg mb-1;
+}
+
+.re-engagement-message {
+  @apply text-sm text-blue-100;
+}
+
+.re-engagement-actions {
+  @apply flex flex-col sm:flex-row gap-2;
+}
+
+.re-engagement-btn {
+  @apply flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all no-underline;
+}
+
+.re-engagement-btn.primary {
+  @apply bg-white text-blue-600 hover:bg-blue-50;
+}
+
+.re-engagement-btn:not(.primary) {
+  @apply bg-blue-700 text-white hover:bg-blue-800;
+}
+
+.re-engagement-close {
+  @apply text-white hover:text-blue-200 transition-colors p-1;
+}
+

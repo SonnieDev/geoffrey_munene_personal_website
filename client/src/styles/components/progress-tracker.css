@@ -1,0 +1,98 @@
+.progress-tracker {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 mb-6;
+  overflow-x: hidden;
+}
+
+.progress-header {
+  @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6;
+}
+
+.progress-title {
+  @apply text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100;
+}
+
+.progress-level-badge {
+  @apply flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-bold text-xs sm:text-sm whitespace-nowrap;
+}
+
+.progress-stats {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6;
+}
+
+.progress-stat {
+  @apply flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-700 rounded-lg min-w-0;
+}
+
+.stat-icon {
+  @apply w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center text-lg sm:text-xl flex-shrink-0;
+}
+
+.stat-icon.points {
+  @apply bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400;
+}
+
+.stat-icon.streak {
+  @apply bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400;
+}
+
+.stat-icon.achievements {
+  @apply bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400;
+}
+
+.stat-content {
+  @apply flex-1 min-w-0;
+}
+
+.stat-value {
+  @apply text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 truncate;
+}
+
+.stat-label {
+  @apply text-xs text-gray-600 dark:text-gray-400 truncate;
+}
+
+.progress-bar-section {
+  @apply mb-4 sm:mb-6;
+}
+
+.progress-bar-header {
+  @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-2 mb-2;
+}
+
+.progress-bar-label {
+  @apply text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 truncate;
+}
+
+.progress-bar-points {
+  @apply text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap;
+}
+
+.progress-bar-container {
+  @apply w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500;
+}
+
+.achievements-section {
+  @apply pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700;
+}
+
+.achievements-title {
+  @apply text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 sm:mb-3;
+}
+
+.achievements-list {
+  @apply flex flex-wrap gap-1.5 sm:gap-2;
+}
+
+.achievement-badge {
+  @apply flex items-center gap-1 px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 rounded-full text-xs font-medium whitespace-nowrap;
+  max-width: 100%;
+}
+
+.achievement-badge span {
+  @apply truncate;
+}
+

@@ -44,8 +44,19 @@ function Blog() {
   const fetchBlogs = async () => {
     try {
       setLoading(true)
+      setError('')
       const response = await blogsAPI.getAll()
-      const posts = response.data || []
+      console.log('Blogs API response:', response)
+      
+      // Handle different response formats
+      const posts = response?.data || response || []
+      
+      if (!Array.isArray(posts)) {
+        console.error('Invalid response format:', response)
+        setError('Invalid response from server')
+        return
+      }
+      
       setAllPosts(posts)
       setBlogPosts(posts)
       
@@ -54,11 +65,9 @@ function Blog() {
       // Sort categories alphabetically
       const sortedCategories = uniqueCategories.sort((a, b) => a.localeCompare(b))
       setCategories(sortedCategories)
-      
-      setError('')
     } catch (err) {
-      setError('Failed to load blog posts. Please try again later.')
       console.error('Error fetching blogs:', err)
+      setError(err.response?.data?.message || err.message || 'Failed to load blog posts. Please check your connection and try again.')
     } finally {
       setLoading(false)
     }
