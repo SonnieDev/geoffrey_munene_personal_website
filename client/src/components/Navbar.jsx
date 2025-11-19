@@ -106,19 +106,19 @@ function Navbar() {
 
   // Check if current path is in resources submenu
   const isResourcesActive = resourcesSubmenu.some(item => location.pathname === item.path || location.pathname.startsWith(item.path + '/'))
-  
+
   // Check if current path is in career submenu
   const isCareerActive = careerSubmenu.some(item => location.pathname === item.path || location.pathname.startsWith(item.path + '/'))
 
   return (
     <>
-      <nav className="navbar">
+      <nav className="navbar glass-panel sticky top-0 z-50 border-b border-gray-200 dark:border-white/10">
         <div className="navbar-container">
-          <Link to={isAuthenticated ? "/user/dashboard" : "/"} className="navbar-logo">
-            <span className="logo-first">Geoffrey</span>
-            <span className="logo-second">Munene</span>
+          <Link to={isAuthenticated ? "/user/dashboard" : "/"} className="navbar-logo group">
+            <span className="logo-first text-neon-blue font-display tracking-widest group-hover:text-neon-purple transition-colors">Geoffrey</span>
+            <span className="logo-second text-gray-900 dark:text-white font-display tracking-widest">Munene</span>
           </Link>
-          
+
           {/* Desktop Menu */}
           <div className="navbar-right">
             <ul className="navbar-menu">
@@ -126,8 +126,8 @@ function Navbar() {
                 const Icon = item.icon
                 return (
                   <li key={item.path} className="navbar-item">
-                    <Link 
-                      to={item.path} 
+                    <Link
+                      to={item.path}
                       className={`navbar-link ${location.pathname === item.path ? 'active' : ''}`}
                     >
                       <Icon className="navbar-link-icon" />
@@ -136,7 +136,7 @@ function Navbar() {
                   </li>
                 )
               })}
-              
+
               {/* Career Dropdown */}
               <li className="navbar-item" ref={careerMenuRef}>
                 <div className="navbar-dropdown-wrapper">
@@ -150,9 +150,9 @@ function Navbar() {
                     Career
                     <HiChevronDown className={`navbar-dropdown-chevron ${isCareerMenuOpen ? 'open' : ''}`} />
                   </button>
-                  
+
                   {isCareerMenuOpen && (
-                    <div 
+                    <div
                       className="navbar-dropdown"
                       onMouseLeave={() => setIsCareerMenuOpen(false)}
                     >
@@ -175,7 +175,7 @@ function Navbar() {
                   )}
                 </div>
               </li>
-              
+
               {/* Resources Dropdown */}
               <li className="navbar-item" ref={resourcesMenuRef}>
                 <div className="navbar-dropdown-wrapper">
@@ -189,9 +189,9 @@ function Navbar() {
                     Resources
                     <HiChevronDown className={`navbar-dropdown-chevron ${isResourcesMenuOpen ? 'open' : ''}`} />
                   </button>
-                  
+
                   {isResourcesMenuOpen && (
-                    <div 
+                    <div
                       className="navbar-dropdown"
                       onMouseLeave={() => setIsResourcesMenuOpen(false)}
                     >
@@ -232,96 +232,96 @@ function Navbar() {
                     <span className="user-menu-email">{user?.email?.split('@')[0] || 'User'}</span>
                     <HiChevronDown className={`user-menu-chevron ${isUserMenuOpen ? 'open' : ''}`} />
                   </button>
-                  
+
                   {isUserMenuOpen && (
                     <div className="user-menu-dropdown">
-                        <div className="user-menu-header">
-                          <div className="user-avatar-menu">
-                            {user?.email?.charAt(0).toUpperCase() || 'U'}
-                          </div>
-                          <div className="user-menu-info">
-                            <div className="user-menu-name">{user?.email?.split('@')[0] || 'User'}</div>
-                            <div className="user-menu-email-full">{user?.email}</div>
-                          </div>
+                      <div className="user-menu-header">
+                        <div className="user-avatar-menu">
+                          {user?.email?.charAt(0).toUpperCase() || 'U'}
                         </div>
-                        <div className="user-menu-tokens">
-                          <HiSparkles className="token-icon" />
-                          <span>{tokens} tokens available</span>
+                        <div className="user-menu-info">
+                          <div className="user-menu-name">{user?.email?.split('@')[0] || 'User'}</div>
+                          <div className="user-menu-email-full">{user?.email}</div>
                         </div>
-                        <div className="user-menu-divider"></div>
-                        <Link
-                          to="/user/profile"
-                          className="user-menu-item"
-                          onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <HiUser className="user-menu-icon" />
-                          <span>My Profile</span>
-                        </Link>
-                        <Link
-                          to="/user/settings"
-                          className="user-menu-item"
-                          onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <HiCog6Tooth className="user-menu-icon" />
-                          <span>Settings</span>
-                        </Link>
-                        <Link
-                          to="/user/billing"
-                          className="user-menu-item"
-                          onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <HiCreditCard className="user-menu-icon" />
-                          <span>Billing & Tokens</span>
-                        </Link>
-                        <div className="user-menu-divider"></div>
-                        <Link
-                          to="/contact"
-                          className="user-menu-item"
-                          onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <HiQuestionMarkCircle className="user-menu-icon" />
-                          <span>Help & Support</span>
-                        </Link>
-                        <div className="user-menu-divider"></div>
-                        <button
-                          className="user-menu-item logout"
-                          onClick={() => {
-                            logout()
-                            setIsUserMenuOpen(false)
-                            navigate('/')
-                          }}
-                        >
-                          <HiArrowRightOnRectangle className="user-menu-icon" />
-                          <span>Logout</span>
-                        </button>
                       </div>
+                      <div className="user-menu-tokens">
+                        <HiSparkles className="token-icon" />
+                        <span>{tokens} tokens available</span>
+                      </div>
+                      <div className="user-menu-divider"></div>
+                      <Link
+                        to="/user/profile"
+                        className="user-menu-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <HiUser className="user-menu-icon" />
+                        <span>My Profile</span>
+                      </Link>
+                      <Link
+                        to="/user/settings"
+                        className="user-menu-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <HiCog6Tooth className="user-menu-icon" />
+                        <span>Settings</span>
+                      </Link>
+                      <Link
+                        to="/user/billing"
+                        className="user-menu-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <HiCreditCard className="user-menu-icon" />
+                        <span>Billing & Tokens</span>
+                      </Link>
+                      <div className="user-menu-divider"></div>
+                      <Link
+                        to="/contact"
+                        className="user-menu-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <HiQuestionMarkCircle className="user-menu-icon" />
+                        <span>Help & Support</span>
+                      </Link>
+                      <div className="user-menu-divider"></div>
+                      <button
+                        className="user-menu-item logout"
+                        onClick={() => {
+                          logout()
+                          setIsUserMenuOpen(false)
+                          navigate('/')
+                        }}
+                      >
+                        <HiArrowRightOnRectangle className="user-menu-icon" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="navbar-auth">
-                <Link to="/login" className="navbar-login-btn">
-                  <HiArrowLeftOnRectangle />
+              <div className="flex items-center gap-3">
+                <Link to="/login" className="glass-button px-4 py-2 rounded-xl flex items-center gap-2 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-white/10 transition-all border border-gray-200 dark:border-white/20">
+                  <HiArrowLeftOnRectangle className="w-5 h-5" />
                   <span>Login</span>
                 </Link>
-                <Link to="/signup" className="navbar-signup-btn">
+                <Link to="/signup" className="bg-gray-900 dark:bg-white text-white dark:text-space-900 font-bold px-6 py-2 rounded-xl hover:bg-neon-blue dark:hover:bg-neon-blue hover:text-white transition-all duration-300 shadow-lg hover:shadow-neon-blue/20 hover:-translate-y-0.5">
                   Sign Up
                 </Link>
               </div>
             )}
 
             {/* Desktop Theme Toggle */}
-            <button 
+            <button
               className="theme-toggle"
               onClick={toggleTheme}
               aria-label="Toggle theme"
             >
-              {isDark ? <HiMoon /> : <HiSun />}
+              {isDark ? <HiSun /> : <HiMoon />}
             </button>
           </div>
 
           {/* Mobile Hamburger Button */}
-          <button 
+          <button
             className="navbar-toggle"
             onClick={toggleSidebar}
             aria-label="Toggle menu"
@@ -344,15 +344,15 @@ function Navbar() {
             <span className="logo-second">Munene</span>
           </Link>
           <div className="sidebar-utils">
-            <button 
-              className="sidebar-util-btn" 
+            <button
+              className="sidebar-util-btn"
               onClick={toggleTheme}
               aria-label="Toggle theme"
             >
-              {isDark ? <HiMoon /> : <HiSun />}
+              {isDark ? <HiSun /> : <HiMoon />}
             </button>
-            <button 
-              className="sidebar-util-btn" 
+            <button
+              className="sidebar-util-btn"
               onClick={closeSidebar}
               aria-label="Close menu"
             >
@@ -368,8 +368,8 @@ function Navbar() {
               const isActive = location.pathname === item.path
               return (
                 <li key={item.path} className="sidebar-item">
-                  <Link 
-                    to={item.path} 
+                  <Link
+                    to={item.path}
                     className={`sidebar-link ${isActive ? 'active' : ''}`}
                     onClick={handleLinkClick}
                   >
@@ -379,7 +379,7 @@ function Navbar() {
                 </li>
               )
             })}
-            
+
             {/* Career Section in Mobile */}
             <li className="sidebar-item sidebar-section-header">
               <HiChartBar className="sidebar-icon" />
@@ -390,8 +390,8 @@ function Navbar() {
               const isActive = location.pathname === subItem.path || location.pathname.startsWith(subItem.path + '/')
               return (
                 <li key={subItem.path} className="sidebar-item sidebar-subitem">
-                  <Link 
-                    to={subItem.path} 
+                  <Link
+                    to={subItem.path}
                     className={`sidebar-link ${isActive ? 'active' : ''}`}
                     onClick={handleLinkClick}
                   >
@@ -401,7 +401,7 @@ function Navbar() {
                 </li>
               )
             })}
-            
+
             {/* Resources Section in Mobile */}
             <li className="sidebar-item sidebar-section-header">
               <HiFolder className="sidebar-icon" />
@@ -412,8 +412,8 @@ function Navbar() {
               const isActive = location.pathname === subItem.path || location.pathname.startsWith(subItem.path + '/')
               return (
                 <li key={subItem.path} className="sidebar-item sidebar-subitem">
-                  <Link 
-                    to={subItem.path} 
+                  <Link
+                    to={subItem.path}
                     className={`sidebar-link ${isActive ? 'active' : ''}`}
                     onClick={handleLinkClick}
                   >
@@ -423,7 +423,7 @@ function Navbar() {
                 </li>
               )
             })}
-            
+
             {/* Account Section in Mobile - Only for authenticated users */}
             {isAuthenticated && (
               <>
@@ -432,8 +432,8 @@ function Navbar() {
                   <span>Account</span>
                 </li>
                 <li className="sidebar-item sidebar-subitem">
-                  <Link 
-                    to="/user/profile" 
+                  <Link
+                    to="/user/profile"
                     className={`sidebar-link ${location.pathname === '/user/profile' ? 'active' : ''}`}
                     onClick={handleLinkClick}
                   >
@@ -442,8 +442,8 @@ function Navbar() {
                   </Link>
                 </li>
                 <li className="sidebar-item sidebar-subitem">
-                  <Link 
-                    to="/user/settings" 
+                  <Link
+                    to="/user/settings"
                     className={`sidebar-link ${location.pathname === '/user/settings' ? 'active' : ''}`}
                     onClick={handleLinkClick}
                   >
@@ -452,8 +452,8 @@ function Navbar() {
                   </Link>
                 </li>
                 <li className="sidebar-item sidebar-subitem">
-                  <Link 
-                    to="/user/billing" 
+                  <Link
+                    to="/user/billing"
                     className={`sidebar-link ${location.pathname === '/user/billing' ? 'active' : ''}`}
                     onClick={handleLinkClick}
                   >
@@ -462,8 +462,8 @@ function Navbar() {
                   </Link>
                 </li>
                 <li className="sidebar-item sidebar-subitem">
-                  <Link 
-                    to="/contact" 
+                  <Link
+                    to="/contact"
                     className={`sidebar-link ${location.pathname === '/contact' ? 'active' : ''}`}
                     onClick={handleLinkClick}
                   >
@@ -483,7 +483,7 @@ function Navbar() {
                 <p className="sidebar-user-email">{user?.email}</p>
                 <p className="sidebar-user-tokens">{tokens} tokens</p>
               </div>
-              <button 
+              <button
                 className="sidebar-cta-secondary"
                 onClick={() => {
                   logout()
@@ -497,16 +497,16 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link 
+              <Link
                 to="/login"
-                className="sidebar-cta-primary"
+                className="w-full glass-button text-gray-900 dark:text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 inline-flex items-center justify-center border border-gray-200 dark:border-white/20 hover:bg-white/80 dark:hover:bg-white/10 shadow-sm hover:shadow-md"
                 onClick={handleLinkClick}
               >
                 Login <HiArrowRight className="inline ml-2" />
               </Link>
-              <Link 
+              <Link
                 to="/signup"
-                className="sidebar-cta-secondary"
+                className="w-full bg-gray-900 dark:bg-white text-white dark:text-space-900 px-6 py-3 rounded-xl font-bold transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-neon-blue/20 hover:bg-neon-blue dark:hover:bg-neon-blue hover:text-white hover:-translate-y-0.5"
                 onClick={handleLinkClick}
               >
                 Sign Up

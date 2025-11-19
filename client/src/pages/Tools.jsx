@@ -7,7 +7,7 @@ import SEO from '../components/SEO'
 import TokenBalance from '../components/TokenBalance'
 import TokenPurchaseModal from '../components/TokenPurchaseModal'
 import toast from 'react-hot-toast'
-import { 
+import {
   HiDocumentText,
   HiEnvelope,
   HiChatBubbleLeftRight,
@@ -15,7 +15,6 @@ import {
   HiChartBar,
   HiCurrencyDollar
 } from 'react-icons/hi2'
-import '../styles/pages/tools.css'
 
 // Token costs per tool
 const TOKEN_COSTS = {
@@ -110,7 +109,7 @@ function Tools() {
         'interview-prep': 'interview-prep',
         'interview': 'interview-prep',
       }
-      
+
       const toolId = toolMap[toolParam.toLowerCase()] || toolParam
       // Check if tool exists (valid tool IDs: 'resume', 'email', 'interview-prep', etc.)
       const validToolIds = ['resume', 'cover-letter', 'email', 'interview-prep', 'skills-assessment', 'salary-negotiation']
@@ -143,14 +142,14 @@ function Tools() {
 
   const handleSubmit = async (e, toolId) => {
     e.preventDefault()
-    
+
     // Check if user is authenticated
     if (!isAuthenticated) {
       toast.error('Please login or sign up to use this tool')
       navigate('/login', { state: { from: { pathname: '/tools', search: `?tool=${toolId}` } } })
       return
     }
-    
+
     // Check if user has enough tokens
     const tokenCost = TOKEN_COSTS[toolId] || 5
     if (tokens < tokenCost) {
@@ -196,7 +195,7 @@ function Tools() {
         default:
           throw new Error('Unknown tool')
       }
-      
+
       // Refresh token balance after successful generation
       if (response.data.tokensRemaining !== undefined) {
         await refreshBalance()
@@ -207,7 +206,7 @@ function Tools() {
       if (err.response?.status === 401) {
         setError('Please login to use tools')
         navigate('/login', { state: { from: { pathname: '/tools' } } })
-      } 
+      }
       // Handle token errors (402 Payment Required)
       else if (err.response?.status === 402) {
         setError(err.response.data.message)
@@ -428,103 +427,159 @@ function Tools() {
         keywords="resume builder, cover letter generator, AI tools, career tools, job search tools, interview prep, email writer"
         url="/tools"
       />
-      <div className="tools-page">
-      <section className="tools-hero">
-        <div className="tools-container">
-          <h1 className="page-title">AI-Powered Tools</h1>
-          <p className="page-subtitle">
-            Professional AI tools to help you land remote jobs and grow your digital career
-          </p>
-          {isAuthenticated ? (
-            <div className="tools-token-balance-wrapper">
-              <TokenBalance />
-            </div>
-          ) : (
-            <div className="tools-auth-prompt">
-              <p className="tools-auth-message">
-                <Link to="/signup" className="tools-auth-link">Sign up</Link> or{' '}
-                <Link to="/login" className="tools-auth-link">login</Link> to use these tools and get 10 free trial tokens!
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
+      <div className="tools-page min-h-screen pt-20 pb-12">
+        {/* Hero Section */}
+        <section className="tools-hero relative py-20 overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+            <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-neon-blue/10 dark:bg-neon-blue/20 blur-[100px] animate-pulse-slow"></div>
+            <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-neon-purple/10 dark:bg-neon-purple/20 blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+          </div>
 
-      <section className="tools-content">
-        <div className="tools-wrapper">
-          <div className="tools-grid">
-            {tools.map((tool) => {
-              const IconComponent = tool.icon
-              return (
-                <div key={tool.id} className="tool-card">
-                  <div className="tool-icon">
-                    <IconComponent />
+          <div className="container mx-auto px-4 relative z-10 text-center">
+            <div className="inline-block px-4 py-1 mb-6 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-sm animate-fade-in">
+              <span className="text-neon-blue text-sm font-medium tracking-wider">AI POWERED</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-display font-bold mb-6 text-gray-900 dark:text-white animate-fade-in-up">
+              Career <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">Accelerator</span>
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              Professional AI tools to help you land remote jobs and grow your digital career.
+            </p>
+
+            {isAuthenticated ? (
+              <div className="flex justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <TokenBalance />
+              </div>
+            ) : (
+              <div className="mt-8 p-6 glass-panel rounded-xl inline-block max-w-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <Link to="/signup" className="text-neon-blue hover:text-neon-purple font-semibold hover:underline transition-colors">Sign up</Link> or{' '}
+                  <Link to="/login" className="text-neon-blue hover:text-neon-purple font-semibold hover:underline transition-colors">login</Link> to use these tools and get 10 free trial tokens!
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="tools-content py-12">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {tools.map((tool) => {
+                const IconComponent = tool.icon
+                return (
+                  <div key={tool.id} className="glass-panel p-8 rounded-2xl flex flex-col items-center text-center group hover:transform hover:-translate-y-2 transition-all duration-300 border border-gray-200 dark:border-white/5 hover:border-neon-blue/30 dark:hover:border-neon-blue/30 hover:shadow-neon-blue/10">
+                    <div className="w-16 h-16 rounded-full bg-neon-blue/10 flex items-center justify-center text-neon-blue mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent className="w-8 h-8" />
+                    </div>
+                    <div className="inline-block px-3 py-1 rounded-full bg-gray-100 dark:bg-white/10 text-xs font-medium text-neon-blue mb-4 border border-gray-200 dark:border-white/5">
+                      {tool.category}
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{tool.name}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow text-sm leading-relaxed">
+                      {tool.description}
+                    </p>
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 font-medium">
+                      Cost: <span className="text-neon-purple">{tool.cost} tokens</span>
+                    </div>
+                    <button
+                      onClick={() => handleToolClick(tool.id)}
+                      className="w-full py-3 px-6 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-space-900 font-bold hover:bg-neon-blue dark:hover:bg-neon-blue hover:text-white transition-all duration-300 shadow-lg hover:shadow-neon-blue/20"
+                    >
+                      Use Tool
+                    </button>
                   </div>
-                  <div className="tool-category">{tool.category}</div>
-                  <h3 className="tool-name">{tool.name}</h3>
-                  <p className="tool-description">{tool.description}</p>
-                  <div className="tool-cost">Cost: {tool.cost} tokens</div>
-                  <button onClick={() => handleToolClick(tool.id)} className="tool-button">
-                    Use Tool
-                  </button>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {activeTool && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeModal}>×</button>
-            <h2 className="modal-title">{tools.find(t => t.id === activeTool)?.name}</h2>
-            
-            {!result && !error && (
-              <div className="modal-form">
-                {renderToolForm(activeTool)}
-              </div>
-            )}
+        {activeTool && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closeModal}>
+            <div className="bg-white dark:bg-space-800 rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative border border-gray-200 dark:border-white/10 animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
+              <button
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors p-2"
+                onClick={closeModal}
+              >
+                <span className="sr-only">Close</span>
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
 
-            {loading && (
-              <div className="loading-state">
-                <p>Generating content... This may take a moment.</p>
-              </div>
-            )}
+              <div className="p-8">
+                <h2 className="text-2xl font-display font-bold mb-6 text-gray-900 dark:text-white flex items-center gap-3">
+                  {(() => {
+                    const tool = tools.find(t => t.id === activeTool)
+                    const Icon = tool?.icon
+                    return (
+                      <>
+                        {Icon && <Icon className="text-neon-blue" />}
+                        {tool?.name}
+                      </>
+                    )
+                  })()}
+                </h2>
 
-            {error && (
-              <div className="error-state">
-                <p>{error}</p>
-                <button onClick={() => { setError(''); setResult('') }} className="back-button">
-                  Try Again
-                </button>
-              </div>
-            )}
+                {!result && !error && (
+                  <div className="space-y-6">
+                    {renderToolForm(activeTool)}
+                  </div>
+                )}
 
-            {result && (
-              <div className="result-container">
-                <div className="result-header">
-                  <h3>Generated Content</h3>
-                  <button onClick={() => copyToClipboard(result)} className="copy-button">
-                    Copy
-                  </button>
-                </div>
-                <div className="result-content">
-                  <pre>{result}</pre>
-                </div>
-                <button onClick={() => { setResult(''); setError('') }} className="back-button">
-                  Generate Another
-                </button>
+                {loading && (
+                  <div className="text-center py-12">
+                    <div className="w-16 h-16 border-4 border-neon-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-300 animate-pulse">Generating content with AI...</p>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="text-center py-8">
+                    <div className="text-red-500 bg-red-500/10 px-6 py-4 rounded-lg inline-block border border-red-500/20 mb-4">
+                      {error}
+                    </div>
+                    <button
+                      onClick={() => { setError(''); setResult('') }}
+                      className="block mx-auto px-6 py-2 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-white/20 transition-colors"
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                )}
+
+                {result && (
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white">Generated Content</h3>
+                      <button
+                        onClick={() => copyToClipboard(result)}
+                        className="px-4 py-2 rounded-lg bg-neon-blue/10 text-neon-blue hover:bg-neon-blue/20 transition-colors font-medium text-sm"
+                      >
+                        Copy to Clipboard
+                      </button>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-space-900/50 border border-gray-200 dark:border-white/10 rounded-xl p-6">
+                      <pre className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 font-sans text-sm leading-relaxed">{result}</pre>
+                    </div>
+                    <button
+                      onClick={() => { setResult(''); setError('') }}
+                      className="w-full py-3 rounded-lg bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-white/20 transition-colors font-medium"
+                    >
+                      Generate Another
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {showPurchaseModal && isAuthenticated && (
-        <TokenPurchaseModal onClose={() => setShowPurchaseModal(false)} />
-      )}
-    </div>
+        {showPurchaseModal && isAuthenticated && (
+          <TokenPurchaseModal onClose={() => setShowPurchaseModal(false)} />
+        )}
+      </div>
     </>
   )
 }

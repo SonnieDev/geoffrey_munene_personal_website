@@ -14,15 +14,13 @@ import {
   HiEye,
   HiEyeSlash,
 } from 'react-icons/hi2'
-import '../../styles/pages/user-settings.css'
 
 function Settings() {
   const { user, fetchUser } = useUser()
   const [activeSection, setActiveSection] = useState('account')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  
-  // Account settings
+
   const [accountData, setAccountData] = useState({
     email: '',
     currentPassword: '',
@@ -30,7 +28,6 @@ function Settings() {
     confirmPassword: '',
   })
 
-  // Notification preferences
   const [notifications, setNotifications] = useState({
     emailNotifications: true,
     marketingEmails: false,
@@ -38,7 +35,6 @@ function Settings() {
     weeklyDigest: true,
   })
 
-  // Preferences
   const [preferences, setPreferences] = useState({
     theme: 'system',
     language: 'en',
@@ -64,7 +60,7 @@ function Settings() {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault()
-    
+
     if (accountData.newPassword !== accountData.confirmPassword) {
       toast.error('New passwords do not match')
       return
@@ -81,7 +77,7 @@ function Settings() {
         accountData.currentPassword,
         accountData.newPassword
       )
-      
+
       if (response.success) {
         toast.success('Password changed successfully!')
         setAccountData({
@@ -109,7 +105,7 @@ function Settings() {
         productUpdates: notifications.productUpdates,
         weeklyDigest: notifications.weeklyDigest,
       })
-      
+
       if (response.success) {
         toast.success('Notification preferences saved!')
         await fetchUser()
@@ -131,7 +127,7 @@ function Settings() {
         language: preferences.language,
         timezone: preferences.timezone,
       })
-      
+
       if (response.success) {
         toast.success('Preferences saved!')
         await fetchUser()
@@ -152,69 +148,85 @@ function Settings() {
         description="Manage your account settings, notifications, and preferences"
         url="/user/settings"
       />
-      <div className="user-settings-page">
-        <div className="settings-container">
-          {/* Header */}
-          <div className="settings-header">
-            <h1>Settings</h1>
-            <p>Manage your account settings and preferences</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-space-900 transition-colors duration-300 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8 animate-fade-in">
+            <h1 className="text-4xl font-display font-bold text-gray-900 dark:text-white mb-2">Settings</h1>
+            <p className="text-gray-600 dark:text-gray-400">Manage your account settings and preferences</p>
           </div>
 
-          <div className="settings-layout">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
-            <div className="settings-sidebar">
-              <button
-                className={`settings-nav-item ${activeSection === 'account' ? 'active' : ''}`}
-                onClick={() => setActiveSection('account')}
-              >
-                <HiCog6Tooth /> Account
-              </button>
-              <button
-                className={`settings-nav-item ${activeSection === 'notifications' ? 'active' : ''}`}
-                onClick={() => setActiveSection('notifications')}
-              >
-                <HiBell /> Notifications
-              </button>
-              <button
-                className={`settings-nav-item ${activeSection === 'preferences' ? 'active' : ''}`}
-                onClick={() => setActiveSection('preferences')}
-              >
-                <HiCog6Tooth /> Preferences
-              </button>
-              <button
-                className={`settings-nav-item ${activeSection === 'security' ? 'active' : ''}`}
-                onClick={() => setActiveSection('security')}
-              >
-                <HiShieldCheck /> Security
-              </button>
+            <div className="lg:col-span-1">
+              <div className="glass-panel p-4 rounded-xl sticky top-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <nav className="space-y-2">
+                  <button
+                    onClick={() => setActiveSection('account')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeSection === 'account'
+                        ? 'bg-neon-blue/10 text-neon-blue dark:text-neon-blue'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+                      }`}
+                  >
+                    <HiCog6Tooth className="w-5 h-5" /> Account
+                  </button>
+                  <button
+                    onClick={() => setActiveSection('notifications')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeSection === 'notifications'
+                        ? 'bg-neon-purple/10 text-neon-purple dark:text-neon-purple'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+                      }`}
+                  >
+                    <HiBell className="w-5 h-5" /> Notifications
+                  </button>
+                  <button
+                    onClick={() => setActiveSection('preferences')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeSection === 'preferences'
+                        ? 'bg-neon-green/10 text-neon-green dark:text-neon-green'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+                      }`}
+                  >
+                    <HiCog6Tooth className="w-5 h-5" /> Preferences
+                  </button>
+                  <button
+                    onClick={() => setActiveSection('security')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeSection === 'security'
+                        ? 'bg-neon-pink/10 text-neon-pink dark:text-neon-pink'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+                      }`}
+                  >
+                    <HiShieldCheck className="w-5 h-5" /> Security
+                  </button>
+                </nav>
+              </div>
             </div>
 
-            {/* Settings Content */}
-            <div className="settings-content">
+            {/* Content */}
+            <div className="lg:col-span-3">
               {/* Account Settings */}
               {activeSection === 'account' && (
-                <div className="settings-section">
-                  <h2>Account Information</h2>
-                  <div className="settings-form">
-                    <div className="form-group">
-                      <label>Email Address</label>
-                      <input type="email" value={accountData.email} disabled />
-                      <small>Email cannot be changed. Contact support if you need to update it.</small>
+                <div className="glass-panel p-8 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Account Information</h2>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
+                      <input type="email" value={accountData.email} disabled className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white opacity-60 cursor-not-allowed" />
+                      <small className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">Email cannot be changed. Contact support if you need to update it.</small>
                     </div>
-                    <div className="form-group">
-                      <label>Account Created</label>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Account Created</label>
                       <input
                         type="text"
                         value={
                           user?.createdAt
                             ? new Date(user.createdAt).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                              })
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })
                             : 'N/A'
                         }
                         disabled
+                        className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white opacity-60 cursor-not-allowed"
                       />
                     </div>
                   </div>
@@ -223,79 +235,30 @@ function Settings() {
 
               {/* Notification Settings */}
               {activeSection === 'notifications' && (
-                <div className="settings-section">
-                  <h2>Notification Preferences</h2>
-                  <div className="settings-form">
-                    <div className="form-group checkbox-group">
-                      <label className="checkbox-label">
+                <div className="glass-panel p-8 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Notification Preferences</h2>
+                  <div className="space-y-6">
+                    {[
+                      { key: 'emailNotifications', label: 'Email Notifications', desc: 'Receive important account-related emails' },
+                      { key: 'productUpdates', label: 'Product Updates', desc: 'Get notified about new features and improvements' },
+                      { key: 'weeklyDigest', label: 'Weekly Digest', desc: 'Receive a weekly summary of your activity' },
+                      { key: 'marketingEmails', label: 'Marketing Emails', desc: 'Receive promotional emails and special offers' },
+                    ].map((item) => (
+                      <label key={item.key} className="flex items-start gap-3 cursor-pointer group">
                         <input
                           type="checkbox"
-                          checked={notifications.emailNotifications}
-                          onChange={(e) =>
-                            setNotifications({
-                              ...notifications,
-                              emailNotifications: e.target.checked,
-                            })
-                          }
+                          checked={notifications[item.key]}
+                          onChange={(e) => setNotifications({ ...notifications, [item.key]: e.target.checked })}
+                          className="mt-1 w-5 h-5 rounded border-gray-300 dark:border-white/10 text-neon-purple focus:ring-neon-purple/50"
                         />
-                        <span>Email Notifications</span>
+                        <div className="flex-1">
+                          <div className="font-medium text-gray-900 dark:text-white group-hover:text-neon-purple transition-colors">{item.label}</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">{item.desc}</div>
+                        </div>
                       </label>
-                      <small>Receive important account-related emails</small>
-                    </div>
-
-                    <div className="form-group checkbox-group">
-                      <label className="checkbox-label">
-                        <input
-                          type="checkbox"
-                          checked={notifications.productUpdates}
-                          onChange={(e) =>
-                            setNotifications({
-                              ...notifications,
-                              productUpdates: e.target.checked,
-                            })
-                          }
-                        />
-                        <span>Product Updates</span>
-                      </label>
-                      <small>Get notified about new features and improvements</small>
-                    </div>
-
-                    <div className="form-group checkbox-group">
-                      <label className="checkbox-label">
-                        <input
-                          type="checkbox"
-                          checked={notifications.weeklyDigest}
-                          onChange={(e) =>
-                            setNotifications({
-                              ...notifications,
-                              weeklyDigest: e.target.checked,
-                            })
-                          }
-                        />
-                        <span>Weekly Digest</span>
-                      </label>
-                      <small>Receive a weekly summary of your activity</small>
-                    </div>
-
-                    <div className="form-group checkbox-group">
-                      <label className="checkbox-label">
-                        <input
-                          type="checkbox"
-                          checked={notifications.marketingEmails}
-                          onChange={(e) =>
-                            setNotifications({
-                              ...notifications,
-                              marketingEmails: e.target.checked,
-                            })
-                          }
-                        />
-                        <span>Marketing Emails</span>
-                      </label>
-                      <small>Receive promotional emails and special offers</small>
-                    </div>
-
-                    <button className="btn-primary" onClick={handleNotificationSave} disabled={loading}>
-                      <HiCheck /> Save Preferences
+                    ))}
+                    <button onClick={handleNotificationSave} disabled={loading} className="bg-gray-900 dark:bg-white text-white dark:text-space-900 font-bold py-3 px-6 rounded-xl hover:bg-neon-purple dark:hover:bg-neon-purple hover:text-white transition-all duration-300 flex items-center gap-2 disabled:opacity-50">
+                      <HiCheck className="w-5 h-5" /> Save Preferences
                     </button>
                   </div>
                 </div>
@@ -303,53 +266,47 @@ function Settings() {
 
               {/* Preferences */}
               {activeSection === 'preferences' && (
-                <div className="settings-section">
-                  <h2>Preferences</h2>
-                  <div className="settings-form">
-                    <div className="form-group">
-                      <label>Theme</label>
+                <div className="glass-panel p-8 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Preferences</h2>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Theme</label>
                       <select
                         value={preferences.theme}
-                        onChange={(e) =>
-                          setPreferences({ ...preferences, theme: e.target.value })
-                        }
+                        onChange={(e) => setPreferences({ ...preferences, theme: e.target.value })}
+                        className="w-full px-4 py-3 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-green/50 text-gray-900 dark:text-white appearance-none cursor-pointer"
                       >
-                        <option value="system">System Default</option>
-                        <option value="light">Light</option>
-                        <option value="dark">Dark</option>
+                        <option value="system" className="bg-white dark:bg-space-800">System Default</option>
+                        <option value="light" className="bg-white dark:bg-space-800">Light</option>
+                        <option value="dark" className="bg-white dark:bg-space-800">Dark</option>
                       </select>
                     </div>
-
-                    <div className="form-group">
-                      <label>Language</label>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Language</label>
                       <select
                         value={preferences.language}
-                        onChange={(e) =>
-                          setPreferences({ ...preferences, language: e.target.value })
-                        }
+                        onChange={(e) => setPreferences({ ...preferences, language: e.target.value })}
+                        className="w-full px-4 py-3 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-green/50 text-gray-900 dark:text-white appearance-none cursor-pointer"
                       >
-                        <option value="en">English</option>
-                        <option value="es">Spanish</option>
-                        <option value="fr">French</option>
+                        <option value="en" className="bg-white dark:bg-space-800">English</option>
+                        <option value="es" className="bg-white dark:bg-space-800">Spanish</option>
+                        <option value="fr" className="bg-white dark:bg-space-800">French</option>
                       </select>
                     </div>
-
-                    <div className="form-group">
-                      <label>Timezone</label>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Timezone</label>
                       <select
                         value={preferences.timezone}
-                        onChange={(e) =>
-                          setPreferences({ ...preferences, timezone: e.target.value })
-                        }
+                        onChange={(e) => setPreferences({ ...preferences, timezone: e.target.value })}
+                        className="w-full px-4 py-3 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-green/50 text-gray-900 dark:text-white appearance-none cursor-pointer"
                       >
-                        <option value={Intl.DateTimeFormat().resolvedOptions().timeZone}>
+                        <option value={Intl.DateTimeFormat().resolvedOptions().timeZone} className="bg-white dark:bg-space-800">
                           {Intl.DateTimeFormat().resolvedOptions().timeZone}
                         </option>
                       </select>
                     </div>
-
-                    <button className="btn-primary" onClick={handlePreferenceSave} disabled={loading}>
-                      <HiCheck /> Save Preferences
+                    <button onClick={handlePreferenceSave} disabled={loading} className="bg-gray-900 dark:bg-white text-white dark:text-space-900 font-bold py-3 px-6 rounded-xl hover:bg-neon-green dark:hover:bg-neon-green hover:text-white transition-all duration-300 flex items-center gap-2 disabled:opacity-50">
+                      <HiCheck className="w-5 h-5" /> Save Preferences
                     </button>
                   </div>
                 </div>
@@ -357,77 +314,71 @@ function Settings() {
 
               {/* Security Settings */}
               {activeSection === 'security' && (
-                <div className="settings-section">
-                  <h2>Security & Password</h2>
-                  <form className="settings-form" onSubmit={handlePasswordChange}>
-                    <div className="form-group">
-                      <label>Current Password</label>
-                      <div className="password-input-wrapper">
+                <div className="glass-panel p-8 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Security & Password</h2>
+                  <form onSubmit={handlePasswordChange} className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Password</label>
+                      <div className="relative">
                         <input
                           type={showPassword ? 'text' : 'password'}
                           value={accountData.currentPassword}
-                          onChange={(e) =>
-                            setAccountData({ ...accountData, currentPassword: e.target.value })
-                          }
+                          onChange={(e) => setAccountData({ ...accountData, currentPassword: e.target.value })}
                           required
+                          className="w-full px-4 py-3 pr-12 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-pink/50 text-gray-900 dark:text-white"
                         />
                         <button
                           type="button"
-                          className="password-toggle"
                           onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                         >
-                          {showPassword ? <HiEyeSlash /> : <HiEye />}
+                          {showPassword ? <HiEyeSlash className="w-5 h-5" /> : <HiEye className="w-5 h-5" />}
                         </button>
                       </div>
                     </div>
-
-                    <div className="form-group">
-                      <label>New Password</label>
-                      <div className="password-input-wrapper">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">New Password</label>
+                      <div className="relative">
                         <input
                           type={showPassword ? 'text' : 'password'}
                           value={accountData.newPassword}
-                          onChange={(e) =>
-                            setAccountData({ ...accountData, newPassword: e.target.value })
-                          }
+                          onChange={(e) => setAccountData({ ...accountData, newPassword: e.target.value })}
                           required
                           minLength={8}
+                          className="w-full px-4 py-3 pr-12 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-pink/50 text-gray-900 dark:text-white"
                         />
                         <button
                           type="button"
-                          className="password-toggle"
                           onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                         >
-                          {showPassword ? <HiEyeSlash /> : <HiEye />}
+                          {showPassword ? <HiEyeSlash className="w-5 h-5" /> : <HiEye className="w-5 h-5" />}
                         </button>
                       </div>
-                      <small>Password must be at least 8 characters</small>
+                      <small className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">Password must be at least 8 characters</small>
                     </div>
-
-                    <div className="form-group">
-                      <label>Confirm New Password</label>
-                      <div className="password-input-wrapper">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Confirm New Password</label>
+                      <div className="relative">
                         <input
                           type={showPassword ? 'text' : 'password'}
                           value={accountData.confirmPassword}
-                          onChange={(e) =>
-                            setAccountData({ ...accountData, confirmPassword: e.target.value })
-                          }
+                          onChange={(e) => setAccountData({ ...accountData, confirmPassword: e.target.value })}
                           required
                           minLength={8}
+                          className="w-full px-4 py-3 pr-12 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-pink/50 text-gray-900 dark:text-white"
                         />
                         <button
                           type="button"
-                          className="password-toggle"
                           onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                         >
-                          {showPassword ? <HiEyeSlash /> : <HiEye />}
+                          {showPassword ? <HiEyeSlash className="w-5 h-5" /> : <HiEye className="w-5 h-5" />}
                         </button>
                       </div>
                     </div>
-
-                    <button type="submit" className="btn-primary" disabled={loading}>
-                      <HiKey /> Change Password
+                    <button type="submit" disabled={loading} className="bg-gray-900 dark:bg-white text-white dark:text-space-900 font-bold py-3 px-6 rounded-xl hover:bg-neon-pink dark:hover:bg-neon-pink hover:text-white transition-all duration-300 flex items-center gap-2 disabled:opacity-50">
+                      <HiKey className="w-5 h-5" /> Change Password
                     </button>
                   </form>
                 </div>
@@ -441,4 +392,3 @@ function Settings() {
 }
 
 export default Settings
-

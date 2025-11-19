@@ -9,29 +9,66 @@
   }
 
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-gray-50 text-gray-900 font-sans transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 0% 50%, rgba(188, 19, 254, 0.03) 0%, transparent 50%);
+    background-attachment: fixed;
   }
-  
+
   .dark body {
-    @apply bg-gray-900 text-gray-100;
+    @apply bg-space-900 text-gray-100;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 0% 50%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-wide;
   }
 
   /* Smooth transitions for theme changes */
   * {
-    transition-property: background-color, border-color, color, fill, stroke;
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
 }
 
-/* Custom animations */
+/* Custom animations and utilities */
 @layer utilities {
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-md border border-gray-200 shadow-lg dark:bg-space-800/60 dark:border-white/10 dark:shadow-glass;
+  }
+
+  .glass-button {
+    @apply bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-900 backdrop-blur-sm transition-all duration-300 dark:bg-white/5 dark:hover:bg-white/10 dark:border-white/10 dark:text-white;
+  }
+
+  .neon-text-blue {
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+  }
+
+  .neon-text-purple {
+    text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
+  }
+
+  .neon-border-blue {
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3), inset 0 0 10px rgba(0, 243, 255, 0.1);
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -43,6 +80,7 @@
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -54,6 +92,7 @@
       opacity: 0;
       transform: translateX(-10px);
     }
+
     to {
       opacity: 1;
       transform: translateX(0);
@@ -64,6 +103,7 @@
     0% {
       background-position: -1000px 0;
     }
+
     100% {
       background-position: 1000px 0;
     }
@@ -83,25 +123,7 @@
 
   .animate-shimmer {
     animation: shimmer 2s infinite linear;
-    background: linear-gradient(
-      to right,
-      #f6f7f8 0%,
-      #edeef1 20%,
-      #f6f7f8 40%,
-      #f6f7f8 100%
-    );
-    background-size: 1000px 100%;
-  }
-
-  .dark .animate-shimmer {
-    background: linear-gradient(
-      to right,
-      #374151 0%,
-      #4b5563 20%,
-      #374151 40%,
-      #374151 100%
-    );
+    background: linear-gradient(to right, #1e293b 0%, #334155 20%, #1e293b 40%, #1e293b 100%);
     background-size: 1000px 100%;
   }
 }
-

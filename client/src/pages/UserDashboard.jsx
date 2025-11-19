@@ -28,9 +28,10 @@ import {
   HiArrowRight,
   HiWrenchScrewdriver,
   HiChartBar,
+  HiChevronLeft,
+  HiChevronRight,
 } from 'react-icons/hi2'
 import { Link } from 'react-router-dom'
-import '../styles/pages/user-dashboard.css'
 
 const TOOL_TYPE_LABELS = {
   resume: 'Resume',
@@ -55,7 +56,7 @@ function UserDashboard() {
   const { tokens, refreshBalance } = useTokens()
   const [searchParams, setSearchParams] = useSearchParams()
   const tabParam = searchParams.get('tab')
-  const [activeTab, setActiveTab] = useState(tabParam === 'content' ? 'content' : 'overview') // 'overview', 'content'
+  const [activeTab, setActiveTab] = useState(tabParam === 'content' ? 'content' : 'overview')
   const [contentHistory, setContentHistory] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedContent, setSelectedContent] = useState(null)
@@ -70,14 +71,12 @@ function UserDashboard() {
   })
   const [showOnboarding, setShowOnboarding] = useState(false)
 
-  // Check if onboarding should be shown
   useEffect(() => {
     if (user && !user.onboardingCompleted) {
       setShowOnboarding(true)
     }
   }, [user])
 
-  // Handle URL tab parameter
   useEffect(() => {
     const tab = searchParams.get('tab')
     if (tab === 'content') {
@@ -212,156 +211,174 @@ function UserDashboard() {
       <GuidedTour />
       <TourTrigger />
       <ReEngagementBanner />
-      <div className="user-dashboard">
-        <div className="dashboard-container">
+      <div className="min-h-screen bg-gray-50 dark:bg-space-900 transition-colors duration-300 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           {/* Welcome Section */}
-          <div className="dashboard-welcome">
-            <div className="welcome-content">
-              <h1 className="welcome-title">
-                Welcome back, {user?.email?.split('@')[0] || 'User'}! 👋
-              </h1>
-              <p className="welcome-subtitle">
-                Here's what's happening with your account
-              </p>
-            </div>
-            <div className="welcome-actions">
-              <Link to="/user/tools" className="welcome-action-btn primary">
-                <HiWrenchScrewdriver /> Use Tools
+          <div className="glass-panel p-6 rounded-2xl mb-8 relative overflow-hidden animate-fade-in">
+            <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/5 to-neon-purple/5 dark:from-neon-blue/10 dark:to-neon-purple/10"></div>
+            <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white mb-2">
+                  Welcome back, {user?.email?.split('@')[0] || 'User'}! 👋
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Here's what's happening with your account
+                </p>
+              </div>
+              <Link to="/user/tools" className="bg-gray-900 dark:bg-white text-white dark:text-space-900 font-bold py-3 px-6 rounded-xl hover:bg-neon-blue dark:hover:bg-neon-blue hover:text-white transition-all duration-300 shadow-lg hover:shadow-neon-blue/20 hover:-translate-y-0.5 flex items-center gap-2">
+                <HiWrenchScrewdriver className="w-5 h-5" /> Use Tools
               </Link>
             </div>
           </div>
 
           {/* Quick Stats */}
-          <div className="dashboard-stats-grid">
-            <div className="stat-card tokens-stat">
-              <div className="stat-icon">
-                <HiSparkles />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{tokens}</div>
-                <div className="stat-label">Available Tokens</div>
-              </div>
-            </div>
-            <div className="stat-card content-stat">
-              <div className="stat-icon">
-                <HiDocumentText />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{stats.totalContent}</div>
-                <div className="stat-label">Generated Content</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <div className="glass-panel p-6 rounded-xl hover:border-neon-blue/30 transition-all group">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-neon-blue">
+                  <HiSparkles className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white">{tokens}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Available Tokens</div>
+                </div>
               </div>
             </div>
-            <div className="stat-card used-stat">
-              <div className="stat-icon">
-                <HiChartBar />
-              </div>
-              <div className="stat-content">
-                <div className="stat-value">{user?.totalTokensUsed || 0}</div>
-                <div className="stat-label">Tokens Used</div>
+            <div className="glass-panel p-6 rounded-xl hover:border-neon-green/30 transition-all group">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-lg bg-green-100 dark:bg-green-900/30 text-neon-green">
+                  <HiDocumentText className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalContent}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Generated Content</div>
+                </div>
               </div>
             </div>
-            <div className="stat-card purchased-stat">
-              <div className="stat-icon">
-                <HiKey />
+            <div className="glass-panel p-6 rounded-xl hover:border-neon-purple/30 transition-all group">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-neon-purple">
+                  <HiChartBar className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white">{user?.totalTokensUsed || 0}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Tokens Used</div>
+                </div>
               </div>
-              <div className="stat-content">
-                <div className="stat-value">{user?.totalTokensPurchased || 0}</div>
-                <div className="stat-label">Tokens Purchased</div>
+            </div>
+            <div className="glass-panel p-6 rounded-xl hover:border-neon-pink/30 transition-all group">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-neon-pink">
+                  <HiKey className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white">{user?.totalTokensPurchased || 0}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Tokens Purchased</div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Tabs */}
-          <div className="dashboard-tabs">
-            <button
-              className={`dashboard-tab ${activeTab === 'overview' ? 'active' : ''}`}
-              onClick={() => {
-                setActiveTab('overview')
-                setSearchParams({})
-              }}
-            >
-              <HiHome /> Overview
-            </button>
-            <button
-              className={`dashboard-tab ${activeTab === 'content' ? 'active' : ''}`}
-              onClick={() => {
-                setActiveTab('content')
-                setSearchParams({ tab: 'content' })
-              }}
-            >
-              <HiDocumentText /> Content History
-            </button>
+          <div className="glass-panel p-2 rounded-xl mb-8 overflow-x-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="flex space-x-2 min-w-max">
+              <button
+                onClick={() => {
+                  setActiveTab('overview')
+                  setSearchParams({})
+                }}
+                className={`
+                  flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300
+                  ${activeTab === 'overview'
+                    ? 'bg-white dark:bg-white/10 shadow-sm text-neon-blue dark:text-white ring-1 ring-black/5 dark:ring-white/10'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                  }
+                `}
+              >
+                <HiHome className="w-5 h-5" /> Overview
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('content')
+                  setSearchParams({ tab: 'content' })
+                }}
+                className={`
+                  flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300
+                  ${activeTab === 'content'
+                    ? 'bg-white dark:bg-white/10 shadow-sm text-neon-purple dark:text-white ring-1 ring-black/5 dark:ring-white/10'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                  }
+                `}
+              >
+                <HiDocumentText className="w-5 h-5" /> Content History
+              </button>
+            </div>
           </div>
 
           {/* Overview Tab */}
           {activeTab === 'overview' && (
-            <div className="dashboard-content">
-              {/* Onboarding Checklist */}
+            <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               {!user?.onboardingCompleted && (
-                <div className="onboarding-checklist-wrapper">
+                <div className="mb-6">
                   <OnboardingChecklist />
                 </div>
               )}
-              
-              {/* Progress Tracker */}
-              <div className="progress-tracker-wrapper">
+
+              <div className="mb-6">
                 <ProgressTracker />
               </div>
-              
-              {/* Quick Access Widgets */}
-              <div className="quick-access-widgets-wrapper">
+
+              <div className="mb-6">
                 <QuickAccessWidgets />
               </div>
-              
-              {/* Service Highlights */}
-              <div className="service-highlights-wrapper">
+
+              <div className="mb-6">
                 <ServiceHighlights />
               </div>
-              
-              {/* Resource Center */}
-              <div className="resource-center-wrapper">
+
+              <div className="mb-6">
                 <ResourceCenter />
               </div>
-              
-              <div className="overview-grid">
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Recent Content */}
-                <div className="overview-section">
-                  <div className="section-header">
-                    <h2>Recent Content</h2>
-                    <Link to="/user/dashboard" onClick={() => setActiveTab('content')} className="section-link">
-                      View All <HiArrowRight />
-                    </Link>
+                <div className="glass-panel p-6 rounded-xl">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">Recent Content</h2>
+                    <button onClick={() => setActiveTab('content')} className="text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 text-sm font-medium">
+                      View All <HiArrowRight className="w-4 h-4" />
+                    </button>
                   </div>
                   {loading ? (
-                    <div className="loading-state">Loading...</div>
+                    <div className="text-center py-12 text-gray-500 dark:text-gray-400">Loading...</div>
                   ) : stats.recentContent.length === 0 ? (
-                    <div className="empty-state">
-                      <p>No content generated yet.</p>
-                      <Link to="/user/tools" className="empty-state-link">
-                        <HiWrenchScrewdriver /> Start Creating
+                    <div className="text-center py-12">
+                      <p className="text-gray-500 dark:text-gray-400 mb-4">No content generated yet.</p>
+                      <Link to="/user/tools" className="inline-flex items-center gap-2 px-4 py-2 bg-neon-blue text-white rounded-lg hover:bg-neon-blue/80 transition-colors">
+                        <HiWrenchScrewdriver className="w-5 h-5" /> Start Creating
                       </Link>
                     </div>
                   ) : (
-                    <div className="recent-content-list">
+                    <div className="space-y-3">
                       {stats.recentContent.map((item) => {
                         const Icon = TOOL_TYPE_ICONS[item.toolType] || HiDocumentText
                         return (
-                          <div key={item._id} className="recent-content-item">
-                            <div className="recent-content-icon">
-                              <Icon />
+                          <div key={item._id} className="flex items-center gap-3 p-3 border border-gray-200 dark:border-white/10 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                            <div className="text-neon-blue">
+                              <Icon className="w-5 h-5" />
                             </div>
-                            <div className="recent-content-info">
-                              <h3>{item.title}</h3>
-                              <div className="recent-content-meta">
-                                <span className="content-type-badge">{TOOL_TYPE_LABELS[item.toolType]}</span>
-                                <span className="content-date-small">{formatDate(item.createdAt)}</span>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate">{item.title}</h3>
+                              <div className="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded">{TOOL_TYPE_LABELS[item.toolType]}</span>
+                                <span>{formatDate(item.createdAt)}</span>
                               </div>
                             </div>
                             <button
-                              className="btn-view-small"
                               onClick={() => handleViewContent(item._id)}
+                              className="p-2 text-neon-blue hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors"
                             >
-                              <HiEye />
+                              <HiEye className="w-5 h-5" />
                             </button>
                           </div>
                         )
@@ -371,62 +388,60 @@ function UserDashboard() {
                 </div>
 
                 {/* Content by Type */}
-                <div className="overview-section">
-                  <div className="section-header">
-                    <h2>Content by Type</h2>
-                  </div>
+                <div className="glass-panel p-6 rounded-xl">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Content by Type</h2>
                   {Object.keys(stats.contentByType).length === 0 ? (
-                    <div className="empty-state">
-                      <p>No content generated yet.</p>
+                    <div className="text-center py-12">
+                      <p className="text-gray-500 dark:text-gray-400">No content generated yet.</p>
                     </div>
                   ) : (
-                    <div className="content-type-stats">
-                      {Object.entries(stats.contentByType).map(([type, count]) => (
-                        <div key={type} className="content-type-stat">
-                          <div className="content-type-stat-icon">
-                            {(() => {
-                              const Icon = TOOL_TYPE_ICONS[type] || HiDocumentText
-                              return <Icon />
-                            })()}
+                    <div className="space-y-3">
+                      {Object.entries(stats.contentByType).map(([type, count]) => {
+                        const Icon = TOOL_TYPE_ICONS[type] || HiDocumentText
+                        return (
+                          <div key={type} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-white/5 rounded-lg">
+                            <div className="text-neon-blue">
+                              <Icon className="w-6 h-6" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-semibold text-gray-900 dark:text-white">{TOOL_TYPE_LABELS[type]}</div>
+                              <div className="text-sm text-gray-600 dark:text-gray-400">{count} {count === 1 ? 'item' : 'items'}</div>
+                            </div>
                           </div>
-                          <div className="content-type-stat-info">
-                            <div className="content-type-stat-label">{TOOL_TYPE_LABELS[type]}</div>
-                            <div className="content-type-stat-count">{count} {count === 1 ? 'item' : 'items'}</div>
-                          </div>
-                        </div>
-                      ))}
+                        )
+                      })}
                     </div>
                   )}
                 </div>
 
                 {/* Recent Transactions */}
-                <div className="overview-section">
-                  <div className="section-header">
-                    <h2>Recent Transactions</h2>
-                    <Link to="/user/billing" className="section-link">
-                      View All <HiArrowRight />
+                <div className="glass-panel p-6 rounded-xl">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">Recent Transactions</h2>
+                    <Link to="/user/billing" className="text-neon-purple hover:text-neon-purple/80 flex items-center gap-1 text-sm font-medium">
+                      View All <HiArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                   {transactions.length === 0 ? (
-                    <div className="empty-state">
-                      <p>No transactions yet.</p>
+                    <div className="text-center py-12">
+                      <p className="text-gray-500 dark:text-gray-400">No transactions yet.</p>
                     </div>
                   ) : (
-                    <div className="recent-transactions-list">
+                    <div className="space-y-3">
                       {transactions.map((transaction) => (
-                        <div key={transaction._id} className="recent-transaction-item">
-                          <div className="transaction-icon">
+                        <div key={transaction._id} className="flex items-center gap-3 p-3 border border-gray-200 dark:border-white/10 rounded-lg">
+                          <div>
                             {transaction.amount >= 0 ? (
-                              <HiSparkles className="text-green-500" />
+                              <HiSparkles className="w-5 h-5 text-green-500" />
                             ) : (
-                              <HiChartBar className="text-blue-500" />
+                              <HiChartBar className="w-5 h-5 text-blue-500" />
                             )}
                           </div>
-                          <div className="transaction-info-compact">
-                            <div className="transaction-type-compact">{transaction.type}</div>
-                            <div className="transaction-date-compact">{formatDate(transaction.createdAt)}</div>
+                          <div className="flex-1">
+                            <div className="text-sm font-semibold text-gray-900 dark:text-white capitalize">{transaction.type}</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{formatDate(transaction.createdAt)}</div>
                           </div>
-                          <div className={`transaction-amount-compact ${transaction.amount >= 0 ? 'positive' : 'negative'}`}>
+                          <div className={`text-lg font-bold ${transaction.amount >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                             {transaction.amount >= 0 ? '+' : ''}{transaction.amount}
                           </div>
                         </div>
@@ -436,35 +451,33 @@ function UserDashboard() {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="overview-section">
-                  <div className="section-header">
-                    <h2>Quick Actions</h2>
-                  </div>
-                  <div className="quick-actions-grid">
-                    <Link to="/user/tools" className="quick-action-card">
-                      <HiWrenchScrewdriver className="quick-action-icon" />
-                      <div className="quick-action-content">
-                        <h3>Use AI Tools</h3>
-                        <p>Generate resumes, cover letters, and more</p>
+                <div className="glass-panel p-6 rounded-xl">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Quick Actions</h2>
+                  <div className="space-y-3">
+                    <Link to="/user/tools" className="flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-white/10 rounded-lg hover:border-neon-blue dark:hover:border-neon-blue hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all cursor-pointer group">
+                      <HiWrenchScrewdriver className="w-6 h-6 text-neon-blue flex-shrink-0" />
+                      <div className="flex-1">
+                        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Use AI Tools</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Generate resumes, cover letters, and more</p>
                       </div>
-                      <HiArrowRight className="quick-action-arrow" />
+                      <HiArrowRight className="w-5 h-5 text-gray-400" />
                     </Link>
-                    <Link to="/user/billing" className="quick-action-card">
-                      <HiSparkles className="quick-action-icon" />
-                      <div className="quick-action-content">
-                        <h3>Buy Tokens</h3>
-                        <p>Purchase more tokens to continue using tools</p>
+                    <Link to="/user/billing" className="flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-white/10 rounded-lg hover:border-neon-purple dark:hover:border-neon-purple hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all cursor-pointer group">
+                      <HiSparkles className="w-6 h-6 text-neon-purple flex-shrink-0" />
+                      <div className="flex-1">
+                        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Buy Tokens</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Purchase more tokens to continue using tools</p>
                       </div>
-                      <HiArrowRight className="quick-action-arrow" />
+                      <HiArrowRight className="w-5 h-5 text-gray-400" />
                     </Link>
-                    <Link to="/user/dashboard?tab=content" onClick={() => setActiveTab('content')} className="quick-action-card">
-                      <HiDocumentText className="quick-action-icon" />
-                      <div className="quick-action-content">
-                        <h3>View History</h3>
-                        <p>See all your generated content</p>
+                    <button onClick={() => setActiveTab('content')} className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 dark:border-white/10 rounded-lg hover:border-neon-green dark:hover:border-neon-green hover:bg-green-50 dark:hover:bg-green-900/20 transition-all cursor-pointer group">
+                      <HiDocumentText className="w-6 h-6 text-neon-green flex-shrink-0" />
+                      <div className="flex-1 text-left">
+                        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">View History</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">See all your generated content</p>
                       </div>
-                      <HiArrowRight className="quick-action-arrow" />
-                    </Link>
+                      <HiArrowRight className="w-5 h-5 text-gray-400" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -473,20 +486,20 @@ function UserDashboard() {
 
           {/* Content Tab */}
           {activeTab === 'content' && (
-            <div className="dashboard-content">
-              <div className="content-header">
-                <h2>Generated Content</h2>
+            <div className="glass-panel p-6 rounded-xl animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Generated Content</h2>
                 <select
                   value={filterType}
                   onChange={(e) => {
                     setFilterType(e.target.value)
                     setPage(1)
                   }}
-                  className="content-filter"
+                  className="px-4 py-2 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-purple/50 text-gray-900 dark:text-white"
                 >
                   <option value="">All Types</option>
                   {Object.entries(TOOL_TYPE_LABELS).map(([key, label]) => (
-                    <option key={key} value={key}>
+                    <option key={key} value={key} className="bg-white dark:bg-space-800">
                       {label}
                     </option>
                   ))}
@@ -494,43 +507,43 @@ function UserDashboard() {
               </div>
 
               {loading ? (
-                <div className="loading-state">Loading...</div>
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">Loading...</div>
               ) : contentHistory.length === 0 ? (
-                <div className="empty-state">
-                  <p>No generated content yet. Start using the tools to see your history here!</p>
+                <div className="text-center py-12">
+                  <p className="text-gray-500 dark:text-gray-400">No generated content yet. Start using the tools to see your history here!</p>
                 </div>
               ) : (
                 <>
-                  <div className="content-list">
+                  <div className="space-y-4">
                     {contentHistory.map((item) => {
                       const Icon = TOOL_TYPE_ICONS[item.toolType] || HiDocumentText
                       return (
-                        <div key={item._id} className="content-item">
-                          <div className="content-item-icon">
-                            <Icon />
+                        <div key={item._id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border border-gray-200 dark:border-white/10 rounded-lg hover:shadow-md transition-shadow">
+                          <div className="text-neon-blue">
+                            <Icon className="w-6 h-6" />
                           </div>
-                          <div className="content-item-info">
-                            <h3>{item.title}</h3>
-                            <div className="content-item-meta">
-                              <span className="content-type">{TOOL_TYPE_LABELS[item.toolType]}</span>
-                              <span className="content-date">
-                                <HiClock /> {formatDate(item.createdAt)}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 truncate">{item.title}</h3>
+                            <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded">{TOOL_TYPE_LABELS[item.toolType]}</span>
+                              <span className="flex items-center gap-1">
+                                <HiClock className="w-4 h-4" /> {formatDate(item.createdAt)}
                               </span>
-                              <span className="content-tokens">{item.tokensUsed} tokens</span>
+                              <span>{item.tokensUsed} tokens</span>
                             </div>
                           </div>
-                          <div className="content-item-actions">
+                          <div className="flex gap-2 w-full sm:w-auto">
                             <button
-                              className="btn-view"
                               onClick={() => handleViewContent(item._id)}
+                              className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                             >
-                              <HiEye /> View
+                              <HiEye className="w-4 h-4" /> View
                             </button>
                             <button
-                              className="btn-delete"
                               onClick={() => handleDeleteContent(item._id)}
+                              className="flex-1 sm:flex-none px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
                             >
-                              <HiTrash /> Delete
+                              <HiTrash className="w-4 h-4" /> Delete
                             </button>
                           </div>
                         </div>
@@ -538,25 +551,24 @@ function UserDashboard() {
                     })}
                   </div>
 
-                  {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="pagination">
+                    <div className="flex items-center justify-center gap-4 mt-6">
                       <button
                         disabled={page === 1}
                         onClick={() => setPage(page - 1)}
-                        className="pagination-btn"
+                        className="p-3 rounded-lg bg-white dark:bg-space-800 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
-                        Previous
+                        <HiChevronLeft className="w-5 h-5" />
                       </button>
-                      <span className="pagination-info">
+                      <span className="text-gray-600 dark:text-gray-400 font-medium">
                         Page {page} of {totalPages}
                       </span>
                       <button
                         disabled={page === totalPages}
                         onClick={() => setPage(page + 1)}
-                        className="pagination-btn"
+                        className="p-3 rounded-lg bg-white dark:bg-space-800 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
-                        Next
+                        <HiChevronRight className="w-5 h-5" />
                       </button>
                     </div>
                   )}
@@ -569,25 +581,25 @@ function UserDashboard() {
 
         {/* Content View Modal */}
         {selectedContent && (
-          <div className="content-modal-overlay" onClick={() => setSelectedContent(null)}>
-            <div className="content-modal" onClick={(e) => e.stopPropagation()}>
-              <div className="content-modal-header">
-                <h2>{selectedContent.title}</h2>
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in" onClick={() => setSelectedContent(null)}>
+            <div className="glass-panel max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col rounded-2xl animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-white/10">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{selectedContent.title}</h2>
                 <button
-                  className="content-modal-close"
                   onClick={() => setSelectedContent(null)}
+                  className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors"
                 >
-                  <HiXMark />
+                  <HiXMark className="w-6 h-6" />
                 </button>
               </div>
-              <div className="content-modal-body">
-                <div className="content-modal-meta">
+              <div className="flex-1 overflow-y-auto p-6">
+                <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400">
                   <span>{TOOL_TYPE_LABELS[selectedContent.toolType]}</span>
                   <span>{formatDate(selectedContent.createdAt)}</span>
                   <span>{selectedContent.tokensUsed} tokens</span>
                 </div>
-                <div className="content-modal-content">
-                  <pre>{selectedContent.content}</pre>
+                <div className="bg-gray-50 dark:bg-space-800/50 rounded-lg p-4">
+                  <pre className="whitespace-pre-wrap text-gray-900 dark:text-gray-100 font-mono text-sm">{selectedContent.content}</pre>
                 </div>
               </div>
             </div>
@@ -599,4 +611,3 @@ function UserDashboard() {
 }
 
 export default UserDashboard
-

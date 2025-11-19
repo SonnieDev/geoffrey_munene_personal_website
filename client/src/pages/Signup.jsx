@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useUser } from '../contexts/UserContext'
 import SEO from '../components/SEO'
 import toast from 'react-hot-toast'
-import '../styles/pages/login.css'
+import { HiEnvelope, HiLockClosed, HiArrowRight, HiSparkles } from 'react-icons/hi2'
 
 function Signup() {
   const [email, setEmail] = useState('')
@@ -42,7 +42,7 @@ function Signup() {
     try {
       // Get sessionId from localStorage if it exists (for migrating tokens)
       const sessionId = localStorage.getItem('userSessionId')
-      
+
       const result = await register(email, password, sessionId, signupPurpose)
       if (result.success) {
         toast.success('Account created successfully! You received 10 free trial tokens.')
@@ -66,82 +66,127 @@ function Signup() {
         description="Create an account to access AI-powered career tools and get free trial tokens"
         url="/signup"
       />
-      <div className="login-page">
-        <div className="login-container">
-          <div className="login-card">
-            <h1 className="login-title">Sign Up</h1>
-            <p className="login-subtitle">Create an account and get 10 free trial tokens</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-space-900 transition-colors duration-300 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] dark:opacity-[0.05]"></div>
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-neon-purple/10 dark:bg-neon-purple/20 blur-[100px] animate-pulse-slow"></div>
+          <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-neon-blue/10 dark:bg-neon-blue/20 blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+        </div>
 
-            <form onSubmit={handleSubmit} className="login-form">
-              <div className="form-group">
-                <label htmlFor="email">Email Address</label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your.email@example.com"
-                  required
-                  disabled={loading}
-                />
+        <div className="max-w-md w-full relative z-10">
+          <div className="text-center mb-8 animate-fade-in">
+            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-sm">
+              <span className="text-neon-purple text-sm font-medium tracking-wider flex items-center gap-1.5">
+                <HiSparkles className="w-3.5 h-3.5" />
+                10 FREE TOKENS
+              </span>
+            </div>
+            <h1 className="text-4xl font-display font-bold text-gray-900 dark:text-white">
+              Create Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-neon-blue">Account</span>
+            </h1>
+          </div>
+
+          <div className="glass-panel p-8 rounded-2xl animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <HiEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your.email@example.com"
+                    required
+                    disabled={loading}
+                    className="w-full pl-12 pr-4 py-3 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-purple/50 text-gray-900 dark:text-white placeholder-gray-500 transition-all disabled:opacity-50"
+                  />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="At least 8 characters"
-                  required
-                  disabled={loading}
-                  minLength={8}
-                />
-                <small className="form-hint">Must be at least 8 characters</small>
+              <div className="space-y-2">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Password
+                </label>
+                <div className="relative">
+                  <HiLockClosed className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="At least 8 characters"
+                    required
+                    disabled={loading}
+                    minLength={8}
+                    className="w-full pl-12 pr-4 py-3 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-purple/50 text-gray-900 dark:text-white placeholder-gray-500 transition-all disabled:opacity-50"
+                  />
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Must be at least 8 characters</p>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm your password"
-                  required
-                  disabled={loading}
-                  minLength={8}
-                />
+              <div className="space-y-2">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <HiLockClosed className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm your password"
+                    required
+                    disabled={loading}
+                    minLength={8}
+                    className="w-full pl-12 pr-4 py-3 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-purple/50 text-gray-900 dark:text-white placeholder-gray-500 transition-all disabled:opacity-50"
+                  />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="signupPurpose">What brings you here? (Optional)</label>
+              <div className="space-y-2">
+                <label htmlFor="signupPurpose" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  What brings you here? (Optional)
+                </label>
                 <select
                   id="signupPurpose"
                   value={signupPurpose}
                   onChange={(e) => setSignupPurpose(e.target.value)}
                   disabled={loading}
-                  className="form-select"
+                  className="w-full px-4 py-3 bg-white/50 dark:bg-space-800/50 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-neon-purple/50 text-gray-900 dark:text-white appearance-none cursor-pointer transition-all disabled:opacity-50"
                 >
-                  <option value="">Select your main interest</option>
-                  <option value="tools">AI Tools & Productivity</option>
-                  <option value="coaching">Remote Work Coaching</option>
-                  <option value="content">Content & Learning</option>
-                  <option value="all">Everything - I want it all!</option>
+                  <option value="" className="bg-white dark:bg-space-800">Select your main interest</option>
+                  <option value="tools" className="bg-white dark:bg-space-800">AI Tools & Productivity</option>
+                  <option value="coaching" className="bg-white dark:bg-space-800">Remote Work Coaching</option>
+                  <option value="content" className="bg-white dark:bg-space-800">Content & Learning</option>
+                  <option value="all" className="bg-white dark:bg-space-800">Everything - I want it all!</option>
                 </select>
-                <small className="form-hint">This helps us personalize your experience</small>
+                <p className="text-xs text-gray-500 dark:text-gray-400">This helps us personalize your experience</p>
               </div>
 
-              <button type="submit" disabled={loading} className="login-button">
-                {loading ? 'Creating account...' : 'Sign Up'}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gray-900 dark:bg-white text-white dark:text-space-900 font-bold py-3 px-6 rounded-xl hover:bg-neon-purple dark:hover:bg-neon-purple hover:text-white transition-all duration-300 shadow-lg hover:shadow-neon-purple/20 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 group"
+              >
+                {loading ? 'Creating account...' : (
+                  <>
+                    Sign Up & Get 10 Tokens
+                    <HiArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                  </>
+                )}
               </button>
             </form>
 
-            <div className="login-footer">
-              <p>
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-white/10 text-center">
+              <p className="text-gray-600 dark:text-gray-400">
                 Already have an account?{' '}
-                <Link to="/login" className="login-link">
+                <Link to="/login" className="text-neon-purple hover:text-neon-purple/80 font-medium transition-colors">
                   Login here
                 </Link>
               </p>
@@ -154,4 +199,3 @@ function Signup() {
 }
 
 export default Signup
-
