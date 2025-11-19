@@ -63,6 +63,27 @@
   @apply flex flex-col sm:flex-row gap-4;
 }
 
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary {
+  @apply w-full sm:w-auto;
+  min-width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 1rem 2rem;
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-secondary {
+    min-width: auto;
+    width: auto;
+  }
+}
+
 .hero-section .btn-primary,
 .home-page .btn-primary {
   @apply bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold no-underline transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-xl relative overflow-hidden;

@@ -107,9 +107,9 @@ function Home() {
                 <Link to="/learn" className="btn-primary">
                   Get Started <HiArrowRight className="inline ml-2" />
                 </Link>
-                <a href="https://www.youtube.com/@munenegeoffrey" target="_blank" rel="noopener noreferrer" className="btn-secondary">
-                  Watch My Videos
-                </a>
+                <Link to="/services" className="btn-secondary">
+                  View Services
+                </Link>
               </div>
             </div>
             <div className="hero-image">
