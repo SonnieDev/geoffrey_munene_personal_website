@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
-import { HiTrash, HiCheckCircle, HiXCircle, HiArrowLeft, HiHome, HiEnvelope } from 'react-icons/hi2'
+import { HiTrash, HiCheckCircle, HiXCircle, HiHome, HiEnvelope } from 'react-icons/hi2'
+import AdminHeader from '../../components/AdminHeader'
 import '../../styles/pages/admin-contacts.css'
 
 function AdminContacts() {
@@ -83,18 +84,10 @@ function AdminContacts() {
         <span className="admin-breadcrumb-current">Contact Messages</span>
       </div>
 
-      <div className="admin-page-header">
-        <div className="admin-page-title-section">
-          <button 
-            onClick={() => navigate('/admin/dashboard')} 
-            className="admin-back-dashboard-btn"
-            title="Back to Dashboard"
-          >
-            <HiArrowLeft /> Back to Dashboard
-          </button>
-          <h1>Contact Messages</h1>
-        </div>
-      </div>
+      <AdminHeader
+        title="Contact Messages"
+        showBackButton={true}
+      />
 
       {error && <div className="admin-error">{error}</div>}
 

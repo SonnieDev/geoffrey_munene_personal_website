@@ -4,26 +4,36 @@
 const isDevelopment = import.meta.env.DEV
 
 export const logError = (error, errorInfo = {}) => {
-  // In development, log to console
-  if (isDevelopment) {
-    console.error('Error logged:', error, errorInfo)
-    return
+  // Always log to console
+  console.error('Error logged:', error, errorInfo)
+
+  // Send to backend for dev tools (only if admin is logged in)
+  const token = localStorage.getItem('adminToken')
+  if (token) {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+    fetch(`${apiUrl}/admin/dev/logs/errors`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        error: {
+          message: error.message || String(error),
+          stack: error.stack,
+        },
+        context: errorInfo,
+      }),
+    }).catch(() => {
+      // Silently fail if logging fails
+    })
   }
 
-  // In production, you would send to error tracking service
+  // In production, you would also send to error tracking service
   // Example with Sentry:
-  // Sentry.captureException(error, { extra: errorInfo })
-
-  // For now, we'll just log to console
-  // You can extend this to send to your backend API
-  console.error('Production error:', error, errorInfo)
-
-  // Optional: Send to your backend API
-  // fetch('/api/errors', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ error: error.toString(), errorInfo, url: window.location.href })
-  // }).catch(err => console.error('Failed to log error:', err))
+  // if (!isDevelopment) {
+  //   Sentry.captureException(error, { extra: errorInfo })
+  // }
 }
 
 export const logApiError = (error, endpoint, method = 'GET') => {

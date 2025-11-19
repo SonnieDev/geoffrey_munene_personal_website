@@ -5,9 +5,9 @@ import Admin from '../models/Admin.js'
 export const protect = async (req, res, next) => {
   let token
 
-  // Require JWT_SECRET in production
+  // Require JWT_SECRET (always, not just in production)
   const jwtSecret = process.env.JWT_SECRET
-  if (!jwtSecret && process.env.NODE_ENV === 'production') {
+  if (!jwtSecret) {
     return res.status(500).json({
       success: false,
       message: 'Server configuration error: JWT_SECRET is required',
@@ -20,9 +20,9 @@ export const protect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1]
 
       // Verify token
-      const decoded = jwt.verify(token, jwtSecret || 'your-secret-key-change-in-production')
+      const decoded = jwt.verify(token, jwtSecret)
 
-      // Get admin from token
+      // Get admin from token (include role and isActive)
       req.admin = await Admin.findById(decoded.id).select('-password')
 
       if (!req.admin) {

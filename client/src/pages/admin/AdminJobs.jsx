@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
-import { HiPlus, HiPencil, HiTrash, HiArrowLeft, HiHome } from 'react-icons/hi2'
+import { HiPlus, HiPencil, HiTrash, HiHome } from 'react-icons/hi2'
+import AdminHeader from '../../components/AdminHeader'
 import '../../styles/pages/admin-jobs.css'
 
 function AdminJobs() {
@@ -63,21 +64,15 @@ function AdminJobs() {
         <span className="admin-breadcrumb-current">Remote Jobs</span>
       </div>
 
-      <div className="admin-page-header">
-        <div className="admin-page-title-section">
-          <button 
-            onClick={() => navigate('/admin/dashboard')} 
-            className="admin-back-dashboard-btn"
-            title="Back to Dashboard"
-          >
-            <HiArrowLeft /> Back to Dashboard
-          </button>
-          <h1>Job Management</h1>
-        </div>
-        <Link to="/admin/jobs/new" className="admin-add-btn">
-          <HiPlus /> Add New Job
-        </Link>
-      </div>
+      <AdminHeader
+        title="Job Management"
+        showBackButton={true}
+        actionButton={
+          <Link to="/admin/jobs/new" className="admin-add-btn">
+            <HiPlus /> Add New Job
+          </Link>
+        }
+      />
 
       {error && <div className="admin-error">{error}</div>}
 

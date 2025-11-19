@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+import { useTheme } from '../../contexts/ThemeContext'
 import { adminAPI } from '../../services/api'
-import { HiBookOpen, HiBriefcase, HiEnvelope, HiStar, HiArrowRight } from 'react-icons/hi2'
+import { HiBookOpen, HiBriefcase, HiEnvelope, HiStar, HiArrowRight, HiUserGroup, HiShieldCheck, HiSun, HiMoon, HiCodeBracket } from 'react-icons/hi2'
 import '../../styles/pages/admin-dashboard.css'
 
 function AdminDashboard() {
   const { logout, admin } = useAuth()
+  const { isDark, toggleTheme } = useTheme()
   const [stats, setStats] = useState({
     blogs: 0,
     jobs: 0,
@@ -46,11 +48,36 @@ function AdminDashboard() {
       <div className="admin-header">
         <div>
           <h1>Admin Dashboard</h1>
-          <p>Welcome back, {admin?.username || 'Admin'}!</p>
+          <p>Welcome back, {admin?.username || 'Admin'}! 
+            {admin?.role && (
+              <span className="admin-role-badge" style={{ 
+                marginLeft: '10px', 
+                padding: '4px 12px', 
+                borderRadius: '12px', 
+                fontSize: '14px',
+                backgroundColor: admin.role === 'super_admin' ? '#fbbf24' : admin.role === 'admin' ? '#3b82f6' : '#10b981',
+                color: 'white',
+                fontWeight: '500'
+              }}>
+                {admin.role === 'super_admin' && <HiShieldCheck style={{ display: 'inline', marginRight: '4px' }} />}
+                {admin.role.replace('_', ' ').toUpperCase()}
+              </span>
+            )}
+          </p>
         </div>
-        <button onClick={logout} className="admin-logout-btn">
-          Logout
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button 
+            onClick={toggleTheme}
+            className="admin-theme-toggle"
+            aria-label="Toggle theme"
+            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {isDark ? <HiSun /> : <HiMoon />}
+          </button>
+          <button onClick={logout} className="admin-logout-btn">
+            Logout
+          </button>
+        </div>
       </div>
 
       <div className="admin-stats-grid">
@@ -97,6 +124,19 @@ function AdminDashboard() {
           </div>
           <HiArrowRight className="stat-arrow" />
         </Link>
+
+        {admin?.role === 'super_admin' && (
+          <Link to="/admin/admins" className="admin-stat-card">
+            <div className="stat-icon admins">
+              <HiUserGroup />
+            </div>
+            <div className="stat-content">
+              <h3>Manage</h3>
+              <p>Admins</p>
+            </div>
+            <HiArrowRight className="stat-arrow" />
+          </Link>
+        )}
       </div>
 
       <div className="admin-quick-actions">
@@ -116,6 +156,21 @@ function AdminDashboard() {
           </Link>
         </div>
       </div>
+
+      {admin?.role === 'dev' && (
+        <div className="admin-dev-tools-section">
+          <h2>Developer Tools</h2>
+          <div className="admin-actions-grid">
+            <Link to="/admin/dev-tools" className="admin-action-btn" style={{ backgroundColor: '#10b981' }}>
+              <HiCodeBracket />
+              <span>Open Dev Tools</span>
+            </Link>
+          </div>
+          <p className="dev-tools-description">
+            Access system health, database stats, error logs, and API request logs
+          </p>
+        </div>
+      )}
     </div>
   )
 }

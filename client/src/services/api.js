@@ -217,6 +217,54 @@ export const adminAPI = {
     const response = await api.delete(`/admin/testimonials/${id}`)
     return response.data
   },
+  
+  // Admin Management (Super Admin only)
+  getAllAdmins: async () => {
+    const response = await api.get('/admin/admins')
+    return response.data
+  },
+  getAdminById: async (id) => {
+    const response = await api.get(`/admin/admins/${id}`)
+    return response.data
+  },
+  createAdmin: async (data) => {
+    const response = await api.post('/admin/admins', data)
+    return response.data
+  },
+  updateAdmin: async (id, data) => {
+    const response = await api.put(`/admin/admins/${id}`, data)
+    return response.data
+  },
+  deleteAdmin: async (id) => {
+    const response = await api.delete(`/admin/admins/${id}`)
+    return response.data
+  },
+  changePassword: async (id, data) => {
+    const response = await api.put(`/admin/admins/${id}/password`, data)
+    return response.data
+  },
+  
+  // Dev Tools (Dev, Admin, Super Admin)
+  getSystemHealth: async () => {
+    const response = await api.get('/admin/dev/health')
+    return response.data
+  },
+  getDatabaseStats: async () => {
+    const response = await api.get('/admin/dev/stats')
+    return response.data
+  },
+  getErrorLogs: async (limit = 50) => {
+    const response = await api.get('/admin/dev/logs/errors', { params: { limit } })
+    return response.data
+  },
+  getApiRequestLogs: async (limit = 100, filters = {}) => {
+    const response = await api.get('/admin/dev/logs/requests', { params: { limit, ...filters } })
+    return response.data
+  },
+  clearLogs: async (type = 'all') => {
+    const response = await api.delete('/admin/dev/logs', { data: { type } })
+    return response.data
+  },
 }
 
 // Add token to requests if available

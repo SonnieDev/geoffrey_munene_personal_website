@@ -23,6 +23,9 @@ import AdminJobForm from './pages/admin/AdminJobForm'
 import AdminContacts from './pages/admin/AdminContacts'
 import AdminTestimonials from './pages/admin/AdminTestimonials'
 import AdminTestimonialForm from './pages/admin/AdminTestimonialForm'
+import AdminAdmins from './pages/admin/AdminAdmins'
+import AdminAdminForm from './pages/admin/AdminAdminForm'
+import DevTools from './pages/admin/DevTools'
 import ProtectedRoute from './components/ProtectedRoute'
 import ErrorBoundary from './components/ErrorBoundary'
 import GoogleAnalytics from './components/GoogleAnalytics'
@@ -152,6 +155,38 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AdminTestimonialForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/admins"
+              element={
+                <ProtectedRoute>
+                  <AdminAdmins />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/admins/new"
+              element={
+                <ProtectedRoute>
+                  <AdminAdminForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/admins/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <AdminAdminForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/dev-tools"
+              element={
+                <ProtectedRoute>
+                  <DevTools />
                 </ProtectedRoute>
               }
             />

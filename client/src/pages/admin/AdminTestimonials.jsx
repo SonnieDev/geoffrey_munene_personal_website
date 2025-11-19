@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
-import { HiPlus, HiPencil, HiTrash, HiStar, HiArrowLeft, HiHome } from 'react-icons/hi2'
+import { HiPlus, HiPencil, HiTrash, HiStar, HiHome } from 'react-icons/hi2'
+import AdminHeader from '../../components/AdminHeader'
 import '../../styles/pages/admin-blogs.css'
 
 function AdminTestimonials() {
@@ -63,21 +64,15 @@ function AdminTestimonials() {
         <span className="admin-breadcrumb-current">Testimonials</span>
       </div>
 
-      <div className="admin-page-header">
-        <div className="admin-page-title-section">
-          <button 
-            onClick={() => navigate('/admin/dashboard')} 
-            className="admin-back-dashboard-btn"
-            title="Back to Dashboard"
-          >
-            <HiArrowLeft /> Back to Dashboard
-          </button>
-          <h1>Testimonials Management</h1>
-        </div>
-        <Link to="/admin/testimonials/new" className="admin-add-btn">
-          <HiPlus /> Add New Testimonial
-        </Link>
-      </div>
+      <AdminHeader
+        title="Testimonials Management"
+        showBackButton={true}
+        actionButton={
+          <Link to="/admin/testimonials/new" className="admin-add-btn">
+            <HiPlus /> Add New Testimonial
+          </Link>
+        }
+      />
 
       {error && <div className="admin-error">{error}</div>}
 

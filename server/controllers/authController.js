@@ -4,24 +4,35 @@ import Admin from '../models/Admin.js'
 // Generate JWT Token
 const generateToken = (id) => {
   const jwtSecret = process.env.JWT_SECRET
-  if (!jwtSecret && process.env.NODE_ENV === 'production') {
-    throw new Error('JWT_SECRET is required in production')
+  if (!jwtSecret) {
+    throw new Error('JWT_SECRET environment variable is required')
   }
   
-  return jwt.sign({ id }, jwtSecret || 'your-secret-key-change-in-production', {
-    expiresIn: '30d',
+  return jwt.sign({ id }, jwtSecret, {
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d', // Default 7 days, configurable via env
   })
 }
 
-// @desc    Register admin (first time setup)
+// @desc    Register admin (first time setup - only if no admins exist)
 // @route   POST /api/admin/register
-// @access  Public (should be protected in production)
+// @access  Public (only works if no admins exist, otherwise disabled)
 export const registerAdmin = async (req, res) => {
   try {
+    // Check if any admins exist
+    const adminCount = await Admin.countDocuments()
+    
+    // Only allow registration if no admins exist (first-time setup)
+    if (adminCount > 0) {
+      return res.status(403).json({
+        success: false,
+        message: 'Registration is disabled. Please use the admin management system to create new admins.',
+      })
+    }
+
     const { username, password } = req.body
 
     // Check if admin exists
-    const adminExists = await Admin.findOne({ username })
+    const adminExists = await Admin.findOne({ username: username.toLowerCase() })
 
     if (adminExists) {
       return res.status(400).json({
@@ -30,17 +41,23 @@ export const registerAdmin = async (req, res) => {
       })
     }
 
-    // Create admin
+    // Create first admin as super_admin
     const admin = await Admin.create({
-      username,
+      username: username.toLowerCase(),
       password,
+      role: 'super_admin', // First admin is always super admin
     })
 
     if (admin) {
       res.status(201).json({
         success: true,
-        message: 'Admin created successfully',
+        message: 'Super admin created successfully',
         token: generateToken(admin._id),
+        admin: {
+          id: admin._id,
+          username: admin.username,
+          role: admin.role,
+        },
       })
     } else {
       res.status(400).json({
@@ -53,7 +70,7 @@ export const registerAdmin = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to register admin',
-      error: error.message,
+      ...(process.env.NODE_ENV === 'development' && { error: error.message }),
     })
   }
 }
@@ -65,10 +82,22 @@ export const loginAdmin = async (req, res) => {
   try {
     const { username, password } = req.body
 
-    // Check for admin
-    const admin = await Admin.findOne({ username })
+    // Check for admin (case-insensitive)
+    const admin = await Admin.findOne({ username: username.toLowerCase() })
 
     if (admin && (await admin.matchPassword(password))) {
+      // Check if account is active
+      if (!admin.isActive) {
+        return res.status(403).json({
+          success: false,
+          message: 'Account is deactivated. Please contact a super admin.',
+        })
+      }
+
+      // Update last login
+      admin.lastLogin = new Date()
+      await admin.save()
+
       res.json({
         success: true,
         message: 'Login successful',
@@ -76,6 +105,8 @@ export const loginAdmin = async (req, res) => {
         admin: {
           id: admin._id,
           username: admin.username,
+          email: admin.email,
+          role: admin.role,
         },
       })
     } else {
@@ -89,7 +120,7 @@ export const loginAdmin = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to login',
-      error: error.message,
+      ...(process.env.NODE_ENV === 'development' && { error: error.message }),
     })
   }
 }
@@ -103,7 +134,15 @@ export const getMe = async (req, res) => {
 
     res.json({
       success: true,
-      data: admin,
+      data: {
+        _id: admin._id,
+        username: admin.username,
+        email: admin.email,
+        role: admin.role,
+        isActive: admin.isActive,
+        lastLogin: admin.lastLogin,
+        createdAt: admin.createdAt,
+      },
     })
   } catch (error) {
     console.error('Error getting admin:', error)

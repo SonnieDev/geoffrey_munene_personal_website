@@ -1,5 +1,6 @@
 import React from 'react'
 import { HiExclamationTriangle } from 'react-icons/hi2'
+import { logError } from '../utils/errorTracking'
 import '../styles/components/error-boundary.css'
 
 class ErrorBoundary extends React.Component {

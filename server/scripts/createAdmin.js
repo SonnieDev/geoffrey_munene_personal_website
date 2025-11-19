@@ -22,10 +22,15 @@ const createAdmin = async () => {
       process.exit(1)
     }
 
+    // Check if this is the first admin (make them super_admin)
+    const adminCount = await Admin.countDocuments()
+    const role = adminCount === 0 ? 'super_admin' : 'admin'
+
     // Create admin
     const admin = await Admin.create({
-      username,
+      username: username.toLowerCase(),
       password,
+      role,
     })
 
     console.log('✅ Admin created successfully!')

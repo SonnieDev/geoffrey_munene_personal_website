@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('adminToken', response.token)
         setAdmin(response.admin)
         setIsAuthenticated(true)
-        return { success: true }
+        return { success: true, admin: response.admin }
       }
       return { success: false, message: response.message || 'Login failed' }
     } catch (error) {

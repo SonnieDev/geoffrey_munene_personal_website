@@ -14,6 +14,19 @@
   @apply text-gray-600 dark:text-gray-400 mt-1;
 }
 
+.admin-theme-toggle {
+  @apply p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800;
+  @apply border border-gray-300 dark:border-gray-700;
+}
+
+.admin-theme-toggle:hover {
+  @apply transform rotate-12 scale-110;
+}
+
+.admin-theme-toggle svg {
+  @apply w-5 h-5;
+}
+
 .admin-logout-btn {
   @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors;
 }
@@ -44,6 +57,10 @@
 
 .stat-icon.testimonials {
   @apply bg-yellow-500;
+}
+
+.stat-icon.admins {
+  @apply bg-indigo-500;
 }
 
 .stat-content h3 {
@@ -84,5 +101,17 @@
 
 .dark .admin-quick-actions {
   @apply bg-gray-800;
+}
+
+.admin-dev-tools-section {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6;
+}
+
+.admin-dev-tools-section h2 {
+  @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4;
+}
+
+.dev-tools-description {
+  @apply text-sm text-gray-600 dark:text-gray-400 mt-2;
 }
 

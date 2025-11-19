@@ -8,11 +8,34 @@ const adminSchema = new mongoose.Schema(
       required: [true, 'Username is required'],
       unique: true,
       trim: true,
+      lowercase: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      sparse: true, // Allows multiple null values but enforces uniqueness for non-null
     },
     password: {
       type: String,
       required: [true, 'Password is required'],
-      minlength: 6,
+      minlength: 8,
+    },
+    role: {
+      type: String,
+      enum: ['super_admin', 'admin', 'dev'],
+      default: 'admin',
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    lastLogin: {
+      type: Date,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Admin',
     },
   },
   {
