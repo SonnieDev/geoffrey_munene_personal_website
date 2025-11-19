@@ -39,20 +39,24 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
 
 app.use(cors({
   origin: function (origin, callback) {
-    // In production, be strict about origins
+    // Allow requests with no origin (mobile apps, curl, Postman, health checks, etc.)
+    // This is safe because credentials are only sent when origin matches
+    if (!origin) {
+      return callback(null, true)
+    }
+    
+    // In production, check against allowed origins
     if (process.env.NODE_ENV === 'production') {
-      // Allow requests with no origin only for same-origin requests
-      if (!origin) {
-        return callback(new Error('CORS: Origin header required in production'))
-      }
       if (allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true)
       } else {
+        // Log the rejected origin for debugging (but don't crash)
+        console.warn(`CORS: Origin ${origin} not allowed`)
         callback(new Error(`CORS: Origin ${origin} not allowed`))
       }
     } else {
       // In development, allow localhost origins
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      if (allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))
@@ -184,11 +188,19 @@ app.get('/api/health', (req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
+  // Handle CORS errors gracefully
+  if (err.message && err.message.includes('CORS')) {
+    return res.status(403).json({
+      success: false,
+      message: 'CORS: Request not allowed from this origin',
+    })
+  }
+  
   console.error(err.stack)
-  res.status(500).json({ 
+  res.status(err.status || 500).json({ 
     success: false, 
-    message: 'Something went wrong!', 
-    error: process.env.NODE_ENV === 'development' ? err.message : {} 
+    message: err.message || 'Something went wrong!', 
+    ...(process.env.NODE_ENV === 'development' && { error: err.message, stack: err.stack })
   })
 })
 
