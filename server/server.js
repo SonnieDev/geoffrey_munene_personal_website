@@ -31,11 +31,17 @@ const app = express()
 // CORS configuration - MUST be before other middleware for preflight requests
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [
-      process.env.FRONTEND_URL || 'https://geoffreymunene.netlify.app',
+      process.env.FRONTEND_URL,
+      'https://geoffreymunene.netlify.app',
       'https://geoffreymunene.com',
       'https://www.geoffreymunene.com'
     ].filter(Boolean) // Remove any undefined values
   : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174']
+
+// Log allowed origins in production for debugging
+if (process.env.NODE_ENV === 'production') {
+  console.log('CORS Allowed Origins:', allowedOrigins)
+}
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -51,7 +57,7 @@ app.use(cors({
         callback(null, true)
       } else {
         // Log the rejected origin for debugging (but don't crash)
-        console.warn(`CORS: Origin ${origin} not allowed`)
+        console.warn(`CORS: Origin ${origin} not allowed. Allowed origins:`, allowedOrigins)
         callback(new Error(`CORS: Origin ${origin} not allowed`))
       }
     } else {
@@ -188,8 +194,15 @@ app.get('/api/health', (req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  // Handle CORS errors gracefully
+  // Handle CORS errors gracefully - but CORS middleware should handle its own errors
+  // This is a fallback in case CORS errors slip through
   if (err.message && err.message.includes('CORS')) {
+    // Set CORS headers even for errors
+    const origin = req.headers.origin
+    if (origin && allowedOrigins.indexOf(origin) !== -1) {
+      res.setHeader('Access-Control-Allow-Origin', origin)
+      res.setHeader('Access-Control-Allow-Credentials', 'true')
+    }
     return res.status(403).json({
       success: false,
       message: 'CORS: Request not allowed from this origin',
