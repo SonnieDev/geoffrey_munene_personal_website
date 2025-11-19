@@ -66,7 +66,7 @@ function BlogDetail() {
       {blog.thumbnail && (
         <div className="detail-hero">
           <div className="detail-thumbnail">
-            <img src={blog.thumbnail} alt={blog.title} />
+            <img src={blog.thumbnail} alt={blog.title} loading="lazy" decoding="async" />
           </div>
         </div>
       )}

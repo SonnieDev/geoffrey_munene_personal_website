@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
+import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider } from './contexts/AuthContext'
 import Home from './pages/Home'
@@ -20,17 +21,23 @@ import AdminBlogForm from './pages/admin/AdminBlogForm'
 import AdminJobs from './pages/admin/AdminJobs'
 import AdminJobForm from './pages/admin/AdminJobForm'
 import AdminContacts from './pages/admin/AdminContacts'
+import AdminTestimonials from './pages/admin/AdminTestimonials'
+import AdminTestimonialForm from './pages/admin/AdminTestimonialForm'
 import ProtectedRoute from './components/ProtectedRoute'
+import ErrorBoundary from './components/ErrorBoundary'
+import GoogleAnalytics from './components/GoogleAnalytics'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import './styles/app.css'
 
 function App() {
   return (
-    <HelmetProvider>
-      <ThemeProvider>
-        <AuthProvider>
-          <Router>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <Router>
+              <GoogleAnalytics />
           <Routes>
             {/* Public routes with navbar and footer */}
             <Route
@@ -124,11 +131,60 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/testimonials"
+              element={
+                <ProtectedRoute>
+                  <AdminTestimonials />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/testimonials/new"
+              element={
+                <ProtectedRoute>
+                  <AdminTestimonialForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/testimonials/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <AdminTestimonialForm />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
           </Router>
         </AuthProvider>
       </ThemeProvider>
-    </HelmetProvider>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: 'var(--toast-bg, #363636)',
+            color: 'var(--toast-color, #fff)',
+          },
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            duration: 4000,
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
+      </HelmetProvider>
+    </ErrorBoundary>
   )
 }
 

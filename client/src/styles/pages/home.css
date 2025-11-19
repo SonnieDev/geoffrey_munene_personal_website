@@ -414,16 +414,23 @@
 }
 
 .blog-loading,
-.no-posts {
+.no-posts,
+.no-testimonials {
   @apply text-center text-gray-600 py-12;
 }
 
-.no-posts {
+.no-posts,
+.no-testimonials {
   @apply flex flex-col items-center justify-center py-16;
 }
 
 .no-posts::before {
   content: '📝';
+  @apply text-6xl mb-4 opacity-50;
+}
+
+.no-testimonials::before {
+  content: '⭐';
   @apply text-6xl mb-4 opacity-50;
 }
 
@@ -495,6 +502,10 @@
 
 .author-avatar {
   @apply w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0;
+}
+
+.author-avatar-img {
+  @apply w-12 h-12 rounded-full object-cover flex-shrink-0;
 }
 
 .author-info {

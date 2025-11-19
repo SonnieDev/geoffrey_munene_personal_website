@@ -62,6 +62,24 @@ const SkeletonLoader = ({ type = 'card', count = 1 }) => {
             <div className="skeleton-line skeleton-line-short"></div>
           </div>
         )
+      case 'testimonial-card':
+        return (
+          <div className="skeleton-testimonial-card">
+            <div className="skeleton-stars"></div>
+            <div className="skeleton-content">
+              <div className="skeleton-line"></div>
+              <div className="skeleton-line"></div>
+              <div className="skeleton-line skeleton-line-medium"></div>
+            </div>
+            <div className="skeleton-author">
+              <div className="skeleton-avatar"></div>
+              <div className="skeleton-author-info">
+                <div className="skeleton-line skeleton-line-short"></div>
+                <div className="skeleton-line skeleton-line-short"></div>
+              </div>
+            </div>
+          </div>
+        )
       default:
         return <div className="skeleton-default"></div>
     }

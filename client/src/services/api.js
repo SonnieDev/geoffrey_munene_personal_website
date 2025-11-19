@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { logApiError } from '../utils/errorTracking'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
@@ -8,6 +9,18 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+// Add response interceptor for error tracking
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Log API errors
+    if (error.config) {
+      logApiError(error, error.config.url, error.config.method)
+    }
+    return Promise.reject(error)
+  }
+)
 
 // Contact API
 export const contactAPI = {
@@ -97,6 +110,18 @@ export const jobsAPI = {
   },
 }
 
+// Testimonials API
+export const testimonialsAPI = {
+  getAll: async (params = {}) => {
+    const response = await api.get('/testimonials', { params })
+    return response.data
+  },
+  getById: async (id) => {
+    const response = await api.get(`/testimonials/${id}`)
+    return response.data
+  },
+}
+
 // Admin API
 export const adminAPI = {
   // Auth
@@ -168,6 +193,28 @@ export const adminAPI = {
   },
   deleteContact: async (id) => {
     const response = await api.delete(`/admin/contacts/${id}`)
+    return response.data
+  },
+  
+  // Testimonials
+  getAllTestimonials: async () => {
+    const response = await api.get('/admin/testimonials')
+    return response.data
+  },
+  getTestimonialById: async (id) => {
+    const response = await api.get(`/admin/testimonials/${id}`)
+    return response.data
+  },
+  createTestimonial: async (data) => {
+    const response = await api.post('/admin/testimonials', data)
+    return response.data
+  },
+  updateTestimonial: async (id, data) => {
+    const response = await api.put(`/admin/testimonials/${id}`, data)
+    return response.data
+  },
+  deleteTestimonial: async (id) => {
+    const response = await api.delete(`/admin/testimonials/${id}`)
     return response.data
   },
 }

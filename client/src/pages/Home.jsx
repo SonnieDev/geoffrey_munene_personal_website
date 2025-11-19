@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { blogsAPI } from '../services/api'
+import { blogsAPI, testimonialsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import SkeletonLoader from '../components/SkeletonLoader'
 import { 
@@ -17,10 +17,13 @@ import '../styles/pages/home.css'
 
 function Home() {
   const [recentPosts, setRecentPosts] = useState([])
+  const [testimonials, setTestimonials] = useState([])
   const [loading, setLoading] = useState(true)
+  const [testimonialsLoading, setTestimonialsLoading] = useState(true)
 
   useEffect(() => {
     fetchRecentPosts()
+    fetchTestimonials()
   }, [])
 
   const fetchRecentPosts = async () => {
@@ -32,6 +35,27 @@ function Home() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const fetchTestimonials = async () => {
+    try {
+      const response = await testimonialsAPI.getAll({ limit: 3 })
+      setTestimonials(response.data || [])
+    } catch (err) {
+      console.error('Error fetching testimonials:', err)
+    } finally {
+      setTestimonialsLoading(false)
+    }
+  }
+
+  // Helper function to get initials from name
+  const getInitials = (name) => {
+    if (!name) return '??'
+    const parts = name.trim().split(' ')
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    }
+    return name.substring(0, 2).toUpperCase()
   }
 
   return (
@@ -70,6 +94,7 @@ function Home() {
                   alt="Remote work professional" 
                   className="hero-img"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="hero-badge">
                   <span className="badge-text">500+ Remote workers coached</span>
@@ -202,65 +227,45 @@ function Home() {
               Hear from people who have transformed their careers with remote work.
             </p>
           </div>
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="testimonial-stars">
-                {[...Array(5)].map((_, i) => (
-                  <HiStar key={i} className="star-icon" />
-                ))}
-              </div>
-              <div className="testimonial-content">
-                <p className="testimonial-text">
-                  "Geoffrey's tips helped me land my first remote job in just 3 months! His YouTube videos are incredibly practical and easy to follow."
-                </p>
-              </div>
-              <div className="testimonial-author">
-                <div className="author-avatar">SJ</div>
-                <div className="author-info">
-                  <p className="author-name">Sarah Johnson</p>
-                  <p className="author-role">Digital Marketing Manager</p>
+          {testimonialsLoading ? (
+            <SkeletonLoader type="testimonial-card" count={3} />
+          ) : testimonials.length > 0 ? (
+            <div className="testimonials-grid">
+              {testimonials.map((testimonial) => (
+                <div key={testimonial._id} className="testimonial-card">
+                  <div className="testimonial-stars">
+                    {[...Array(testimonial.rating || 5)].map((_, i) => (
+                      <HiStar key={i} className="star-icon" />
+                    ))}
+                  </div>
+                  <div className="testimonial-content">
+                    <p className="testimonial-text">
+                      "{testimonial.text}"
+                    </p>
+                  </div>
+                  <div className="testimonial-author">
+                    {testimonial.avatar ? (
+                      <img 
+                        src={testimonial.avatar} 
+                        alt={testimonial.name}
+                        className="author-avatar-img"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div className="author-avatar">{getInitials(testimonial.name)}</div>
+                    )}
+                    <div className="author-info">
+                      <p className="author-name">{testimonial.name}</p>
+                      <p className="author-role">{testimonial.role}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-            <div className="testimonial-card">
-              <div className="testimonial-stars">
-                {[...Array(5)].map((_, i) => (
-                  <HiStar key={i} className="star-icon" />
-                ))}
-              </div>
-              <div className="testimonial-content">
-                <p className="testimonial-text">
-                  "The AI tools on this site saved me hours of work. The resume builder is amazing and helped me get multiple interview calls!"
-                </p>
-              </div>
-              <div className="testimonial-author">
-                <div className="author-avatar">JK</div>
-                <div className="author-info">
-                  <p className="author-name">James K.</p>
-                  <p className="author-role">Software Developer</p>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card">
-              <div className="testimonial-stars">
-                {[...Array(5)].map((_, i) => (
-                  <HiStar key={i} className="star-icon" />
-                ))}
-              </div>
-              <div className="testimonial-content">
-                <p className="testimonial-text">
-                  "I've been following Geoffrey's content for a year now. His blog posts and job listings have been game-changers for my career transition."
-                </p>
-              </div>
-              <div className="testimonial-author">
-                <div className="author-avatar">AL</div>
-                <div className="author-info">
-                  <p className="author-name">Alex L.</p>
-                  <p className="author-role">Freelance Designer</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          ) : (
+            <p className="no-testimonials">No testimonials available yet. Check back soon!</p>
+          )}
         </div>
       </section>
 

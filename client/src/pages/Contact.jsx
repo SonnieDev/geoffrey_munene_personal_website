@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { contactAPI } from '../services/api'
 import SEO from '../components/SEO'
+import toast from 'react-hot-toast'
 import { 
   HiEnvelope,
   HiPhone,
@@ -43,9 +44,11 @@ function Contact() {
       await contactAPI.sendMessage(formData)
       setSuccess(true)
       setFormData({ name: '', email: '', subject: '', message: '' })
-      setTimeout(() => setSuccess(false), 5000)
+      toast.success('Message sent successfully! I will get back to you soon.')
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send message. Please try again.')
+      const errorMsg = err.response?.data?.message || 'Failed to send message. Please try again.'
+      setError(errorMsg)
+      toast.error(errorMsg)
     } finally {
       setLoading(false)
     }

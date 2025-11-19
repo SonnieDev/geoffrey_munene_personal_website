@@ -286,6 +286,7 @@ function RemoteJobs() {
                             alt={`${job.company} logo`}
                             className="company-logo"
                             loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               e.target.style.display = 'none'
                             }}

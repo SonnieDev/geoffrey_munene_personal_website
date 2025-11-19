@@ -153,7 +153,7 @@ function Learn() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <img src={video.thumbnail} alt={video.title} />
+                        <img src={video.thumbnail} alt={video.title} loading="lazy" decoding="async" />
                         <div className="play-overlay">
                           <span className="play-icon">▶</span>
                         </div>
@@ -241,7 +241,7 @@ function Learn() {
                 {playlists.map((playlist) => (
                   <div key={playlist.id} className="playlist-card">
                     <div className="playlist-thumbnail">
-                      <img src={playlist.thumbnail} alt={playlist.title} />
+                      <img src={playlist.thumbnail} alt={playlist.title} loading="lazy" decoding="async" />
                     </div>
                     <h3 className="playlist-title">{playlist.title}</h3>
                     <p className="playlist-description">{playlist.description}</p>

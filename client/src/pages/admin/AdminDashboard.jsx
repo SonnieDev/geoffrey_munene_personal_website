@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
-import { HiBookOpen, HiBriefcase, HiEnvelope, HiArrowRight } from 'react-icons/hi2'
+import { HiBookOpen, HiBriefcase, HiEnvelope, HiStar, HiArrowRight } from 'react-icons/hi2'
 import '../../styles/pages/admin-dashboard.css'
 
 function AdminDashboard() {
@@ -11,6 +11,7 @@ function AdminDashboard() {
     blogs: 0,
     jobs: 0,
     contacts: 0,
+    testimonials: 0,
   })
   const [loading, setLoading] = useState(true)
 
@@ -20,16 +21,18 @@ function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const [blogsRes, jobsRes, contactsRes] = await Promise.all([
+      const [blogsRes, jobsRes, contactsRes, testimonialsRes] = await Promise.all([
         adminAPI.getAllBlogs(),
         adminAPI.getAllJobs(),
         adminAPI.getAllContacts(),
+        adminAPI.getAllTestimonials(),
       ])
 
       setStats({
         blogs: blogsRes.data?.length || 0,
         jobs: jobsRes.data?.length || 0,
         contacts: contactsRes.data?.length || 0,
+        testimonials: testimonialsRes.data?.length || 0,
       })
     } catch (error) {
       console.error('Error fetching stats:', error)
@@ -83,6 +86,17 @@ function AdminDashboard() {
           </div>
           <HiArrowRight className="stat-arrow" />
         </Link>
+
+        <Link to="/admin/testimonials" className="admin-stat-card">
+          <div className="stat-icon testimonials">
+            <HiStar />
+          </div>
+          <div className="stat-content">
+            <h3>{loading ? '...' : stats.testimonials}</h3>
+            <p>Testimonials</p>
+          </div>
+          <HiArrowRight className="stat-arrow" />
+        </Link>
       </div>
 
       <div className="admin-quick-actions">
@@ -95,6 +109,10 @@ function AdminDashboard() {
           <Link to="/admin/jobs/new" className="admin-action-btn">
             <HiBriefcase />
             <span>Add New Job</span>
+          </Link>
+          <Link to="/admin/testimonials/new" className="admin-action-btn">
+            <HiStar />
+            <span>Add New Testimonial</span>
           </Link>
         </div>
       </div>
