@@ -4,5 +4,15 @@
 
 .main-content {
   @apply flex-grow;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Enhanced focus states for accessibility */
+*:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+.dark *:focus-visible {
+  @apply ring-offset-gray-900;
 }
 

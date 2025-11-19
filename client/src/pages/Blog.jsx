@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { blogsAPI } from '../services/api'
 import SEO from '../components/SEO'
+import SkeletonLoader from '../components/SkeletonLoader'
 import { HiMagnifyingGlass } from 'react-icons/hi2'
 import '../styles/pages/blog.css'
 
 function Blog() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [blogPosts, setBlogPosts] = useState([])
   const [allPosts, setAllPosts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -13,19 +15,24 @@ function Blog() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [categories, setCategories] = useState([])
   const postsPerPage = 6
-
-  const categories = [
-    'Job Search',
-    'Resume Tips',
-    'Productivity',
-    'Interviewing',
-    'Remote Life',
-    'Career Growth'
-  ]
 
   useEffect(() => {
     fetchBlogs()
+    
+    // Check URL parameters for filtering
+    const categoryParam = searchParams.get('category')
+    const searchParam = searchParams.get('search')
+    
+    if (categoryParam) {
+      setSelectedCategory(categoryParam)
+    }
+    
+    if (searchParam) {
+      setSearchTerm(searchParam)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -38,8 +45,16 @@ function Blog() {
     try {
       setLoading(true)
       const response = await blogsAPI.getAll()
-      setAllPosts(response.data)
-      setBlogPosts(response.data)
+      const posts = response.data || []
+      setAllPosts(posts)
+      setBlogPosts(posts)
+      
+      // Extract unique categories from blog posts
+      const uniqueCategories = [...new Set(posts.map(post => post.category).filter(Boolean))]
+      // Sort categories alphabetically
+      const sortedCategories = uniqueCategories.sort((a, b) => a.localeCompare(b))
+      setCategories(sortedCategories)
+      
       setError('')
     } catch (err) {
       setError('Failed to load blog posts. Please try again later.')
@@ -68,6 +83,13 @@ function Blog() {
 
     setBlogPosts(filtered)
     setCurrentPage(1)
+  }
+
+  // Get count of posts per category
+  const getCategoryCount = (category) => {
+    return allPosts.filter(post => 
+      post.category && post.category.toLowerCase() === category.toLowerCase()
+    ).length
   }
 
   // Pagination
@@ -112,28 +134,20 @@ function Blog() {
                 />
               </div>
               <div className="category-buttons">
-                <div className="category-buttons-list">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(selectedCategory === category ? '' : category)}
-                      className={`category-button ${selectedCategory === category ? 'active' : ''}`}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </div>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="category-dropdown"
                 >
                   <option value="">All Categories</option>
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
+                  {categories.map((category) => {
+                    const count = getCategoryCount(category)
+                    return (
+                      <option key={category} value={category}>
+                        {category} ({count})
+                      </option>
+                    )
+                  })}
                 </select>
               </div>
             </div>
@@ -145,9 +159,7 @@ function Blog() {
           </div>
 
           {loading && (
-            <div className="loading-state">
-              <p>Loading blog posts...</p>
-            </div>
+            <SkeletonLoader type="blog-card" count={6} />
           )}
           
           {error && (
@@ -166,7 +178,7 @@ function Blog() {
                     <article key={post._id} className="blog-post-card">
                       {post.thumbnail && (
                         <div className="post-thumbnail">
-                          <img src={post.thumbnail} alt={post.title} />
+                          <img src={post.thumbnail} alt={post.title} loading="lazy" />
                         </div>
                       )}
                       <div className="post-content">

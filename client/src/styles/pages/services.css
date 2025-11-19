@@ -1,0 +1,395 @@
+.services-page {
+  @apply w-full;
+}
+
+/* Hero Section */
+.services-hero {
+  @apply bg-blue-600 text-white py-16 md:py-20 relative overflow-hidden;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+}
+
+.services-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(20, 184, 166, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.services-hero-container {
+  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.services-hero-title {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-6;
+}
+
+.services-hero-subtitle {
+  @apply text-lg md:text-xl text-blue-50 leading-relaxed;
+}
+
+/* Services List Section */
+.services-list-section {
+  @apply py-16 md:py-20 bg-white;
+}
+
+.dark .services-list-section {
+  @apply bg-gray-900;
+}
+
+.services-list-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.section-header {
+  @apply text-center mb-12;
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl font-bold mb-4 text-gray-900;
+}
+
+.dark .section-title {
+  @apply text-gray-100;
+}
+
+.section-subtitle {
+  @apply text-lg text-gray-600 max-w-2xl mx-auto;
+}
+
+.dark .section-subtitle {
+  @apply text-gray-300;
+}
+
+.services-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+.service-item-card {
+  @apply bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.dark .service-item-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.service-item-card:hover {
+  @apply transform -translate-y-2 scale-[1.02];
+}
+
+.service-item-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.service-item-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.service-item-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.service-item-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.service-item-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.service-item-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+.service-item-card:nth-child(7) {
+  animation-delay: 0.7s;
+}
+
+.service-item-card:nth-child(8) {
+  animation-delay: 0.8s;
+}
+
+.service-item-icon {
+  @apply mb-4 flex justify-center;
+}
+
+.service-item-icon svg {
+  @apply w-16 h-16 text-blue-600;
+}
+
+.service-item-title {
+  @apply text-xl font-bold mb-3 text-gray-900 text-center;
+}
+
+.dark .service-item-title {
+  @apply text-gray-100;
+}
+
+.service-item-description {
+  @apply text-gray-600 mb-4 text-center leading-relaxed;
+}
+
+.dark .service-item-description {
+  @apply text-gray-300;
+}
+
+.service-item-features {
+  @apply mb-6 flex-grow;
+}
+
+.features-title {
+  @apply text-sm font-semibold text-gray-900 mb-3;
+}
+
+.dark .features-title {
+  @apply text-gray-100;
+}
+
+.features-list {
+  @apply space-y-2;
+}
+
+.feature-item {
+  @apply flex items-start gap-2 text-sm text-gray-600;
+}
+
+.dark .feature-item {
+  @apply text-gray-300;
+}
+
+.feature-icon {
+  @apply w-5 h-5 text-green-500 flex-shrink-0 mt-0.5;
+}
+
+.service-item-meta {
+  @apply flex flex-col gap-2 mb-6 pt-4 border-t border-gray-200;
+}
+
+.dark .service-item-meta {
+  @apply border-gray-700;
+}
+
+.meta-item {
+  @apply flex justify-between text-sm;
+}
+
+.meta-label {
+  @apply text-gray-500 font-medium;
+}
+
+.dark .meta-label {
+  @apply text-gray-400;
+}
+
+.meta-value {
+  @apply text-gray-900 font-semibold;
+}
+
+.dark .meta-value {
+  @apply text-gray-100;
+}
+
+.service-cta-button {
+  @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold no-underline transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-xl text-center w-full;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.service-cta-button:hover {
+  @apply transform translate-y-[-2px] scale-[1.02];
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.service-cta-button svg {
+  @apply transition-transform duration-300;
+}
+
+.service-cta-button:hover svg {
+  @apply transform translate-x-1;
+}
+
+/* Packages Section */
+.packages-section {
+  @apply py-16 md:py-20 bg-gray-100;
+}
+
+.dark .packages-section {
+  @apply bg-gray-800;
+}
+
+.packages-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.packages-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-8 mt-12;
+}
+
+.package-card {
+  @apply bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-2 border-gray-200 flex flex-col relative;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.dark .package-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.package-card:hover {
+  @apply transform -translate-y-2;
+}
+
+.package-card.popular {
+  @apply border-blue-500 shadow-lg;
+  transform: scale(1.05);
+}
+
+.package-card.popular:hover {
+  transform: scale(1.07) translateY(-8px);
+}
+
+.popular-badge {
+  @apply absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold;
+}
+
+.package-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.package-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.package-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.package-name {
+  @apply text-2xl font-bold mb-2 text-gray-900 text-center;
+}
+
+.dark .package-name {
+  @apply text-gray-100;
+}
+
+.package-price {
+  @apply text-4xl font-bold mb-4 text-blue-600 text-center;
+}
+
+.package-description {
+  @apply text-gray-600 mb-6 text-center;
+}
+
+.dark .package-description {
+  @apply text-gray-300;
+}
+
+.package-services-list {
+  @apply space-y-3 mb-8 flex-grow;
+}
+
+.package-service-item {
+  @apply flex items-start gap-3 text-sm text-gray-700;
+}
+
+.dark .package-service-item {
+  @apply text-gray-300;
+}
+
+.package-check-icon {
+  @apply w-5 h-5 text-green-500 flex-shrink-0 mt-0.5;
+}
+
+.package-cta-button {
+  @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold no-underline transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-xl text-center w-full;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.package-cta-button:hover {
+  @apply transform translate-y-[-2px] scale-[1.02];
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.package-card.popular .package-cta-button {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.package-card.popular .package-cta-button:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.package-cta-button svg {
+  @apply transition-transform duration-300;
+}
+
+.package-cta-button:hover svg {
+  @apply transform translate-x-1;
+}
+
+/* CTA Section */
+.services-cta-section {
+  @apply bg-blue-600 text-white py-16 md:py-20 relative overflow-hidden;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+}
+
+.services-cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(20, 184, 166, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.services-cta-container {
+  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.cta-icon {
+  @apply w-16 h-16 mx-auto mb-6 text-blue-200;
+}
+
+.cta-title {
+  @apply text-3xl md:text-4xl font-bold mb-4;
+}
+
+.cta-text {
+  @apply text-xl mb-8 text-blue-50;
+}
+
+.cta-buttons {
+  @apply flex flex-col sm:flex-row gap-4 justify-center;
+}
+
+.services-cta-section .btn-primary {
+  @apply bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold no-underline transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-xl;
+}
+
+.services-cta-section .btn-primary:hover {
+  @apply transform translate-y-[-2px] scale-[1.02] bg-gray-50;
+}
+
+.services-cta-section .btn-primary svg {
+  @apply transition-transform duration-300;
+}
+
+.services-cta-section .btn-primary:hover svg {
+  @apply transform translate-x-1;
+}
+
+.btn-secondary-white {
+  @apply bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold no-underline transition-all duration-300 inline-flex items-center justify-center hover:bg-white hover:text-blue-600;
+}
+
+.btn-secondary-white:hover {
+  @apply transform translate-y-[-2px] scale-[1.02];
+}
+

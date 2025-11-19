@@ -91,8 +91,8 @@ function Contact() {
                   </div>
                   <div className="detail-content">
                     <h3 className="detail-label">Email</h3>
-                    <a href="mailto:contact@geoffreymunene.com" className="detail-value">
-                      contact@geoffreymunene.com
+                    <a href="mailto:munenemuchokiofficial@gmail.com" className="detail-value">
+                      munenemuchokiofficial@gmail.com
                     </a>
                   </div>
                 </div>
@@ -142,10 +142,10 @@ function Contact() {
                   Follow me for regular remote work tips, job opportunities, and resource updates.
                 </p>
                 <div className="social-icons">
-                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Twitter">
+                  <a href="https://x.com/munene_muchoki" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Twitter">
                     <FaTwitter />
                   </a>
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="LinkedIn">
+                  <a href="https://www.linkedin.com/in/munenemuchoki" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="LinkedIn">
                     <FaLinkedin />
                   </a>
                   <a href="https://youtube.com/@munenegeoffrey" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="YouTube">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { jobsAPI } from '../services/api'
 import SEO from '../components/SEO'
+import SkeletonLoader from '../components/SkeletonLoader'
 import '../styles/pages/remote-jobs.css'
 
 function RemoteJobs() {
@@ -29,10 +30,12 @@ function RemoteJobs() {
     }, 500)
 
     return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, selectedCategory])
 
   useEffect(() => {
     fetchJobs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage])
 
   const fetchCategories = async () => {
@@ -54,7 +57,6 @@ function RemoteJobs() {
         category: selectedCategory,
         page: currentPage,
         results_per_page: 12,
-        sort_by: 'date',
       }
 
       const response = await jobsAPI.getJobs(params)
@@ -63,6 +65,52 @@ function RemoteJobs() {
         setJobs(response.data)
         setPagination(response.pagination || { current: 1, total: 1, count: 0 })
         setError('')
+        
+        // Log debug info to browser console
+        if (response.debug) {
+          console.log('🔍 Jobs API Debug Info:', response.debug)
+          console.log('📊 Sources:', response.debug.sources)
+          console.log('🔌 API Status:', response.debug.api)
+          console.log('🔍 Filters:', response.debug.filters)
+          console.log('📈 Totals:', {
+            beforeFilter: response.debug.totalBeforeFilter,
+            afterFilter: response.debug.totalAfterFilter,
+          })
+          
+          // Show detailed warning if no API jobs found
+          if (response.debug.sources.himalayas === 0 && response.debug.sources.adzuna === 0) {
+            console.warn('⚠️ No jobs found from APIs!')
+            console.log('📋 Manual jobs:', response.debug.sources.manual)
+            console.log('🏔️ Himalayas:', {
+              fetched: response.debug.api.himalayas.fetched,
+              filtered: response.debug.api.himalayas.filtered,
+              error: response.debug.api.himalayas.error,
+              cacheUsed: response.debug.api.cache?.used && response.debug.api.cache?.source === 'himalayas'
+            })
+            console.log('🌐 Adzuna:', {
+              fetched: response.debug.api.adzuna.fetched,
+              filtered: response.debug.api.adzuna.filtered,
+              error: response.debug.api.adzuna.error,
+            })
+            
+            if (response.debug.api.himalayas.error) {
+              console.error('❌ Himalayas API Error:', response.debug.api.himalayas.error)
+            }
+            if (response.debug.api.adzuna.error) {
+              console.error('❌ Adzuna API Error:', response.debug.api.adzuna.error)
+            }
+            
+            // Check if API was called at all
+            if (response.debug.api.himalayas.fetched === 0 && !response.debug.api.himalayas.error) {
+              console.warn('⚠️ Himalayas API may not have been called or returned 0 jobs')
+            }
+          } else {
+            console.log('✅ API jobs found:', {
+              himalayas: response.debug.sources.himalayas,
+              adzuna: response.debug.sources.adzuna
+            })
+          }
+        }
       } else {
         setError('Failed to load jobs')
       }
@@ -213,9 +261,7 @@ function RemoteJobs() {
           {/* Jobs Listings */}
           <div className="jobs-listings-section">
             {loading && (
-              <div className="loading-state">
-                <p>Loading remote jobs...</p>
-              </div>
+              <SkeletonLoader type="job-card" count={12} />
             )}
 
             {error && (
@@ -234,7 +280,23 @@ function RemoteJobs() {
                         <span className="job-category">{job.category}</span>
                       </div>
                       <div className="job-company">
+                        {job.companyLogo && (
+                          <img 
+                            src={job.companyLogo} 
+                            alt={`${job.company} logo`}
+                            className="company-logo"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.target.style.display = 'none'
+                            }}
+                          />
+                        )}
                         <strong>{job.company}</strong>
+                        {job.source === 'himalayas' && (
+                          <span className="job-source-badge" title="Job listing from Himalayas">
+                            🏔️
+                          </span>
+                        )}
                       </div>
                       <div className="job-details">
                         <span className="job-location">📍 {job.location}</span>
@@ -245,9 +307,13 @@ function RemoteJobs() {
                           💰 {formatSalary(job.salaryMin, job.salaryMax, job.salaryCurrency)}
                         </div>
                       ) : null}
-                      <p className="job-description">
-                        {job.description.substring(0, 150)}...
-                      </p>
+                      {job.description && (
+                        <p className="job-description">
+                          {job.description.length > 150 
+                            ? `${job.description.substring(0, 150)}...` 
+                            : job.description}
+                        </p>
+                      )}
                       <div className="job-footer">
                         <span className="job-date">{formatDate(job.created)}</span>
                         <a
@@ -290,7 +356,8 @@ function RemoteJobs() {
 
             {!loading && !error && jobs.length === 0 && (
               <div className="no-jobs">
-                <p>No jobs found. Try adjusting your search or filters.</p>
+                <p className="text-lg font-medium">No jobs found</p>
+                <p className="text-sm mt-2 opacity-75">Try adjusting your search or filters.</p>
               </div>
             )}
           </div>
@@ -328,6 +395,31 @@ function RemoteJobs() {
               <li>Build a strong online presence on LinkedIn and professional networks</li>
               <li>Prepare for video interviews and remote work assessments</li>
             </ul>
+          </div>
+
+          {/* Attribution Section */}
+          <div className="jobs-attribution">
+            <p className="attribution-text">
+              Job listings powered by{' '}
+              <a 
+                href="https://himalayas.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="attribution-link"
+              >
+                Himalayas
+              </a>
+              {' '}and other sources. Visit{' '}
+              <a 
+                href="https://himalayas.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="attribution-link"
+              >
+                Himalayas.app
+              </a>
+              {' '}for the latest remote job opportunities.
+            </p>
           </div>
         </div>
       </section>

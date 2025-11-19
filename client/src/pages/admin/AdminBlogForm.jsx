@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
+import { HiHome } from 'react-icons/hi2'
 import '../../styles/pages/admin-form.css'
 
 function AdminBlogForm() {
@@ -77,8 +78,31 @@ function AdminBlogForm() {
   return (
     <div className="admin-form-page">
       <div className="admin-form-container">
+        <div className="admin-breadcrumb">
+          <Link to="/admin/dashboard" className="admin-breadcrumb-link">
+            <HiHome /> Dashboard
+          </Link>
+          <span className="admin-breadcrumb-separator">/</span>
+          <Link to="/admin/blogs" className="admin-breadcrumb-link">
+            Blog Posts
+          </Link>
+          <span className="admin-breadcrumb-separator">/</span>
+          <span className="admin-breadcrumb-current">
+            {isEdit ? 'Edit Post' : 'New Post'}
+          </span>
+        </div>
+
         <div className="admin-form-header">
-          <h1>{isEdit ? 'Edit Blog Post' : 'Create New Blog Post'}</h1>
+          <div className="admin-page-title-section">
+            <button 
+              onClick={() => navigate('/admin/dashboard')} 
+              className="admin-back-dashboard-btn"
+              title="Back to Dashboard"
+            >
+              ← Dashboard
+            </button>
+            <h1>{isEdit ? 'Edit Blog Post' : 'Create New Blog Post'}</h1>
+          </div>
           <button onClick={() => navigate('/admin/blogs')} className="admin-back-btn">
             ← Back to Blogs
           </button>

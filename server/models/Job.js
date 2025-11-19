@@ -51,8 +51,21 @@ const jobSchema = new mongoose.Schema(
     },
     source: {
       type: String,
-      enum: ['manual', 'adzuna'],
+      enum: ['manual', 'adzuna', 'himalayas'],
       default: 'manual',
+    },
+    externalId: {
+      type: String,
+      trim: true,
+      sparse: true, // Allows multiple null values
+    },
+    companyLogo: {
+      type: String,
+      trim: true,
+    },
+    pubDate: {
+      type: Date,
+      default: null,
     },
   },
   {

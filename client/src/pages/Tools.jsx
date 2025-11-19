@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { toolsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import { 
@@ -12,6 +13,7 @@ import {
 import '../styles/pages/tools.css'
 
 function Tools() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [activeTool, setActiveTool] = useState(null)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState('')
@@ -61,6 +63,31 @@ function Tools() {
       category: 'Career Tools',
     },
   ]
+
+  useEffect(() => {
+    const toolParam = searchParams.get('tool')
+    if (toolParam) {
+      // Map footer link names to tool IDs
+      const toolMap = {
+        'resume-builder': 'resume',
+        'resume': 'resume',
+        'email-templates': 'email',
+        'email': 'email',
+        'interview-tips': 'interview-prep',
+        'interview-prep': 'interview-prep',
+        'interview': 'interview-prep',
+      }
+      
+      const toolId = toolMap[toolParam.toLowerCase()] || toolParam
+      // Check if tool exists (valid tool IDs: 'resume', 'email', 'interview-prep', etc.)
+      const validToolIds = ['resume', 'cover-letter', 'email', 'interview-prep', 'skills-assessment', 'salary-negotiation']
+      if (validToolIds.includes(toolId)) {
+        setActiveTool(toolId)
+        // Clear the URL parameter after setting the tool
+        setSearchParams({})
+      }
+    }
+  }, [searchParams, setSearchParams])
 
   const handleToolClick = (toolId) => {
     setActiveTool(toolId)

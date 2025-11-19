@@ -1,10 +1,6 @@
 import express from 'express'
 import {
   createContact,
-  getContacts,
-  getContactById,
-  updateContactStatus,
-  deleteContact,
 } from '../controllers/contactController.js'
 import { body } from 'express-validator'
 
@@ -32,12 +28,9 @@ const contactValidation = [
     .withMessage('Message must be at least 10 characters'),
 ]
 
-// Routes
+// Public route - only allow creating contact messages
+// GET, PUT, DELETE are protected in /api/admin/contacts
 router.post('/', contactValidation, createContact)
-router.get('/', getContacts)
-router.get('/:id', getContactById)
-router.put('/:id', updateContactStatus)
-router.delete('/:id', deleteContact)
 
 export default router
 

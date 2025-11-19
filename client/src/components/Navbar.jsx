@@ -6,6 +6,7 @@ import {
   HiWrenchScrewdriver,
   HiPlay,
   HiBriefcase,
+  HiSparkles,
   HiUser,
   HiEnvelope,
   HiBars3,
@@ -38,6 +39,7 @@ function Navbar() {
   const menuItems = [
     { path: '/', label: 'Home', icon: HiHome },
     { path: '/blog', label: 'Blog', icon: HiBookOpen },
+    { path: '/services', label: 'Services', icon: HiSparkles },
     { path: '/tools', label: 'Tools', icon: HiWrenchScrewdriver },
     { path: '/learn', label: 'Learn', icon: HiPlay },
     { path: '/remote-jobs', label: 'Remote Jobs', icon: HiBriefcase },

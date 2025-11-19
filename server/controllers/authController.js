@@ -3,7 +3,12 @@ import Admin from '../models/Admin.js'
 
 // Generate JWT Token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'your-secret-key-change-in-production', {
+  const jwtSecret = process.env.JWT_SECRET
+  if (!jwtSecret && process.env.NODE_ENV === 'production') {
+    throw new Error('JWT_SECRET is required in production')
+  }
+  
+  return jwt.sign({ id }, jwtSecret || 'your-secret-key-change-in-production', {
     expiresIn: '30d',
   })
 }

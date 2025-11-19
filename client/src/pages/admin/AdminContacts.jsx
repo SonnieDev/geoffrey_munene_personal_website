@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
-import { HiTrash, HiCheckCircle, HiXCircle } from 'react-icons/hi2'
+import { HiTrash, HiCheckCircle, HiXCircle, HiArrowLeft, HiHome, HiEnvelope } from 'react-icons/hi2'
 import '../../styles/pages/admin-contacts.css'
 
 function AdminContacts() {
@@ -75,8 +75,25 @@ function AdminContacts() {
 
   return (
     <div className="admin-contacts">
+      <div className="admin-breadcrumb">
+        <Link to="/admin/dashboard" className="admin-breadcrumb-link">
+          <HiHome /> Dashboard
+        </Link>
+        <span className="admin-breadcrumb-separator">/</span>
+        <span className="admin-breadcrumb-current">Contact Messages</span>
+      </div>
+
       <div className="admin-page-header">
-        <h1>Contact Messages</h1>
+        <div className="admin-page-title-section">
+          <button 
+            onClick={() => navigate('/admin/dashboard')} 
+            className="admin-back-dashboard-btn"
+            title="Back to Dashboard"
+          >
+            <HiArrowLeft /> Back to Dashboard
+          </button>
+          <h1>Contact Messages</h1>
+        </div>
       </div>
 
       {error && <div className="admin-error">{error}</div>}
@@ -148,6 +165,18 @@ function AdminContacts() {
 
             <div className="contact-detail-actions">
               <div className="status-actions">
+                <a
+                  href={`mailto:${selectedContact.email}?subject=Re: ${encodeURIComponent(selectedContact.subject)}&body=${encodeURIComponent(`\n\n--- Original Message ---\nFrom: ${selectedContact.name} (${selectedContact.email})\nDate: ${new Date(selectedContact.createdAt).toLocaleString()}\nSubject: ${selectedContact.subject}\n\n${selectedContact.message}\n`)}`}
+                  className="admin-reply-btn"
+                  onClick={(e) => {
+                    // Update status but don't prevent default (opening email)
+                    setTimeout(() => {
+                      handleStatusUpdate(selectedContact._id, 'replied')
+                    }, 100)
+                  }}
+                >
+                  <HiEnvelope /> Reply via Email
+                </a>
                 <button
                   onClick={() => handleStatusUpdate(selectedContact._id, 'read')}
                   className={`admin-status-btn ${selectedContact.status === 'read' ? 'active' : ''}`}

@@ -43,11 +43,33 @@
 }
 
 .social-icon {
-  @apply w-10 h-10 rounded-full bg-gray-100 text-blue-600 flex items-center justify-center transition-all duration-200 hover:bg-blue-600 hover:text-white;
+  @apply w-10 h-10 rounded-full bg-gray-100 text-blue-600 flex items-center justify-center transition-all duration-300 hover:bg-blue-600 hover:text-white relative overflow-hidden;
+}
+
+.social-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.social-icon:hover::before {
+  width: 100%;
+  height: 100%;
 }
 
 .social-icon svg {
-  @apply w-5 h-5;
+  @apply w-5 h-5 relative z-10 transition-transform duration-300;
+}
+
+.social-icon:hover svg {
+  @apply transform scale-110 rotate-6;
 }
 
 .footer-links {

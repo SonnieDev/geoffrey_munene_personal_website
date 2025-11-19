@@ -218,7 +218,7 @@ function Privacy() {
                   If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:
                 </p>
                 <p className="contact-info">
-                  Email: <a href="mailto:contact@geoffreymunene.com" className="contact-link">contact@geoffreymunene.com</a>
+                  Email: <a href="mailto:munenemuchokiofficial@gmail.com" className="contact-link">munenemuchokiofficial@gmail.com</a>
                 </p>
                 <p className="section-text">
                   We will respond to your inquiry within a reasonable timeframe.

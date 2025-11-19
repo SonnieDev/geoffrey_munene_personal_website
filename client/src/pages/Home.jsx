@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { blogsAPI } from '../services/api'
 import SEO from '../components/SEO'
+import SkeletonLoader from '../components/SkeletonLoader'
 import { 
   HiBriefcase, 
   HiAcademicCap, 
@@ -68,6 +69,7 @@ function Home() {
                   src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop" 
                   alt="Remote work professional" 
                   className="hero-img"
+                  loading="lazy"
                 />
                 <div className="hero-badge">
                   <span className="badge-text">500+ Remote workers coached</span>
@@ -96,6 +98,9 @@ function Home() {
               <p className="service-description">
                 Learn proven strategies to find and secure remote work opportunities that fit your skills and lifestyle.
               </p>
+              <Link to="/services" className="service-link">
+                Learn More →
+              </Link>
             </div>
             <div className="service-card">
               <div className="service-icon">
@@ -105,6 +110,9 @@ function Home() {
               <p className="service-description">
                 Watch step-by-step guides and tutorials on YouTube to master remote work skills at your own pace.
               </p>
+              <Link to="/learn" className="service-link">
+                Watch Videos →
+              </Link>
             </div>
             <div className="service-card">
               <div className="service-icon">
@@ -114,6 +122,9 @@ function Home() {
               <p className="service-description">
                 Build the skills and knowledge needed to thrive in the digital economy and advance your career online.
               </p>
+              <Link to="/services" className="service-link">
+                Learn More →
+              </Link>
             </div>
             <div className="service-card">
               <div className="service-icon">
@@ -123,6 +134,9 @@ function Home() {
               <p className="service-description">
                 Access free tools, templates, and resources to help you succeed in your remote work journey.
               </p>
+              <Link to="/tools" className="service-link">
+                Explore Tools →
+              </Link>
             </div>
           </div>
         </div>
@@ -143,16 +157,14 @@ function Home() {
             </Link>
           </div>
           {loading ? (
-            <div className="blog-loading">
-              <p>Loading recent posts...</p>
-            </div>
+            <SkeletonLoader type="blog-card" count={3} />
           ) : recentPosts.length > 0 ? (
             <div className="blog-posts-grid">
               {recentPosts.map((post) => (
                 <article key={post._id} className="blog-post-card">
                   {post.thumbnail && (
                     <div className="post-thumbnail">
-                      <img src={post.thumbnail} alt={post.title} />
+                      <img src={post.thumbnail} alt={post.title} loading="lazy" />
                     </div>
                   )}
                   <div className="post-content">

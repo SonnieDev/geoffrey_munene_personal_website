@@ -2,6 +2,42 @@
   @apply min-h-screen bg-gray-50 dark:bg-gray-900 p-6;
 }
 
+.admin-breadcrumb {
+  @apply flex items-center gap-2 mb-4 text-sm text-gray-600 dark:text-gray-400;
+}
+
+.admin-breadcrumb-link {
+  @apply flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors;
+}
+
+.admin-breadcrumb-separator {
+  @apply text-gray-400 dark:text-gray-500;
+}
+
+.admin-breadcrumb-current {
+  @apply text-gray-900 dark:text-gray-100 font-medium;
+}
+
+.admin-page-header {
+  @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6;
+}
+
+.admin-page-title-section {
+  @apply flex items-center gap-2 sm:gap-4 flex-wrap;
+}
+
+.admin-back-dashboard-btn {
+  @apply flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors text-sm;
+}
+
+.admin-back-dashboard-btn svg {
+  @apply text-lg;
+}
+
+.admin-page-header h1 {
+  @apply text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100;
+}
+
 .admin-contacts-layout {
   @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
 }
@@ -97,6 +133,14 @@
 
 .status-actions {
   @apply flex gap-2;
+}
+
+.admin-reply-btn {
+  @apply flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium no-underline;
+}
+
+.admin-reply-btn:hover {
+  @apply bg-blue-700;
 }
 
 .admin-status-btn {

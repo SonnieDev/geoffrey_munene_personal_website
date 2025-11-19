@@ -62,15 +62,20 @@
 }
 
 .contact-detail-item {
-  @apply flex items-start;
+  @apply flex items-center gap-3;
+  @apply min-w-0;
 }
 
 .detail-icon-wrapper {
-  @apply mr-4 flex-shrink-0;
+  @apply flex-shrink-0;
 }
 
 .detail-icon-circle {
   @apply w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0;
+}
+
+.dark .detail-icon-circle {
+  @apply bg-blue-900;
 }
 
 .detail-icon-svg {
@@ -78,7 +83,7 @@
 }
 
 .detail-content {
-  @apply flex flex-col flex-1;
+  @apply flex flex-col flex-1 min-w-0;
 }
 
 .detail-label {
@@ -90,7 +95,7 @@
 }
 
 .detail-value {
-  @apply text-gray-600;
+  @apply text-gray-600 break-words;
 }
 
 .dark .detail-value {
@@ -98,7 +103,7 @@
 }
 
 .detail-value a {
-  @apply text-blue-600 hover:underline no-underline;
+  @apply text-blue-600 hover:underline no-underline break-all;
 }
 
 .detail-value a:hover {
@@ -131,15 +136,19 @@
 }
 
 .social-icons {
-  @apply flex space-x-4;
+  @apply flex gap-4;
 }
 
 .social-icon-link {
-  @apply text-gray-500 hover:text-blue-600 transition-colors;
+  @apply w-10 h-10 rounded-full bg-gray-100 text-blue-600 flex items-center justify-center transition-all duration-200 hover:bg-blue-600 hover:text-white;
+}
+
+.dark .social-icon-link {
+  @apply bg-gray-700 text-blue-400 hover:bg-blue-600 hover:text-white;
 }
 
 .social-icon-link svg {
-  @apply h-6 w-6;
+  @apply w-5 h-5;
 }
 
 /* Right Column - Contact Form */

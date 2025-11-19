@@ -36,15 +36,32 @@
 }
 
 .navbar-link {
-  @apply text-gray-700 px-3 py-2 rounded-md text-sm font-medium no-underline transition-colors duration-200;
+  @apply text-gray-700 px-3 py-2 rounded-md text-sm font-medium no-underline transition-all duration-300 relative;
 }
 
 .dark .navbar-link {
   @apply text-gray-300;
 }
 
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #2563eb, #14b8a6);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after,
+.navbar-link.active::after {
+  width: 80%;
+}
+
 .navbar-link:hover {
-  @apply text-blue-600 bg-gray-100;
+  @apply text-blue-600 bg-gray-100 transform translate-y-[-1px];
 }
 
 .dark .navbar-link:hover {
@@ -62,7 +79,11 @@
 
 /* Theme Toggle Button */
 .theme-toggle {
-  @apply p-2 text-gray-700 hover:text-blue-600 transition-colors rounded-md hover:bg-gray-100;
+  @apply p-2 text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-md hover:bg-gray-100;
+}
+
+.theme-toggle:hover {
+  @apply transform rotate-12 scale-110;
 }
 
 .dark .theme-toggle {

@@ -141,7 +141,7 @@ function Terms() {
                   If you have any questions about these Terms & Conditions, please contact us at:
                 </p>
                 <p className="contact-info">
-                  Email: <a href="mailto:contact@geoffreymunene.com" className="contact-link">contact@geoffreymunene.com</a>
+                  Email: <a href="mailto:munenemuchokiofficial@gmail.com" className="contact-link">munenemuchokiofficial@gmail.com</a>
                 </p>
               </div>
             </div>

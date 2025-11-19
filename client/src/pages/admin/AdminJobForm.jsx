@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
+import { HiHome } from 'react-icons/hi2'
 import '../../styles/pages/admin-form.css'
 
 function AdminJobForm() {
@@ -78,8 +79,31 @@ function AdminJobForm() {
   return (
     <div className="admin-form-page">
       <div className="admin-form-container">
+        <div className="admin-breadcrumb">
+          <Link to="/admin/dashboard" className="admin-breadcrumb-link">
+            <HiHome /> Dashboard
+          </Link>
+          <span className="admin-breadcrumb-separator">/</span>
+          <Link to="/admin/jobs" className="admin-breadcrumb-link">
+            Remote Jobs
+          </Link>
+          <span className="admin-breadcrumb-separator">/</span>
+          <span className="admin-breadcrumb-current">
+            {isEdit ? 'Edit Job' : 'New Job'}
+          </span>
+        </div>
+
         <div className="admin-form-header">
-          <h1>{isEdit ? 'Edit Job' : 'Add New Job'}</h1>
+          <div className="admin-page-title-section">
+            <button 
+              onClick={() => navigate('/admin/dashboard')} 
+              className="admin-back-dashboard-btn"
+              title="Back to Dashboard"
+            >
+              ← Dashboard
+            </button>
+            <h1>{isEdit ? 'Edit Job' : 'Add New Job'}</h1>
+          </div>
           <button onClick={() => navigate('/admin/jobs')} className="admin-back-btn">
             ← Back to Jobs
           </button>

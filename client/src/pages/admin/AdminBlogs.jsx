@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { adminAPI } from '../../services/api'
-import { HiPlus, HiPencil, HiTrash, HiEye } from 'react-icons/hi2'
+import { HiPlus, HiPencil, HiTrash, HiEye, HiArrowLeft, HiHome } from 'react-icons/hi2'
 import '../../styles/pages/admin-blogs.css'
 
 function AdminBlogs() {
@@ -55,8 +55,25 @@ function AdminBlogs() {
 
   return (
     <div className="admin-blogs">
+      <div className="admin-breadcrumb">
+        <Link to="/admin/dashboard" className="admin-breadcrumb-link">
+          <HiHome /> Dashboard
+        </Link>
+        <span className="admin-breadcrumb-separator">/</span>
+        <span className="admin-breadcrumb-current">Blog Posts</span>
+      </div>
+
       <div className="admin-page-header">
-        <h1>Blog Management</h1>
+        <div className="admin-page-title-section">
+          <button 
+            onClick={() => navigate('/admin/dashboard')} 
+            className="admin-back-dashboard-btn"
+            title="Back to Dashboard"
+          >
+            <HiArrowLeft /> Back to Dashboard
+          </button>
+          <h1>Blog Management</h1>
+        </div>
         <Link to="/admin/blogs/new" className="admin-add-btn">
           <HiPlus /> Add New Blog
         </Link>

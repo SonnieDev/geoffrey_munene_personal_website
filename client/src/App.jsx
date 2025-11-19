@@ -9,6 +9,7 @@ import BlogDetail from './pages/BlogDetail'
 import Tools from './pages/Tools'
 import Learn from './pages/Learn'
 import RemoteJobs from './pages/RemoteJobs'
+import Services from './pages/Services'
 import Contact from './pages/Contact'
 import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
@@ -45,6 +46,7 @@ function App() {
                       <Route path="/tools" element={<Tools />} />
                       <Route path="/learn" element={<Learn />} />
                       <Route path="/remote-jobs" element={<RemoteJobs />} />
+                      <Route path="/services" element={<Services />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="/terms" element={<Terms />} />
