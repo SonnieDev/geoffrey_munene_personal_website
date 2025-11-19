@@ -1,5 +1,6 @@
 import OpenAI from 'openai'
 import dotenv from 'dotenv'
+import { deductTokens } from '../middleware/tokenMiddleware.js'
 
 dotenv.config()
 
@@ -68,10 +69,14 @@ Please format this as a professional resume with clear sections: Header (name, c
       temperature: 0.7,
     })
 
+    // Deduct tokens after successful generation
+    const remainingTokens = await deductTokens(req.user._id, 'resume', req.tokenCost)
+
     res.status(200).json({
       success: true,
       data: {
         resume: completion.choices[0].message.content,
+        tokensRemaining: remainingTokens,
       },
     })
   } catch (error) {
@@ -138,10 +143,14 @@ Create a professional cover letter that:
       temperature: 0.7,
     })
 
+    // Deduct tokens after successful generation
+    const remainingTokens = await deductTokens(req.user._id, 'cover-letter', req.tokenCost)
+
     res.status(200).json({
       success: true,
       data: {
         coverLetter: completion.choices[0].message.content,
+        tokensRemaining: remainingTokens,
       },
     })
   } catch (error) {
@@ -212,10 +221,14 @@ Create a professional, concise email that:
       temperature: 0.7,
     })
 
+    // Deduct tokens after successful generation
+    const remainingTokens = await deductTokens(req.user._id, 'email', req.tokenCost)
+
     res.status(200).json({
       success: true,
       data: {
         email: completion.choices[0].message.content,
+        tokensRemaining: remainingTokens,
       },
     })
   } catch (error) {
@@ -278,10 +291,14 @@ Focus on questions about:
       temperature: 0.7,
     })
 
+    // Deduct tokens after successful generation
+    const remainingTokens = await deductTokens(req.user._id, 'interview-prep', req.tokenCost)
+
     res.status(200).json({
       success: true,
       data: {
         interviewPrep: completion.choices[0].message.content,
+        tokensRemaining: remainingTokens,
       },
     })
   } catch (error) {
@@ -339,10 +356,14 @@ Provide:
       temperature: 0.7,
     })
 
+    // Deduct tokens after successful generation
+    const remainingTokens = await deductTokens(req.user._id, 'skills-assessment', req.tokenCost)
+
     res.status(200).json({
       success: true,
       data: {
         assessment: completion.choices[0].message.content,
+        tokensRemaining: remainingTokens,
       },
     })
   } catch (error) {
@@ -402,10 +423,14 @@ Provide:
       temperature: 0.7,
     })
 
+    // Deduct tokens after successful generation
+    const remainingTokens = await deductTokens(req.user._id, 'salary-negotiation', req.tokenCost)
+
     res.status(200).json({
       success: true,
       data: {
         guide: completion.choices[0].message.content,
+        tokensRemaining: remainingTokens,
       },
     })
   } catch (error) {

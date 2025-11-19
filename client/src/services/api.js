@@ -56,28 +56,70 @@ export const blogsAPI = {
 
 // Tools API
 export const toolsAPI = {
-  generateResume: async (data) => {
-    const response = await api.post('/tools/resume', data)
+  generateResume: async (data, sessionId) => {
+    const response = await api.post('/tools/resume', { ...data, sessionId }, {
+      headers: { 'X-Session-Id': sessionId }
+    })
     return response.data
   },
-  generateCoverLetter: async (data) => {
-    const response = await api.post('/tools/cover-letter', data)
+  generateCoverLetter: async (data, sessionId) => {
+    const response = await api.post('/tools/cover-letter', { ...data, sessionId }, {
+      headers: { 'X-Session-Id': sessionId }
+    })
     return response.data
   },
-  generateEmail: async (data) => {
-    const response = await api.post('/tools/email', data)
+  generateEmail: async (data, sessionId) => {
+    const response = await api.post('/tools/email', { ...data, sessionId }, {
+      headers: { 'X-Session-Id': sessionId }
+    })
     return response.data
   },
-  generateInterviewPrep: async (data) => {
-    const response = await api.post('/tools/interview-prep', data)
+  generateInterviewPrep: async (data, sessionId) => {
+    const response = await api.post('/tools/interview-prep', { ...data, sessionId }, {
+      headers: { 'X-Session-Id': sessionId }
+    })
     return response.data
   },
-  generateSkillsAssessment: async (data) => {
-    const response = await api.post('/tools/skills-assessment', data)
+  generateSkillsAssessment: async (data, sessionId) => {
+    const response = await api.post('/tools/skills-assessment', { ...data, sessionId }, {
+      headers: { 'X-Session-Id': sessionId }
+    })
     return response.data
   },
-  generateSalaryNegotiation: async (data) => {
-    const response = await api.post('/tools/salary-negotiation', data)
+  generateSalaryNegotiation: async (data, sessionId) => {
+    const response = await api.post('/tools/salary-negotiation', { ...data, sessionId }, {
+      headers: { 'X-Session-Id': sessionId }
+    })
+    return response.data
+  },
+}
+
+// Tokens API
+export const tokensAPI = {
+  getBalance: async (sessionId) => {
+    const response = await api.get('/tokens/balance', {
+      params: { sessionId },
+      headers: { 'X-Session-Id': sessionId }
+    })
+    return response.data
+  },
+  getTransactions: async (sessionId, limit = 20) => {
+    const response = await api.get('/tokens/transactions', {
+      params: { sessionId, limit },
+      headers: { 'X-Session-Id': sessionId }
+    })
+    return response.data
+  },
+  initializePayment: async (sessionId, tokenPackage, email) => {
+    const response = await api.post('/tokens/initialize-payment', {
+      sessionId,
+      tokenPackage,
+      email
+    })
+    return response.data
+  },
+  verifyPayment: async (sessionId, reference) => {
+    const response = await api.post('/tokens/verify-payment', { sessionId, reference })
     return response.data
   },
 }

@@ -8,6 +8,7 @@ import contactRoutes from './routes/contactRoutes.js'
 import projectRoutes from './routes/projectRoutes.js'
 import blogRoutes from './routes/blogRoutes.js'
 import toolsRoutes from './routes/toolsRoutes.js'
+import tokenRoutes from './routes/tokenRoutes.js'
 import youtubeRoutes from './routes/youtubeRoutes.js'
 import jobsRoutes from './routes/jobsRoutes.js'
 import authRoutes from './routes/authRoutes.js'
@@ -71,7 +72,7 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Session-Id'],
   maxAge: 86400, // 24 hours
 }))
 
@@ -144,6 +145,14 @@ app.use('/api/', apiLimiter)
 app.use('/api/admin/login', authLimiter)
 app.use('/api/tools', toolsLimiter)
 
+// Paystack webhook route (must be before JSON body parser)
+// Paystack sends JSON body, so we use regular JSON parser
+app.post('/api/tokens/webhook', express.json(), async (req, res, next) => {
+  // Use the webhook handler directly
+  const { handleWebhook } = await import('./controllers/tokenController.js')
+  handleWebhook(req, res, next)
+})
+
 // Security: Limit request body size
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
@@ -174,6 +183,7 @@ app.use('/api/contact', contactRoutes)
 app.use('/api/projects', projectRoutes)
 app.use('/api/blogs', blogRoutes)
 app.use('/api/tools', toolsRoutes)
+app.use('/api/tokens', tokenRoutes)
 app.use('/api/youtube', youtubeRoutes)
 app.use('/api/jobs', jobsRoutes)
 app.use('/api/testimonials', testimonialRoutes)

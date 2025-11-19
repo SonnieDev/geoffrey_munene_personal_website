@@ -203,3 +203,157 @@
   @apply bg-gray-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors w-full;
 }
 
+.tool-cost {
+  @apply text-sm text-gray-500 mb-4 font-medium;
+}
+
+.dark .tool-cost {
+  @apply text-gray-400;
+}
+
+.tools-token-balance-wrapper {
+  @apply mt-6 flex justify-center;
+}
+
+/* Token Balance Component */
+.token-balance {
+  @apply bg-white bg-opacity-10 backdrop-blur-sm rounded-lg px-6 py-4 inline-block;
+}
+
+.token-balance-content {
+  @apply flex items-center gap-4;
+}
+
+.token-icon {
+  @apply w-6 h-6 text-white;
+}
+
+.token-info {
+  @apply flex flex-col;
+}
+
+.token-label {
+  @apply text-sm text-white text-opacity-80;
+}
+
+.token-count {
+  @apply text-2xl font-bold text-white;
+}
+
+.token-purchase-btn {
+  @apply bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors;
+}
+
+.token-balance-loading {
+  @apply text-white text-opacity-80;
+}
+
+/* Token Purchase Modal */
+.token-purchase-modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4;
+}
+
+.token-purchase-modal {
+  @apply bg-white rounded-xl shadow-2xl max-w-2xl w-full relative;
+}
+
+.dark .token-purchase-modal {
+  @apply bg-gray-800;
+}
+
+.token-purchase-modal-close {
+  @apply absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold bg-transparent border-none cursor-pointer z-10;
+}
+
+.dark .token-purchase-modal-close {
+  @apply text-gray-400 hover:text-gray-200;
+}
+
+.token-purchase-modal-title {
+  @apply text-2xl font-bold mb-2 pt-8 px-8 text-gray-900;
+}
+
+.dark .token-purchase-modal-title {
+  @apply text-gray-100;
+}
+
+.token-purchase-modal-description {
+  @apply text-gray-600 mb-6 px-8;
+}
+
+.dark .token-purchase-modal-description {
+  @apply text-gray-300;
+}
+
+.token-packages {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-4 px-8 mb-6;
+}
+
+.token-package {
+  @apply border-2 border-gray-200 rounded-lg p-4 cursor-pointer transition-all relative;
+}
+
+.dark .token-package {
+  @apply border-gray-700;
+}
+
+.token-package:hover {
+  @apply border-blue-500 shadow-md;
+}
+
+.token-package.selected {
+  @apply border-blue-600 bg-blue-50;
+}
+
+.dark .token-package.selected {
+  @apply bg-blue-900 bg-opacity-20;
+}
+
+.token-package.popular {
+  @apply border-blue-500;
+}
+
+.token-package-badge {
+  @apply absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full;
+}
+
+.token-package-tokens {
+  @apply text-2xl font-bold text-gray-900 mb-2 text-center;
+}
+
+.dark .token-package-tokens {
+  @apply text-gray-100;
+}
+
+.token-package-price {
+  @apply text-3xl font-bold text-blue-600 mb-1 text-center;
+}
+
+.token-package-per-token {
+  @apply text-sm text-gray-500 text-center;
+}
+
+.dark .token-package-per-token {
+  @apply text-gray-400;
+}
+
+.token-purchase-button {
+  @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 w-full mx-8 mb-4;
+}
+
+.token-purchase-button:hover:not(:disabled) {
+  @apply bg-blue-700;
+}
+
+.token-purchase-button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.token-purchase-note {
+  @apply text-xs text-gray-500 text-center px-8 pb-8;
+}
+
+.dark .token-purchase-note {
+  @apply text-gray-400;
+}
+

@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { toolsAPI } from '../services/api'
+import { useTokens } from '../contexts/TokenContext'
 import SEO from '../components/SEO'
+import TokenBalance from '../components/TokenBalance'
+import TokenPurchaseModal from '../components/TokenPurchaseModal'
+import toast from 'react-hot-toast'
 import { 
   HiDocumentText,
   HiEnvelope,
@@ -12,12 +16,24 @@ import {
 } from 'react-icons/hi2'
 import '../styles/pages/tools.css'
 
+// Token costs per tool
+const TOKEN_COSTS = {
+  resume: 5,
+  'cover-letter': 4,
+  email: 2,
+  'interview-prep': 6,
+  'skills-assessment': 5,
+  'salary-negotiation': 5,
+}
+
 function Tools() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { sessionId, tokens, refreshBalance } = useTokens()
   const [activeTool, setActiveTool] = useState(null)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState('')
   const [error, setError] = useState('')
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false)
 
   const tools = [
     {
@@ -26,6 +42,7 @@ function Tools() {
       description: 'Create professional, ATS-friendly resumes tailored for remote positions.',
       icon: HiDocumentText,
       category: 'Resume Tools',
+      cost: TOKEN_COSTS.resume,
     },
     {
       id: 'cover-letter',
@@ -33,6 +50,7 @@ function Tools() {
       description: 'Generate compelling cover letters that highlight your remote work readiness.',
       icon: HiEnvelope,
       category: 'Application Tools',
+      cost: TOKEN_COSTS['cover-letter'],
     },
     {
       id: 'email',
@@ -40,6 +58,7 @@ function Tools() {
       description: 'Professional email templates for networking, follow-ups, and job applications.',
       icon: HiChatBubbleLeftRight,
       category: 'Communication',
+      cost: TOKEN_COSTS.email,
     },
     {
       id: 'interview-prep',
@@ -47,6 +66,7 @@ function Tools() {
       description: 'Practice common remote work interview questions with AI-powered feedback.',
       icon: HiMicrophone,
       category: 'Interview Prep',
+      cost: TOKEN_COSTS['interview-prep'],
     },
     {
       id: 'skills-assessment',
@@ -54,6 +74,7 @@ function Tools() {
       description: 'Evaluate your remote work readiness and identify areas for improvement.',
       icon: HiChartBar,
       category: 'Assessment',
+      cost: TOKEN_COSTS['skills-assessment'],
     },
     {
       id: 'salary-negotiation',
@@ -61,6 +82,7 @@ function Tools() {
       description: 'Tools and templates to help you negotiate remote work compensation.',
       icon: HiCurrencyDollar,
       category: 'Career Tools',
+      cost: TOKEN_COSTS['salary-negotiation'],
     },
   ]
 
@@ -103,6 +125,15 @@ function Tools() {
 
   const handleSubmit = async (e, toolId) => {
     e.preventDefault()
+    
+    // Check if user has enough tokens
+    const tokenCost = TOKEN_COSTS[toolId] || 5
+    if (tokens < tokenCost) {
+      setError(`Insufficient tokens. This tool requires ${tokenCost} tokens. You have ${tokens} tokens.`)
+      setShowPurchaseModal(true)
+      return
+    }
+
     setLoading(true)
     setError('')
     setResult('')
@@ -114,34 +145,46 @@ function Tools() {
       let response
       switch (toolId) {
         case 'resume':
-          response = await toolsAPI.generateResume(data)
+          response = await toolsAPI.generateResume(data, sessionId)
           setResult(response.data.resume)
           break
         case 'cover-letter':
-          response = await toolsAPI.generateCoverLetter(data)
+          response = await toolsAPI.generateCoverLetter(data, sessionId)
           setResult(response.data.coverLetter)
           break
         case 'email':
-          response = await toolsAPI.generateEmail(data)
+          response = await toolsAPI.generateEmail(data, sessionId)
           setResult(response.data.email)
           break
         case 'interview-prep':
-          response = await toolsAPI.generateInterviewPrep(data)
+          response = await toolsAPI.generateInterviewPrep(data, sessionId)
           setResult(response.data.interviewPrep)
           break
         case 'skills-assessment':
-          response = await toolsAPI.generateSkillsAssessment(data)
+          response = await toolsAPI.generateSkillsAssessment(data, sessionId)
           setResult(response.data.assessment)
           break
         case 'salary-negotiation':
-          response = await toolsAPI.generateSalaryNegotiation(data)
+          response = await toolsAPI.generateSalaryNegotiation(data, sessionId)
           setResult(response.data.guide)
           break
         default:
           throw new Error('Unknown tool')
       }
+      
+      // Refresh token balance after successful generation
+      if (response.data.tokensRemaining !== undefined) {
+        await refreshBalance()
+        toast.success(`Generated successfully! ${response.data.tokensRemaining} tokens remaining.`)
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to generate content. Please try again.')
+      // Handle token errors (402 Payment Required)
+      if (err.response?.status === 402) {
+        setError(err.response.data.message)
+        setShowPurchaseModal(true)
+      } else {
+        setError(err.response?.data?.message || 'Failed to generate content. Please try again.')
+      }
     } finally {
       setLoading(false)
     }
@@ -360,8 +403,11 @@ function Tools() {
         <div className="tools-container">
           <h1 className="page-title">AI-Powered Tools</h1>
           <p className="page-subtitle">
-            Free resources to help you land remote jobs and grow your digital career
+            Professional AI tools to help you land remote jobs and grow your digital career
           </p>
+          <div className="tools-token-balance-wrapper">
+            <TokenBalance />
+          </div>
         </div>
       </section>
 
@@ -378,6 +424,7 @@ function Tools() {
                   <div className="tool-category">{tool.category}</div>
                   <h3 className="tool-name">{tool.name}</h3>
                   <p className="tool-description">{tool.description}</p>
+                  <div className="tool-cost">Cost: {tool.cost} tokens</div>
                   <button onClick={() => handleToolClick(tool.id)} className="tool-button">
                     Use Tool
                   </button>
@@ -433,6 +480,10 @@ function Tools() {
             )}
           </div>
         </div>
+      )}
+
+      {showPurchaseModal && (
+        <TokenPurchaseModal onClose={() => setShowPurchaseModal(false)} />
       )}
     </div>
     </>

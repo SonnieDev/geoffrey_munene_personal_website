@@ -3,6 +3,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import { Toaster } from 'react-hot-toast'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider } from './contexts/AuthContext'
+import { TokenProvider } from './contexts/TokenContext'
 import Home from './pages/Home'
 import About from './pages/About'
 import Blog from './pages/Blog'
@@ -38,8 +39,9 @@ function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <ThemeProvider>
-          <AuthProvider>
-            <Router>
+          <TokenProvider>
+            <AuthProvider>
+              <Router>
               <GoogleAnalytics />
           <Routes>
             {/* Public routes with navbar and footer */}
@@ -192,7 +194,8 @@ function App() {
             />
           </Routes>
           </Router>
-        </AuthProvider>
+            </AuthProvider>
+          </TokenProvider>
       </ThemeProvider>
       <Toaster
         position="top-right"
